@@ -60,19 +60,27 @@ for name, m in meshes.items():
     x, y, z = (m.vertices - [cx, cy, zmin]).T / 1000
     meshes[name] = trimesh.Trimesh(np.c_[x, z, -y], m.faces, process=False)
 
-# Jambes : plus volumineuses, puis légèrement écartées de l'entrejambe aux pieds (posture de mannequin)
+# Jambes : volumineuses, verticales et parallèles (cuisses séparées), pieds pointés droit devant
 g = lambda r, c, w: np.exp(-((r - c) / w) ** 2)
-mv = meshes['muscles'].vertices; bins = np.arange(0, .92, .02)
+sm = lambda t: (lambda u: u * u * (3 - 2 * u))(np.clip(t, 0, 1))
+mv = meshes['muscles'].vertices; mv = mv[np.abs(mv[:, 0]) < .18]   # sans les mains
+bins = np.arange(0, .94, .02)
 cen = {sx: np.array([mv[(np.abs(mv[:, 1] - y) < .02) & (np.sign(mv[:, 0]) == sx)][:, [0, 2]].mean(0) for y in bins]) for sx in (-1, 1)}
+from scipy.ndimage import uniform_filter1d
+cen = {sx: uniform_filter1d(c, 7, axis=0, mode='nearest') for sx, c in cen.items()}  # axe lissé : pas de bosses
+ank = {sx: mv[(np.abs(mv[:, 1] - .10) < .015) & (np.sign(mv[:, 0]) == sx)][:, [0, 2]].mean(0) for sx in (-1, 1)}
 for m in meshes.values():
-    v = m.vertices.copy(); leg = v[:, 1] < .92
-    t = np.clip((.92 - v[:, 1]) / .12, 0, 1); t = t * t * (3 - 2 * t)
-    k = 1 + t * (.08 + .12 * g(v[:, 1], .66, .14) + .07 * g(v[:, 1], .36, .09))   # cuisses et mollets
+    v = m.vertices.copy(); y = v[:, 1]
+    w = sm((.92 - y) / .12) * sm((.20 - np.abs(v[:, 0])) / .03)        # poids « jambe »
+    k = 1 + w * (.24 * g(y, .70, .13) + .03 * g(y, .50, .04) + .17 * g(y, .36, .07) - .10 * g(y, .12, .04))  # cuisses pleines, mollets marqués, chevilles fines
     for sx in (-1, 1):
-        sel = leg & (np.sign(v[:, 0]) == sx)
-        cx, cz = np.interp(v[sel, 1], bins, cen[sx][:, 0]), np.interp(v[sel, 1], bins, cen[sx][:, 1])
-        v[sel, 0] = cx + (v[sel, 0] - cx) * k[sel]; v[sel, 2] = cz + (v[sel, 2] - cz) * k[sel]
-    v[:, 0] += np.sign(v[:, 0]) * (.032 * np.clip((.86 - v[:, 1]) / .12, 0, 1) + .045 * np.clip((.86 - v[:, 1]) / .86, 0, 1))
+        s = (np.sign(v[:, 0]) == sx) & (w > 0)
+        cx, cz = np.interp(y[s], bins, cen[sx][:, 0]), np.interp(y[s], bins, cen[sx][:, 1])
+        v[s, 0] = cx + (v[s, 0] - cx) * k[s]; v[s, 2] = cz + (v[s, 2] - cz) * k[s]
+        a = np.radians(25) * sx * sm((.13 - y[s]) / .06) * w[s]          # pied tourné vers l'avant
+        dx, dz = v[s, 0] - ank[sx][0], v[s, 2] - ank[sx][1]
+        v[s, 0] = ank[sx][0] + dx * np.cos(a) - dz * np.sin(a); v[s, 2] = ank[sx][1] + dx * np.sin(a) + dz * np.cos(a)
+        v[s, 0] += sx * (.11 - sx * cx) * sm((.86 - y[s]) / .12) * w[s]   # axe de la jambe vertical à 11 cm du centre
     m.vertices = v
 
 # Peau : enveloppe lissée autour des muscles, du squelette et des organes
@@ -100,6 +108,17 @@ v, f, _, _ = measure.marching_cubes(grid, .45)
 v = (v - 10) * pitch + vox.translation
 skin = max(trimesh.Trimesh(v, f[:, ::-1]).split(only_watertight=False), key=lambda c: len(c.faces))
 trimesh.smoothing.filter_taubin(skin, iterations=30)
+# galbe de la peau des jambes : cuisses pleines, genoux et chevilles affinés, mollets marqués
+sv = skin.vertices; lv = sv[(np.abs(sv[:, 0]) < .18) & (sv[:, 1] < .94)]
+for sx in (-1, 1):
+    c = np.array([lv[(np.abs(lv[:, 1] - y) < .02) & (np.sign(lv[:, 0]) == sx)][:, [0, 2]].mean(0) for y in bins])
+    c = uniform_filter1d(c, 7, axis=0, mode='nearest')
+    y = sv[:, 1]; s = (np.sign(sv[:, 0]) == sx) & (np.abs(sv[:, 0]) < .2) & (y < .9)
+    w = sm((.86 - y[s]) / .1) * sm((.20 - np.abs(sv[s, 0])) / .03)
+    kk = 1 + w * (.04 * g(y[s], .68, .1) - .10 * g(y[s], .50, .05) + .04 * g(y[s], .36, .06) - .22 * g(y[s], .13, .06))
+    cx, cz = np.interp(y[s], bins, c[:, 0]), np.interp(y[s], bins, c[:, 1])
+    sv[s, 0] = cx + (sv[s, 0] - cx) * kk; sv[s, 2] = cz + (sv[s, 2] - cz) * np.minimum(1, kk + .08)
+skin.vertices = sv
 meshes['skin'] = simplify(skin, 55000)
 print('skin', len(meshes['skin'].faces), flush=True)
 
