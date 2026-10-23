@@ -13,10 +13,14 @@ html,body{margin:0;background:#000;color:#fff;font:14px system-ui,sans-serif}
 #scroll{height:1400vh}
 nav{position:fixed;left:12px;top:12px;z-index:2;display:flex;flex-wrap:wrap;gap:6px;max-width:calc(100vw - 24px)}
 nav button{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:4px 8px;cursor:pointer;font:inherit}
+#cam{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;gap:8px}
+#cam button{width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:1px solid rgba(255,255,255,.35);font-size:1.2rem;line-height:1;cursor:pointer}
+html{touch-action:pan-y}  /* glisser horizontalement = pivoter le corps, pincer = zoomer */
 </style>
 </head>
 <body>
 <div id="stage"></div>
+<div id="cam"><button data-c="in" aria-label="Zoomer" title="Zoomer">+</button><button data-c="out" aria-label="Dézoomer" title="Dézoomer">−</button><button data-c="reset" aria-label="Recentrer la vue" title="Recentrer">⟲</button></div>
 <div id="lbl"><small></small><b></b><em></em><span></span></div>
 <svg id="arrow"><path id="lblLine"/><circle r="3"/></svg>
 <div class="hud"><span id="hudT"></span><i id="hudB"></i></div>

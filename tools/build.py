@@ -60,6 +60,21 @@ for name, m in meshes.items():
     x, y, z = (m.vertices - [cx, cy, zmin]).T / 1000
     meshes[name] = trimesh.Trimesh(np.c_[x, z, -y], m.faces, process=False)
 
+# Jambes : plus volumineuses, puis légèrement écartées de l'entrejambe aux pieds (posture de mannequin)
+g = lambda r, c, w: np.exp(-((r - c) / w) ** 2)
+mv = meshes['muscles'].vertices; bins = np.arange(0, .92, .02)
+cen = {sx: np.array([mv[(np.abs(mv[:, 1] - y) < .02) & (np.sign(mv[:, 0]) == sx)][:, [0, 2]].mean(0) for y in bins]) for sx in (-1, 1)}
+for m in meshes.values():
+    v = m.vertices.copy(); leg = v[:, 1] < .92
+    t = np.clip((.92 - v[:, 1]) / .12, 0, 1); t = t * t * (3 - 2 * t)
+    k = 1 + t * (.08 + .12 * g(v[:, 1], .66, .14) + .07 * g(v[:, 1], .36, .09))   # cuisses et mollets
+    for sx in (-1, 1):
+        sel = leg & (np.sign(v[:, 0]) == sx)
+        cx, cz = np.interp(v[sel, 1], bins, cen[sx][:, 0]), np.interp(v[sel, 1], bins, cen[sx][:, 1])
+        v[sel, 0] = cx + (v[sel, 0] - cx) * k[sel]; v[sel, 2] = cz + (v[sel, 2] - cz) * k[sel]
+    v[:, 0] += np.sign(v[:, 0]) * (.032 * np.clip((.86 - v[:, 1]) / .12, 0, 1) + .045 * np.clip((.86 - v[:, 1]) / .86, 0, 1))
+    m.vertices = v
+
 # Peau : enveloppe lissée autour des muscles, du squelette et des organes
 from skimage import measure
 from scipy import ndimage
@@ -78,6 +93,7 @@ for sx in (-1, 1):
     grid |= capsule((sx * .035, 1.53, -.035), (sx * .15, 1.45, -.025), .038)   # trapèze
     grid |= ell((sx * .165, 1.395, -.005), (.06, .07, .062))                   # tête du deltoïde
     grid |= capsule((sx * .17, 1.40, -.005), (sx * .175, 1.29, 0), .048)       # corps du deltoïde
+grid[(np.abs(X) < .016) & (Y < .79)] = 0  # fente entre les cuisses
 grid = ndimage.binary_fill_holes(ndimage.binary_dilation(grid, iterations=1)).astype(np.float32)
 grid = ndimage.gaussian_filter(np.pad(grid, 10), 2.5)
 v, f, _, _ = measure.marching_cubes(grid, .45)

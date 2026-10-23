@@ -161,7 +161,35 @@ function fire(i, now, depth) {
 }
 
 const cur = { c: new THREE.Vector3(0, .9, 0), d: 3, a: 0 }, mouse = { x: 0, y: 0 };
-addEventListener('pointermove', e => { mouse.x = e.clientX / innerWidth - .5; mouse.y = e.clientY / innerHeight - .5; });
+// Pivoter (glisser) et zoomer (pincer, Ctrl + molette, boutons +/−) ; le texte et les liens restent utilisables
+const user = { yaw: 0, pitch: 0, zoom: 1 }, ptrs = new Map(), clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const SKIP = 'a,button,input,textarea,select,label,p,h1,h2,h3,h4,li,span,b,em,strong,small,img,svg,.card';
+let pinch = 0, zoom0 = 1;
+const gap = () => { const [a, b] = [...ptrs.values()]; return Math.hypot(a.x - b.x, a.y - b.y); };
+addEventListener('pointerdown', e => {
+  if (e.target.closest(SKIP) || (e.pointerType === 'mouse' && e.button)) return;
+  ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (ptrs.size === 2) { pinch = gap(); zoom0 = user.zoom; }
+});
+addEventListener('pointermove', e => {
+  mouse.x = e.clientX / innerWidth - .5; mouse.y = e.clientY / innerHeight - .5;
+  const p = ptrs.get(e.pointerId); if (!p) return;
+  if (ptrs.size === 1) {
+    user.yaw -= (e.clientX - p.x) * .008;
+    if (e.pointerType === 'mouse') user.pitch = clamp(user.pitch + (e.clientY - p.y) * .004, -.8, .8);
+  }
+  p.x = e.clientX; p.y = e.clientY;
+  if (ptrs.size === 2) user.zoom = clamp(zoom0 * pinch / gap(), .35, 2.5);
+});
+['pointerup', 'pointercancel'].forEach(t => addEventListener(t, e => ptrs.delete(e.pointerId)));
+addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); user.zoom = clamp(user.zoom * Math.exp(e.deltaY * .01), .35, 2.5); }, { passive: false });
+document.getElementById('cam')?.addEventListener('click', e => {
+  const c = e.target.closest('button')?.dataset.c;
+  if (c === 'in') user.zoom = clamp(user.zoom / 1.3, .35, 2.5);
+  if (c === 'out') user.zoom = clamp(user.zoom * 1.3, .35, 2.5);
+  if (c === 'reset') Object.assign(user, { yaw: 0, pitch: 0, zoom: 1 });
+});
+const view = { yaw: 0, pitch: 0, zoom: 1 };  // valeurs lissées
 addEventListener('resize', () => {
   camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight); composer.setSize(innerWidth, innerHeight);
@@ -176,8 +204,11 @@ renderer.setAnimationLoop(now => {
     const f = AV ? 1 : (max > 0 ? scrollY / max : 0) * (S.length - 1), i = Math.min(S.length - 2, Math.floor(f)), t = ease(f - i), A = S[i], B = S[i + 1];
     const tc = A.c.clone().lerp(B.c, t), td = A.d + (B.d - A.d) * t, ta = A.a + (B.a - A.a) * t;
     const kk = AV ? 1 : .06; cur.c.lerp(tc, kk); cur.d += ((AV ? .85 : td) - cur.d) * kk; cur.a += (ta - cur.a) * kk;
-    const ang = cur.a + (AV ? 0 : Math.sin(now / 6000) * .25 + mouse.x * .5);
-    camera.position.set(cur.c.x + Math.sin(ang) * cur.d, cur.c.y + cur.d * (.12 - mouse.y * .3), cur.c.z + Math.cos(ang) * cur.d);
+    for (const k in view) view[k] += (user[k] - view[k]) * .15;
+    const drag = ptrs.size > 0 || user.yaw !== 0 || user.pitch !== 0;  // la souris ne fait plus bouger la vue une fois le corps pivoté
+    const ang = cur.a + view.yaw + (AV ? 0 : Math.sin(now / 6000) * .25 + (drag ? 0 : mouse.x * .5));
+    const dd = cur.d * view.zoom, el = .12 + view.pitch - (drag ? 0 : mouse.y * .3);
+    camera.position.set(cur.c.x + Math.sin(ang) * dd, cur.c.y + dd * el, cur.c.z + Math.cos(ang) * dd);
     camera.lookAt(AV ? tmp.copy(cur.c).setY(cur.c.y + .055) : cur.c);
 
     const k = Math.round(f), st = S[k];

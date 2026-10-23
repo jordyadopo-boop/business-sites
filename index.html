@@ -126,12 +126,16 @@ footer code{font-family:var(--mono);color:var(--acc)}
   .step::before{position:static;display:block;margin-bottom:8px}
 }
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}*{transition:none!important}}
+#cam{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;gap:8px}
+#cam button{width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:1px solid rgba(255,255,255,.35);font-size:1.2rem;line-height:1;cursor:pointer}
+html{touch-action:pan-y}  /* glisser horizontalement = pivoter le corps, pincer = zoomer */
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <script type="module" src="body.js"></script>
 </head>
 <body>
 <div id="stage" aria-hidden="true"></div>
+<div id="cam"><button data-c="in" aria-label="Zoomer" title="Zoomer">+</button><button data-c="out" aria-label="Dézoomer" title="Dézoomer">−</button><button data-c="reset" aria-label="Recentrer la vue" title="Recentrer">⟲</button></div>
 <div class="veil"></div>
 <svg id="arrow" aria-hidden="true"><path id="lblLine"/><circle r="4"/></svg>
 <div id="lbl" aria-hidden="true"><small></small><b></b><em></em><span></span></div>
