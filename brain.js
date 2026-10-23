@@ -9,7 +9,10 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 
 const stage = document.getElementById('stage'), AV = location.hash === '#avatar';  // #avatar : vue fixe du cerveau (photo de profil)
 const hudT = document.getElementById('hudT'), hudB = document.getElementById('hudB');
-const lbl = document.getElementById('lbl'), lStep = lbl.querySelector('small'), lName = lbl.querySelector('b'), lRole = lbl.querySelector('em'), lSub = lbl.querySelector('span'), lLine = document.getElementById('lblLine');
+const lbl = document.getElementById('lbl'), lLine = document.getElementById('lblLine');
+const [lStep, lName, lRole, lSub] = lbl ? ['small', 'b', 'em', 'span'].map(q => lbl.querySelector(q)) : [];
+// mode vidéo (tools/video) : pas de défilement, chaque image est calée sur un temps t par window.__brain.render(t, étape)
+const VIDEO = window.__VIDEO === true;
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
@@ -65,7 +68,7 @@ S.forEach(s => { s.c = (s.r ? s.r.c : new THREE.Vector3(...s.c)).clone().multipl
 const brainG = new THREE.Group(); scene.add(brainG);
 let ready = false, brain, prepass, net, cells, deep, dust;
 
-new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load('brain.glb', gltf => {
+new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load(new URL('brain.glb', import.meta.url).href, gltf => {
   gltf.scene.traverse(o => { if (o.isMesh && !brain) brain = o; });
   brain.geometry.computeVertexNormals();
   brain.material = glass; brain.renderOrder = 1;
@@ -78,8 +81,8 @@ new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load('brain.glb', gltf => {
   deep = makeCells([{ c: S[11].c, r: .028, n: 46 }]);                         // amas où l'on plonge à la fin
   dust = makeDust(S[11].c, .04, 900);
   ready = true;
-  hudT.textContent = 'SCAN · ' + S[0].name.toUpperCase();
-}, e => { if (e.total) hudT.textContent = 'CHARGEMENT ' + Math.round(e.loaded / e.total * 100) + '%'; });
+  if (hudT) hudT.textContent = 'SCAN · ' + S[0].name.toUpperCase();
+}, e => { if (e.total && hudT) hudT.textContent = 'CHARGEMENT ' + Math.round(e.loaded / e.total * 100) + '%'; });
 
 const dot = (() => {  // point rond et lumineux
   const cv = Object.assign(document.createElement('canvas'), { width: 64, height: 64 }), cx = cv.getContext('2d');
@@ -115,7 +118,7 @@ function fire(i, now, depth) {
   if (depth > 0) net.nb[i].forEach(j => {
     const dur = 90 + Math.random() * 140;
     if (net.sparks.length < 400) net.sparks.push({ a: i, b: j, t0: now, dur });
-    setTimeout(() => fire(j, performance.now(), depth - 1), dur);
+    relay.push({ i: j, at: now + dur, depth: depth - 1 });  // le voisin s'allume quand l'étincelle arrive
   });
 }
 
@@ -230,15 +233,16 @@ addEventListener('resize', () => {
 const ease = t => { t = Math.min(1, Math.max(0, (t - .25) / .5)); return t * t * (3 - 2 * t); };
 const tmp = new THREE.Vector3(), mobile = matchMedia('(max-width:760px)');  // sur mobile, l'étiquette flottante est masquée : le bandeau donne aussi le rôle
 let last = -1, lastFire = 0, reg = null, regOn = 0;
+const relay = [];
 
-renderer.setAnimationLoop(now => {
+function frame(now, F) {
   if (ready) {
     const max = document.documentElement.scrollHeight - innerHeight;
-    const f = AV ? 0 : (max > 0 ? scrollY / max : 0) * (S.length - 1), i = Math.min(S.length - 2, Math.floor(f)), t = ease(f - i), A = S[i], B = S[i + 1];
+    const f = F ?? (AV ? 0 : (max > 0 ? scrollY / max : 0) * (S.length - 1)), i = Math.min(S.length - 2, Math.floor(f)), t = ease(f - i), A = S[i], B = S[i + 1];
     const tc = A.c.clone().lerp(B.c, t), lerp = k => A[k] + (B[k] - A[k]) * t;
     // le zoom suit une échelle logarithmique : la plongée dans les neurones reste douce
     const td = AV ? .42 : Math.exp(Math.log(A.d) + (Math.log(B.d) - Math.log(A.d)) * t);
-    const kk = AV ? 1 : .06; cur.c.lerp(tc, kk); cur.d = Math.exp(Math.log(cur.d) + (Math.log(td) - Math.log(cur.d)) * kk); cur.a += (lerp('a') - cur.a) * kk; cur.e += (lerp('e') - cur.e) * kk;
+    const kk = AV || VIDEO ? 1 : .06; cur.c.lerp(tc, kk); cur.d = Math.exp(Math.log(cur.d) + (Math.log(td) - Math.log(cur.d)) * kk); cur.a += (lerp('a') - cur.a) * kk; cur.e += (lerp('e') - cur.e) * kk;
     for (const k in view) view[k] += (user[k] - view[k]) * .15;
     const drag = ptrs.size > 0 || user.yaw !== 0 || user.pitch !== 0;  // la souris ne fait plus bouger la vue une fois le cerveau pivoté
     const dive = 1 - THREE.MathUtils.smoothstep(cur.d, .03, .12);        // 0 dehors → 1 au milieu des neurones
@@ -262,6 +266,7 @@ renderer.setAnimationLoop(now => {
 
     // réseau du cortex
     if (now - lastFire > 60) { lastFire = now; fire(Math.random() * net.N | 0, now, 4); }
+    for (let q = relay.length - 1; q >= 0; q--) if (relay[q].at <= now) { const r = relay.splice(q, 1)[0]; fire(r.i, now, r.depth); }
     for (let n = 0; n < net.N; n++) { const g = Math.max(0, 1 - (now - net.t[n]) / 600); net.pc.fill(1.2 * g + .12, n * 3, n * 3 + 3); }
     net.links.forEach((n, j) => { const g = Math.max(0, 1 - (now - net.t[n]) / 600) * .9 + .05; net.lc.fill(g, j * 3, j * 3 + 3); });
     net.pg.attributes.color.needsUpdate = net.lg.attributes.color.needsUpdate = true;
@@ -271,6 +276,7 @@ renderer.setAnimationLoop(now => {
     net.sg.attributes.position.needsUpdate = true;
 
     // étiquette : flèche vers la zone + nom
+    if (lbl) {
     if (k !== last) { last = k; lStep.textContent = 'ÉTAPE ' + String(k).padStart(2, '0'); lName.textContent = st.name; lRole.textContent = '→ ' + st.role; type(st.sub); hudT.textContent = (mobile.matches ? st.name.toUpperCase() + ' → ' + st.role : 'SCAN · ' + st.name.toUpperCase()); }
     tmp.copy(st.anchor).project(camera);
     const x = (tmp.x * .5 + .5) * innerWidth, y = (-tmp.y * .5 + .5) * innerHeight, show = Math.abs(f - k) < .3 && tmp.z < 1;
@@ -280,6 +286,9 @@ renderer.setAnimationLoop(now => {
     lLine.setAttribute('d', `M${x},${y} L${right ? x + 60 : x - 60},${ly} L${lx},${ly}`);
     lLine.nextElementSibling.setAttribute('cx', x); lLine.nextElementSibling.setAttribute('cy', y);
     hudB.style.width = (f / (S.length - 1) * 100) + '%';
+    }
   }
   composer.render();
-});
+}
+if (VIDEO) window.__brain = { S, user, ready: () => ready, render: (t, f) => frame(t * 1000, f) };
+else renderer.setAnimationLoop(now => frame(now));

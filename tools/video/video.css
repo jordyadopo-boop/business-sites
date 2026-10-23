@@ -1,0 +1,111 @@
+:root { --red: #ff3b4e; --red-2: #ff8a8a; --paper: #f2f2f2; --mono: 'JetBrains Mono', monospace; }
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+body { font-family: 'Space Grotesk', sans-serif; color: var(--paper); -webkit-font-smoothing: antialiased; }
+.red { color: var(--red); }
+.stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+.world, .world canvas { position: absolute; inset: 0; display: block; }
+.grade { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 95% at 50% 50%, transparent 55%, rgba(0, 0, 0, .65)); }
+.grain { position: absolute; inset: 0; pointer-events: none; opacity: .05; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.black, .dim { position: absolute; inset: 0; background: #000; pointer-events: none; }
+.dim { opacity: 0; }
+.subs { position: absolute; left: 50%; bottom: 30px; transform: translateX(-50%); max-width: 1200px; padding: 6px 16px; border-radius: 4px;
+  background: rgba(0, 0, 0, .55); font-size: 28px; line-height: 1.3; font-weight: 500; text-align: center; }
+.subs:empty { display: none; }
+.wipe { position: absolute; top: 0; bottom: 0; left: 0; width: 6px; background: var(--red); box-shadow: 0 0 60px 20px rgba(255, 59, 78, .45); opacity: 0; }
+
+/* 1. Logo */
+.logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; white-space: nowrap; }
+.logo__code { font: 700 92px var(--mono); letter-spacing: -.01em; }
+.logo__code .dot { color: var(--red); }
+.caret { display: inline-block; width: .55em; height: .95em; margin-left: 6px; vertical-align: -.12em; background: var(--red); }
+.logo__rule { display: block; height: 2px; margin: 30px auto 0; width: 640px; background: linear-gradient(90deg, transparent, var(--red), transparent); }
+.logo__who { margin-top: 24px; font: 500 26px var(--mono); letter-spacing: .28em; text-transform: uppercase; color: #bbb; }
+
+/* 2. Piliers */
+.pillars { position: absolute; left: 0; right: 0; bottom: 150px; display: flex; justify-content: center; align-items: center; gap: 34px;
+  font-size: 36px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; text-shadow: 0 6px 30px rgba(0, 0, 0, .9); }
+.pillars i { width: 10px; height: 10px; background: var(--red); transform: rotate(45deg); }
+
+/* 3. Accroche */
+.title { position: absolute; left: 140px; right: 520px; bottom: 160px; font-size: 92px; line-height: 1.04; font-weight: 700; letter-spacing: -.01em; text-shadow: 0 10px 50px rgba(0, 0, 0, .9); }
+.title .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 8px; }
+.title .w > span { display: inline-block; }
+
+/* 4. Un site = un cerveau */
+.idea { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; text-shadow: 0 10px 50px rgba(0, 0, 0, .9); }
+.idea span { display: block; }
+.idea__a { font-size: 64px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; }
+.idea__b { font-size: 150px; font-weight: 700; color: var(--red); line-height: 1; }
+.idea__c { margin-top: 18px; font: 600 30px var(--mono); letter-spacing: .3em; text-transform: uppercase; color: #ddd; }
+
+/* 5. Zones */
+.zone { position: absolute; left: 120px; bottom: 130px; width: 780px; padding: 40px 48px 46px; background: rgba(8, 8, 8, .72); backdrop-filter: blur(14px); border: 1px solid rgba(255, 59, 78, .35); }
+.zone__frame i { position: absolute; width: 34px; height: 34px; border: 3px solid var(--red); }
+.zone__frame i:nth-child(1) { left: -2px; top: -2px; border-right: 0; border-bottom: 0; }
+.zone__frame i:nth-child(2) { right: -2px; top: -2px; border-left: 0; border-bottom: 0; }
+.zone__frame i:nth-child(3) { left: -2px; bottom: -2px; border-right: 0; border-top: 0; }
+.zone__frame i:nth-child(4) { right: -2px; bottom: -2px; border-left: 0; border-top: 0; }
+.zone__n { font: 600 22px var(--mono); letter-spacing: .18em; color: #bbb; text-transform: uppercase; }
+.zone__n b { color: var(--red); font-size: 30px; }
+.zone__f { margin-top: 22px; font: 600 24px var(--mono); color: var(--red-2); letter-spacing: .08em; }
+.zone__t { margin-top: 6px; font-size: 62px; line-height: 1.05; font-weight: 700; }
+.zone__p { margin-top: 14px; font-size: 28px; line-height: 1.4; color: #d6d6d6; }
+
+/* 6. Neurones */
+.neuro { position: absolute; left: 0; right: 0; bottom: 170px; text-align: center; text-shadow: 0 8px 40px #000; }
+.neuro__a { font: 600 34px var(--mono); letter-spacing: .24em; text-transform: uppercase; color: #dfe8ff; }
+.neuro__b { margin-top: 10px; font-size: 100px; font-weight: 700; }
+
+/* 7. Le site */
+.site { position: absolute; inset: 0; perspective: 2200px; }
+.browser { position: absolute; left: 50%; top: 47%; width: 1440px; height: 952px; margin: -476px 0 0 -720px; border-radius: 14px; overflow: hidden;
+  background: #111; border: 1px solid rgba(255, 255, 255, .14); box-shadow: 0 80px 160px -40px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 59, 78, .3); transform-style: preserve-3d; }
+.browser__bar { height: 52px; display: flex; align-items: center; gap: 10px; padding: 0 20px; background: #1b1b1e; border-bottom: 1px solid rgba(255, 255, 255, .08); }
+.browser__bar i { width: 14px; height: 14px; border-radius: 50%; background: #3a3a3f; }
+.browser__bar i:first-child { background: #e0604f; } .browser__bar i:nth-child(2) { background: #e3b341; } .browser__bar i:nth-child(3) { background: #5bbf6a; }
+.browser__url { margin-left: 30px; flex: 1; max-width: 760px; padding: 8px 18px; border-radius: 8px; background: #0f0f11; font-size: 20px; color: #ddd; }
+.browser__screen { position: relative; height: 900px; overflow: hidden; }
+.browser__screen img { position: absolute; inset: 0; width: 1440px; height: 900px; opacity: 0; }
+
+/* 8. Fin */
+.end { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.end__q { font: 600 40px var(--mono); color: var(--red-2); letter-spacing: .06em; }
+.end__t { margin-top: 14px; font-size: 96px; font-weight: 700; line-height: 1.02; }
+.end__code { margin-top: 40px; font: 700 44px var(--mono); }
+.end__wa { margin-top: 36px; font: 600 38px var(--mono); letter-spacing: .04em; }
+.end__wa b { color: #25d366; margin-right: 14px; }
+.end__url { margin-top: 18px; font-size: 26px; letter-spacing: .1em; color: #bbb; }
+
+/* Habillage */
+.chrome { position: absolute; inset: 28px; pointer-events: none; font: 600 18px var(--mono); letter-spacing: .2em; text-transform: uppercase; color: rgba(242, 242, 242, .75); }
+.chrome__c { position: absolute; width: 40px; height: 40px; border: 2px solid rgba(242, 242, 242, .6); }
+.chrome__c--tl { left: 0; top: 0; border-right: 0; border-bottom: 0; } .chrome__c--tr { right: 0; top: 0; border-left: 0; border-bottom: 0; }
+.chrome__c--bl { left: 0; bottom: 0; border-right: 0; border-top: 0; } .chrome__c--br { right: 0; bottom: 0; border-left: 0; border-top: 0; }
+.chrome__brand { position: absolute; left: 60px; top: 30px; }
+.chrome__url { position: absolute; right: 60px; top: 30px; }
+.chrome__label { position: absolute; right: 60px; bottom: 6px; color: var(--red-2); }
+.chrome__tc { position: absolute; left: 60px; bottom: 6px; }
+
+/* ---------- Portrait TikTok (1080×1920) : bas et bord droit réservés à l'application ---------- */
+.vertical, .vertical body, .vertical .stage { width: 1080px; height: 1920px; }
+.vertical .logo__code { font-size: 60px; }
+.vertical .logo__rule { width: 460px; }
+.vertical .logo__who { font-size: 20px; letter-spacing: .16em; }
+.vertical .pillars { bottom: 640px; flex-wrap: wrap; gap: 16px 22px; padding: 0 150px 0 70px; font-size: 32px; }
+.vertical .title { left: 64px; right: 150px; bottom: 620px; font-size: 76px; }
+.vertical .idea { top: 40%; padding: 0 60px; }
+.vertical .idea__a { font-size: 46px; } .vertical .idea__b { font-size: 110px; } .vertical .idea__c { font-size: 24px; letter-spacing: .18em; }
+.vertical .zone { left: 54px; right: 150px; width: auto; bottom: 560px; padding: 34px 38px 40px; }
+.vertical .zone__t { font-size: 52px; } .vertical .zone__p { font-size: 27px; }
+.vertical .neuro { bottom: 640px; padding: 0 80px; } .vertical .neuro__a { font-size: 26px; letter-spacing: .14em; } .vertical .neuro__b { font-size: 84px; }
+.vertical .browser { zoom: .66; top: 40%; }
+.vertical .end { padding: 0 60px 320px; }
+.vertical .end__q { font-size: 34px; } .vertical .end__t { font-size: 76px; } .vertical .end__code { font-size: 36px; }
+.vertical .end__wa { font-size: 32px; display: flex; flex-direction: column; gap: 6px; } .vertical .end__wa b { margin: 0; }
+.vertical .end__url { font-size: 22px; letter-spacing: .04em; }
+.vertical .subs { bottom: 400px; max-width: 860px; font-size: 30px; margin-left: -40px; }
+.vertical .chrome__label, .vertical .chrome__tc { display: none; }
+.vertical .chrome__brand { left: 40px; top: 90px; font-size: 16px; }
+.vertical .chrome__url { right: 40px; top: 90px; font-size: 16px; }

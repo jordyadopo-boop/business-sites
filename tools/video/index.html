@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Je fais ton site internet · vidéo de présentation</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./video.css">
+<script>window.__VIDEO = true; if (new URLSearchParams(location.search).has('v')) document.documentElement.classList.add('vertical');</script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module" src="../../brain.js"></script>
+<script type="module" src="./video.js"></script>
+</head>
+<body>
+<div class="stage">
+  <div id="stage" class="world"></div>
+  <div class="grade"></div>
+  <div class="dim" id="dim"></div>
+
+  <!-- 1. Logo -->
+  <div class="logo" id="logo"><p class="logo__code"><span id="typed"></span><i class="caret"></i></p><span class="logo__rule"></span><p class="logo__who">Jordy Adopo · Développeur web · Abidjan</p></div>
+
+  <!-- 2. Piliers -->
+  <div class="pillars" id="pillars"><span>Vitrine</span><i></i><span>Commandes</span><i></i><span>Applications</span><i></i><span class="red">Google</span></div>
+
+  <!-- 3. Accroche -->
+  <h1 class="title" id="title">Votre activité mérite un site qui <span class="red">travaille pour vous</span>.</h1>
+
+  <!-- 4. Un site = un cerveau -->
+  <div class="idea" id="idea"><span class="idea__a">Un site, c'est</span><span class="idea__b">un cerveau</span><span class="idea__c">Chaque zone a son rôle</span></div>
+
+  <!-- 5. Zones du cerveau = étapes du site -->
+  <div class="zone" id="zone">
+    <div class="zone__frame"><i></i><i></i><i></i><i></i></div>
+    <p class="zone__n"><b data-n>01</b> / 10 · <span data-r></span></p>
+    <p class="zone__f" data-f></p>
+    <h2 class="zone__t" data-t></h2>
+    <p class="zone__p" data-p></p>
+  </div>
+
+  <!-- 6. Neurones -->
+  <div class="neuro" id="neuro"><p class="neuro__a">Des milliards de connexions</p><p class="neuro__b">→ <span class="red">vos clients</span></p></div>
+
+  <!-- 7. Le site -->
+  <div class="site" id="site">
+    <div class="browser" id="browser">
+      <div class="browser__bar"><i></i><i></i><i></i><span class="browser__url">🔒 jordyadopo-boop.github.io/business-sites</span></div>
+      <div class="browser__screen" id="screen">
+        <img src="./shots/site-hero.jpg" alt=""><img src="./shots/site-services.jpg" alt=""><img src="./shots/site-portfolio.jpg" alt=""><img src="./shots/site-methode.jpg" alt=""><img src="./shots/site-contact.jpg" alt="">
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Fin -->
+  <div class="end" id="end">
+    <p class="end__q">Vous avez un projet ?</p>
+    <h2 class="end__t">Je fais <span class="red">ton site</span> internet</h2>
+    <p class="end__code">&lt;je.fais.ton<span class="red">.site</span>/&gt;</p>
+    <p class="end__wa"><b>WhatsApp</b> +225 07 09 95 10 92</p>
+    <p class="end__url">jordyadopo-boop.github.io/business-sites</p>
+  </div>
+
+  <!-- Habillage permanent -->
+  <div class="chrome" id="chrome">
+    <span class="chrome__c chrome__c--tl"></span><span class="chrome__c chrome__c--tr"></span><span class="chrome__c chrome__c--bl"></span><span class="chrome__c chrome__c--br"></span>
+    <p class="chrome__brand">JE FAIS TON SITE · <span class="red">INTERNET</span></p>
+    <p class="chrome__url">WhatsApp +225 07 09 95 10 92</p>
+    <p class="chrome__label" id="label"></p>
+    <p class="chrome__tc" id="tc">00:00:00</p>
+  </div>
+  <p class="subs" id="subs"></p>
+  <div class="wipe" id="wipe"></div>
+  <div class="grain"></div>
+  <div class="black" id="black"></div>
+</div>
+</body>
+</html>
