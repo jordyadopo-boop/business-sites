@@ -125,13 +125,38 @@ for sx in (-1, 1):
     c = uniform_filter1d(c, 7, axis=0, mode='nearest')
     y = sv[:, 1]; s = (np.sign(sv[:, 0]) == sx) & (np.abs(sv[:, 0]) < .2) & (y < .9)
     w = sm((.86 - y[s]) / .1) * sm((.20 - np.abs(sv[s, 0])) / .03)
-    kk = 1 + w * (.04 * g(y[s], .68, .1) - .10 * g(y[s], .50, .05) + .04 * g(y[s], .36, .06) - .22 * g(y[s], .13, .06))
+    kk = 1 + w * (.04 * g(y[s], .68, .1) - .10 * g(y[s], .50, .05) + .04 * g(y[s], .36, .06) - .14 * g(y[s], .12, .07))
     cx, cz = np.interp(y[s], bins, c[:, 0]), np.interp(y[s], bins, c[:, 1])
     sv[s, 0] = cx + (sv[s, 0] - cx) * kk; sv[s, 2] = cz + (sv[s, 2] - cz) * np.minimum(1, kk + .08)
 skin.vertices = sv
 # taille affinée (tronc seulement)
 sv = skin.vertices; tw = sm((.17 - np.abs(sv[:, 0])) / .02)
 sv[:, 0] *= 1 - .07 * g(sv[:, 1], 1.06, .09) * tw
+skin.vertices = sv
+# hanche → cuisse : contour extérieur continu et bombé (plus de rebord)
+sv = skin.vertices; ys = np.arange(.60, 1.09, .02)
+for sx in (-1, 1):
+    c = np.interp(ys, bins, uniform_filter1d(np.array([sv[(np.abs(sv[:, 1] - y) < .02) & (np.sign(sv[:, 0]) == sx) & (np.abs(sv[:, 0]) < .2)][:, 0].mean() for y in bins]), 7, mode='nearest'))
+    om = np.array([np.abs(sv[(np.abs(sv[:, 1] - y) < .012) & (np.sign(sv[:, 0]) == sx) & (np.abs(sv[:, 0]) < (.16 if y > .98 else .2))][:, 0]).max() for y in ys])
+    H = []  # enveloppe convexe supérieure du contour
+    for p in zip(ys, om):
+        while len(H) > 1 and (H[-1][0] - H[-2][0]) * (p[1] - H[-2][1]) - (H[-1][1] - H[-2][1]) * (p[0] - H[-2][0]) >= 0: H.pop()
+        H.append(p)
+    T = np.interp(ys, *zip(*H)) + .006 * g(ys, .84, .1)
+    y = sv[:, 1]; s = (np.sign(sv[:, 0]) == sx) & (y > .6) & (y < 1.08) & (np.abs(sv[:, 0]) < .2)
+    ci, oi, ti = (np.interp(y[s], ys, a) for a in (sx * c, om, T))
+    out = np.abs(sv[s, 0]) > ci
+    w = sm((y[s] - .60) / .05) * sm((1.08 - y[s]) / .05) * out
+    f = 1 + w * ((ti - ci) / np.maximum(oi - ci, 1e-3) - 1)
+    sv[s, 0] = sx * (ci + (np.abs(sv[s, 0]) - ci) * f)
+skin.vertices = sv
+# lissage local : jonction hanche-cuisse et chevilles (plus d'arête ni de cassure)
+nb = skin.vertex_neighbors; sv = skin.vertices.copy()
+lw = np.maximum(g(sv[:, 1], .86, .07), .7 * g(sv[:, 1], .16, .08)) * sm((.21 - np.abs(sv[:, 0])) / .02)
+idx = np.nonzero(lw > .02)[0]
+for _ in range(80):
+    avg = np.array([sv[nb[i]].mean(0) for i in idx])
+    sv[idx] += (avg - sv[idx]) * (.5 * lw[idx, None])
 skin.vertices = sv
 meshes['skin'] = simplify(skin, 55000)
 print('skin', len(meshes['skin'].faces), flush=True)
