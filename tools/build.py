@@ -113,11 +113,11 @@ for sx in (-1, 1):
     grid |= capsule((sx * .20, 1.41, -.005), (sx * .21, 1.29, 0), .05)       # corps du deltoïde
 grid[(np.abs(X) < .016) & (Y < .79)] = 0  # fente entre les cuisses
 grid = ndimage.binary_fill_holes(ndimage.binary_dilation(grid, iterations=1)).astype(np.float32)
-grid = ndimage.gaussian_filter(np.pad(grid, 10), 2.5)
-v, f, _, _ = measure.marching_cubes(grid, .45)
+grid = ndimage.gaussian_filter(np.pad(grid, 10), 3.6)
+v, f, _, _ = measure.marching_cubes(grid, .40)
 v = (v - 10) * pitch + vox.translation
 skin = max(trimesh.Trimesh(v, f[:, ::-1]).split(only_watertight=False), key=lambda c: len(c.faces))
-trimesh.smoothing.filter_taubin(skin, iterations=30)
+trimesh.smoothing.filter_taubin(skin, iterations=60)
 # galbe de la peau des jambes : cuisses pleines, genoux et chevilles affinés, mollets marqués
 sv = skin.vertices; lv = sv[(np.abs(sv[:, 0]) < .18) & (sv[:, 1] < .94)]
 for sx in (-1, 1):
