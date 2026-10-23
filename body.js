@@ -30,31 +30,35 @@ grid.material.transparent = true; grid.material.opacity = .25;
 scene.add(grid);
 
 // Matériau « verre néon » : transparent au centre, bords lumineux (effet de Fresnel)
-const neon = (color, { base = .05, power = 2.2, flow = 0 } = {}) => new THREE.ShaderMaterial({
+const neon = (color, { base = .05, power = 2.2, flow = 0, skin = 0 } = {}) => new THREE.ShaderMaterial({
   uniforms: { uColor: { value: new THREE.Color(color) }, uBase: { value: base }, uPow: { value: power },
-    uOn: { value: .3 }, uTime: { value: 0 }, uFlow: { value: flow } },
+    uOn: { value: .3 }, uTime: { value: 0 }, uFlow: { value: flow }, uSkin: { value: skin }, uScan: { value: 0 }, uSrc: { value: new THREE.Vector3() } },
   vertexShader: `varying vec3 vN; varying vec3 vV; varying vec3 vP;
     void main(){ vec4 w = modelMatrix * vec4(position,1.); vP = w.xyz;
       vN = normalize(mat3(modelMatrix) * normal); vV = normalize(cameraPosition - w.xyz);
       gl_Position = projectionMatrix * viewMatrix * w; }`,
-  fragmentShader: `uniform vec3 uColor; uniform float uBase, uPow, uOn, uTime, uFlow; varying vec3 vN; varying vec3 vV; varying vec3 vP;
+  fragmentShader: `uniform vec3 uColor; uniform float uBase, uPow, uOn, uTime, uFlow, uSkin, uScan; uniform vec3 uSrc; varying vec3 vN; varying vec3 vV; varying vec3 vP;
     void main(){ float f = pow(1. - abs(dot(normalize(vN), vV)), uPow);
-      float pulse = uFlow > 0. ? .55 + .9 * pow(.5 + .5 * sin(vP.y * 28. - uTime * 3.5), 6.) : 1.;
+      // sang / influx : des vagues partent du cœur (artères), y reviennent (veines), partent du cerveau (nerfs)
+      float pulse = uFlow != 0. ? .3 + 2.2 * pow(.5 + .5 * sin(length(vP - uSrc) * 42. - uTime * 5. * uFlow), 10.) : 1.;
       float a = (uBase + f) * uOn * pulse;
+      // peau : balayage holographique qui descend le long du corps + fines lignes de scan
+      if (uSkin > 0.) a += uOn * (exp(-pow((vP.y - uScan) * 16., 2.)) * (.25 + f) * 1.4 + .03 * step(.6, fract(vP.y * 160. - uTime)) * f);
       gl_FragColor = vec4(uColor * a, 1.); }`,
   transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide
 });
 
 const STYLE = {
-  skin: ['#4cc9ff', { base: .01, power: 3 }], skeleton: ['#dfeaff', { base: .012, power: 2.2 }],
-  muscles: ['#ff4f6d', { base: .01, power: 2.4 }], brain: ['#ff7ad9', { base: .03, power: 1.6 }],
-  eyes: ['#7df9ff', { base: .08 }], heart: ['#ff2e55', { base: .03, power: 1.8 }], lungs: ['#7fa8ff', { base: .01, power: 2.4 }],
+  skin: ['#4cc9ff', { base: .015, power: 2.6, skin: 1 }], skeleton: ['#dfeaff', { base: .012, power: 2.2 }],
+  muscles: ['#ff4f6d', { base: .01, power: 2.4 }], brain: ['#ff7ad9', { base: .008, power: 2.2 }],
+  eyes: ['#7df9ff', { base: .01, power: 2.4 }], heart: ['#ff2e55', { base: .03, power: 1.8 }], lungs: ['#7fa8ff', { base: .01, power: 2.4 }],
   liver: ['#ff8c3a', { base: .02, power: 2.4 }], stomach: ['#ffd166', { base: .03, power: 2.2 }], kidneys: ['#c77dff', { base: .04, power: 2 }],
   intestines: ['#ff8fab', { base: .015, power: 2.4 }], arteries: ['#ff3355', { base: .1, power: 1.6, flow: 1 }],
-  veins: ['#3d7bff', { base: .1, power: 1.6, flow: 1 }], nerves: ['#f5ff6b', { base: .15, power: 1.4, flow: 1 }]
+  veins: ['#3d7bff', { base: .1, power: 1.6, flow: -1 }], nerves: ['#f5ff6b', { base: .15, power: 1.4, flow: 1 }]
 };
 
 // Chaque organe = une étape de la conception d'un site
+const FLOW = { arteries: .5, veins: .45, nerves: .35 };  // la circulation reste toujours visible
 const SOLID = ['brain', 'heart', 'liver', 'stomach', 'kidneys', 'intestines'];
 
 const S = [
@@ -76,7 +80,7 @@ const S = [
 
 const parts = {}, body = new THREE.Group();
 scene.add(body);
-let ready = false, neurons;
+let ready = false, neurons, scanRange = [0, 2];
 
 new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load('body.glb', gltf => {
   gltf.scene.traverse(o => {
@@ -101,6 +105,9 @@ new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load('body.glb', gltf => {
     if (s.fit) { s.d = size.y * 1.35; s.a = 0; s.c.y = size.y * .5; }
     s.anchor = s.c.clone();
   });
+  const hc = new THREE.Box3().setFromObject(parts.heart).getCenter(new THREE.Vector3()), bc = new THREE.Box3().setFromObject(parts.brain).getCenter(new THREE.Vector3());
+  parts.arteries.material.uniforms.uSrc.value.copy(hc); parts.veins.material.uniforms.uSrc.value.copy(hc); parts.nerves.material.uniforms.uSrc.value.copy(bc);
+  scanRange = [box.min.y, box.max.y];
   neurons = makeNeurons(parts.brain);
   ready = true;
   hudT.textContent = 'SCAN · ' + S[0].name.toUpperCase();
@@ -128,13 +135,24 @@ function makeNeurons(brain) {
   links.forEach((k, i) => pts[k].toArray(lp, i * 3));
   lg.setAttribute('position', new THREE.BufferAttribute(lp, 3)); lg.setAttribute('color', new THREE.BufferAttribute(lc, 3));
   const mat = { vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, depthTest: false };
-  const P = new THREE.Points(pg, new THREE.PointsMaterial({ size: .012, ...mat })), L = new THREE.LineSegments(lg, new THREE.LineBasicMaterial(mat));
-  P.renderOrder = L.renderOrder = 3; body.add(P, L);
-  return { N, nb, links, pc, lc, pg, lg, t: new Float32Array(N).fill(-1e9) };
+  const cv = Object.assign(document.createElement('canvas'), { width: 64, height: 64 }), cx = cv.getContext('2d');
+  const gr = cx.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, '#fff'); gr.addColorStop(.3, 'rgba(255,255,255,.8)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+  cx.fillStyle = gr; cx.fillRect(0, 0, 64, 64);
+  const dot = new THREE.CanvasTexture(cv);  // points ronds et lumineux
+  const P = new THREE.Points(pg, new THREE.PointsMaterial({ size: .022, map: dot, ...mat })), L = new THREE.LineSegments(lg, new THREE.LineBasicMaterial(mat));
+  const SP = 400, sg = new THREE.BufferGeometry(), sp = new Float32Array(SP * 3).fill(99), sc = new Float32Array(SP * 3);
+  sg.setAttribute('position', new THREE.BufferAttribute(sp, 3)); sg.setAttribute('color', new THREE.BufferAttribute(sc, 3));
+  const Sk = new THREE.Points(sg, new THREE.PointsMaterial({ size: .02, map: dot, ...mat }));
+  P.renderOrder = L.renderOrder = Sk.renderOrder = 3; body.add(P, L, Sk);
+  return { N, nb, links, pc, lc, pg, lg, pts, sg, sp, sc, sparks: [], t: new Float32Array(N).fill(-1e9) };
 }
 function fire(i, now, depth) {
   if (now - neurons.t[i] < 600) return; neurons.t[i] = now;
-  if (depth > 0) neurons.nb[i].forEach(j => setTimeout(() => fire(j, performance.now(), depth - 1), 90 + Math.random() * 140));
+  if (depth > 0) neurons.nb[i].forEach(j => {
+    const dur = 90 + Math.random() * 140;
+    if (neurons.sparks.length < 400) neurons.sparks.push({ a: i, b: j, t0: now, dur });
+    setTimeout(() => fire(j, performance.now(), depth - 1), dur);
+  });
 }
 
 const cur = { c: new THREE.Vector3(0, .9, 0), d: 3, a: 0 }, mouse = { x: 0, y: 0 };
@@ -160,7 +178,7 @@ renderer.setAnimationLoop(now => {
     const k = Math.round(f), st = S[k];
     const lit = st.id === '*' ? null : st.id || ids[Math.floor(now / 1000) % ids.length];
     for (const [name, m] of Object.entries(parts)) {
-      const u = m.material.uniforms, on = name === 'skin' ? 1 : (!lit ? .8 : name === lit ? 1.3 : .1);
+      const u = m.material.uniforms, on = name === 'skin' ? 1 : (!lit ? .8 : name === lit ? (name === 'brain' ? .6 : 1.3) : FLOW[name] || .1);
       u.uOn.value += (on - u.uOn.value) * .08; u.uTime.value = now / 1000;
       const pop = name === st.id && !/skin|skeleton|muscles|arteries|nerves/.test(name) ? 1.15 : 1;
       m.userData.p = (m.userData.p || 1) + (pop - (m.userData.p || 1)) * .06;
@@ -169,10 +187,19 @@ renderer.setAnimationLoop(now => {
     }
 
     // neurones
-    if (now - lastFire > (st.id === 'brain' || st.id === 'nerves' ? 45 : 140)) { lastFire = now; fire(Math.random() * neurons.N | 0, now, 4); }
-    for (let n = 0; n < neurons.N; n++) { const g = Math.max(0, 1 - (now - neurons.t[n]) / 600); neurons.pc.set([1 * g + .06, .6 * g + .02, .9 * g + .06], n * 3); }
-    neurons.links.forEach((n, j) => { const g = Math.max(0, 1 - (now - neurons.t[n]) / 600) * .8 + .03; neurons.lc.set([g, g * .55, g * .9], j * 3); });
+    if (now - lastFire > (st.id === 'brain' || st.id === 'nerves' ? 30 : 110)) { lastFire = now; fire(Math.random() * neurons.N | 0, now, 4); }
+    for (let n = 0; n < neurons.N; n++) { const g = Math.max(0, 1 - (now - neurons.t[n]) / 600); neurons.pc.set([1.4 * g + .2, 1.1 * g + .08, 1.4 * g + .25], n * 3); }
+    neurons.links.forEach((n, j) => { const g = Math.max(0, 1 - (now - neurons.t[n]) / 600) * 1.1 + .07; neurons.lc.set([g * .9, g * .6, g], j * 3); });
     neurons.pg.attributes.color.needsUpdate = neurons.lg.attributes.color.needsUpdate = true;
+    neurons.sparks = neurons.sparks.filter(k => now - k.t0 < k.dur);
+    neurons.sp.fill(99);
+    neurons.sparks.forEach((k, j) => {
+      tmp.lerpVectors(neurons.pts[k.a], neurons.pts[k.b], (now - k.t0) / k.dur).toArray(neurons.sp, j * 3);
+      neurons.sc.set([1, .95, .7], j * 3);
+    });
+    neurons.sg.attributes.position.needsUpdate = neurons.sg.attributes.color.needsUpdate = true;
+    // balayage de la peau, de la tête aux pieds
+    parts.skin.material.uniforms.uScan.value = scanRange[1] - ((now / 4000) % 1.2) * (scanRange[1] - scanRange[0]);
 
     // étiquette : flèche vers l'organe + nom
     if (k !== last) { last = k; lStep.textContent = 'ÉTAPE ' + String(k).padStart(2, '0'); lName.textContent = st.name; lRole.textContent = '→ ' + st.role; type(st.sub); hudT.textContent = 'SCAN · ' + st.name.toUpperCase(); }
