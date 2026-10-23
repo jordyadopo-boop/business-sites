@@ -2,11 +2,11 @@
 
 Site portfolio et vente de services de création de sites internet.
 
-- Fond animé (`body.js`, three.js) : corps humain en verre blanc sur noir, parcouru au défilement. Chaque organe = une étape de la conception d'un site (neurones actifs, sang qui part du cœur, balayage de la peau). On peut le faire pivoter (glisser) et zoomer (pincer, Ctrl + molette, boutons +/−)
+- Fond animé (`brain.js`, three.js) : un cerveau en verre blanc sur noir, parcouru au défilement. La caméra tourne autour de chaque zone (lobes temporal, frontal, pariétal, occipital, aire de Broca, cortex moteur, cervelet, tronc cérébral, hippocampe, corps calleux) : chaque zone = une étape de la conception d'un site. À la fin, plongée au milieu des neurones (influx électriques, dendrites qui ondulent). On peut le faire pivoter (glisser) et zoomer (pincer, Ctrl + molette, boutons +/−)
 - Portfolio : Le Glaceur, AMD Design, Odyssée Games, LIY10.LEARNING
 - Contact WhatsApp : +225 07 09 95 10 92
 
-Fichiers : `index.html` (site), `body.js` (fond 3D), `body.glb` (modèle 3D compressé), `preview.html` (aperçu du corps seul, non indexé), `tools/build.py` (génération du modèle depuis BodyParts3D).
+Fichiers : `index.html` (site), `brain.js` (fond 3D), `brain.glb` (cerveau 3D compressé, généré par `tools/brain.py`), `preview.html` (aperçu du cerveau seul, non indexé). `tools/build.py` génère l'ancien corps entier.
 
 En ligne : https://jordyadopo-boop.github.io/business-sites/ (Settings → Pages → branche `main`, dossier `/`).
 
