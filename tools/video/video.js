@@ -1,7 +1,7 @@
 /**
  * Vidéo de présentation « Je fais ton site internet » (60 s, 30 i/s) : paysage 1920×1080, ou portrait 1080×1920 avec ?v.
  * Composition déterministe : window.__render(t) cale le cerveau 3D du site (brain.js en mode vidéo) et la typographie (GSAP) sur t.
- * Rendu image par image : tools/video/render.mjs, puis montage avec la voix off et la musique (voir README.md).
+ * Rendu image par image : tools/video/render.cjs, puis montage avec la voix off et la musique (voir README.md).
  */
 const VERT = document.documentElement.classList.contains('vertical');
 const W = VERT ? 1080 : 1920;
