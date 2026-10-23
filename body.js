@@ -6,7 +6,7 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
-const stage = document.getElementById('stage');
+const stage = document.getElementById('stage'), AV = location.hash === '#avatar';  // #avatar : vue fixe du cerveau (photo de profil)
 const hudT = document.getElementById('hudT'), hudB = document.getElementById('hudB');
 const lbl = document.getElementById('lbl'), lStep = lbl.querySelector('small'), lName = lbl.querySelector('b'), lRole = lbl.querySelector('em'), lSub = lbl.querySelector('span'), lLine = document.getElementById('lblLine');
 
@@ -47,7 +47,7 @@ const neon = (color, { base = .05, power = 2.2, flow = 0 } = {}) => new THREE.Sh
 
 const STYLE = {
   skin: ['#4cc9ff', { base: .01, power: 3 }], skeleton: ['#dfeaff', { base: .012, power: 2.2 }],
-  muscles: ['#ff4f6d', { base: .01, power: 2.4 }], brain: ['#ff7ad9', { base: .004, power: 3 }],
+  muscles: ['#ff4f6d', { base: .01, power: 2.4 }], brain: ['#ff7ad9', { base: .03, power: 1.6 }],
   eyes: ['#7df9ff', { base: .08 }], heart: ['#ff2e55', { base: .03, power: 1.8 }], lungs: ['#7fa8ff', { base: .01, power: 2.4 }],
   liver: ['#ff8c3a', { base: .02, power: 2.4 }], stomach: ['#ffd166', { base: .03, power: 2.2 }], kidneys: ['#c77dff', { base: .04, power: 2 }],
   intestines: ['#ff8fab', { base: .015, power: 2.4 }], arteries: ['#ff3355', { base: .1, power: 1.6, flow: 1 }],
@@ -55,6 +55,8 @@ const STYLE = {
 };
 
 // Chaque organe = une étape de la conception d'un site
+const SOLID = ['brain', 'heart', 'liver', 'stomach', 'kidneys', 'intestines'];
+
 const S = [
   { name: 'Corps humain', role: 'Un site, c\'est un corps vivant', sub: 'Chaque organe a son rôle. Descendez : je vous montre comment je construis le vôtre.', fit: 1 },
   { id: 'brain', name: 'Cerveau', role: 'La réflexion · stratégie', sub: 'Tout commence ici : vos objectifs, vos clients, le plan du site.', d: .55, a: .5 },
@@ -78,11 +80,16 @@ let ready = false, neurons;
 
 new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load('body.glb', gltf => {
   gltf.scene.traverse(o => {
-    if (!o.isMesh) return;
+    if (!o.isMesh || o.userData.z) return;
     const name = o.name.replace(/_\d+$/, ''), st = STYLE[name] || ['#ffffff', {}];
     o.geometry.computeVertexNormals();
     o.material = neon(st[0], st[1]);
     o.renderOrder = name === 'skin' ? 2 : 1;
+    if (SOLID.includes(name)) {  // pré-passe de profondeur : seule la surface extérieure de l'organe s'illumine
+      o.material.side = THREE.FrontSide;
+      const z = new THREE.Mesh(o.geometry, new THREE.MeshBasicMaterial({ colorWrite: false, polygonOffset: true, polygonOffsetFactor: 2, polygonOffsetUnits: 2 }));
+      z.renderOrder = 0; z.userData.z = true; o.add(z);
+    }
     o.userData.s = o.scale.clone();
     parts[name] = o;
   });
@@ -107,16 +114,22 @@ function type(t) { clearInterval(typing); let n = 0; lSub.textContent = ''; typi
 function makeNeurons(brain) {
   const pos = brain.geometry.attributes.position, N = 220, pts = [], links = [];
   for (let i = 0; i < N; i++) pts.push(new THREE.Vector3().fromBufferAttribute(pos, Math.random() * pos.count | 0).applyMatrix4(brain.matrixWorld));
+  const ctr = new THREE.Box3().setFromObject(brain).getCenter(new THREE.Vector3());
+  pts.forEach(p => p.sub(ctr).multiplyScalar(1.04).add(ctr));
   const nb = pts.map(() => []);
-  pts.forEach((a, i) => pts.forEach((b, j) => { if (j > i && a.distanceTo(b) < .03) { links.push(i, j); nb[i].push(j); nb[j].push(i); } }));
+  const seen = new Set();  // chaque neurone relié à ses 3 plus proches voisins
+  pts.forEach((a, i) => pts.map((b, j) => [a.distanceTo(b), j]).sort((x, y) => x[0] - y[0]).slice(1, 4).forEach(([, j]) => {
+    const key = Math.min(i, j) + ',' + Math.max(i, j); if (seen.has(key)) return; seen.add(key);
+    links.push(i, j); nb[i].push(j); nb[j].push(i);
+  }));
   const pg = new THREE.BufferGeometry().setFromPoints(pts), pc = new Float32Array(N * 3);
   pg.setAttribute('color', new THREE.BufferAttribute(pc, 3));
   const lg = new THREE.BufferGeometry(), lp = new Float32Array(links.length * 3), lc = new Float32Array(links.length * 3);
   links.forEach((k, i) => pts[k].toArray(lp, i * 3));
   lg.setAttribute('position', new THREE.BufferAttribute(lp, 3)); lg.setAttribute('color', new THREE.BufferAttribute(lc, 3));
-  const mat = { vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false };
+  const mat = { vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, depthTest: false };
   const P = new THREE.Points(pg, new THREE.PointsMaterial({ size: .012, ...mat })), L = new THREE.LineSegments(lg, new THREE.LineBasicMaterial(mat));
-  body.add(P, L);
+  P.renderOrder = L.renderOrder = 3; body.add(P, L);
   return { N, nb, links, pc, lc, pg, lg, t: new Float32Array(N).fill(-1e9) };
 }
 function fire(i, now, depth) {
@@ -137,17 +150,17 @@ let last = -1, lastFire = 0;
 renderer.setAnimationLoop(now => {
   if (ready) {
     const max = document.documentElement.scrollHeight - innerHeight;
-    const f = (max > 0 ? scrollY / max : 0) * (S.length - 1), i = Math.min(S.length - 2, Math.floor(f)), t = ease(f - i), A = S[i], B = S[i + 1];
+    const f = AV ? 1 : (max > 0 ? scrollY / max : 0) * (S.length - 1), i = Math.min(S.length - 2, Math.floor(f)), t = ease(f - i), A = S[i], B = S[i + 1];
     const tc = A.c.clone().lerp(B.c, t), td = A.d + (B.d - A.d) * t, ta = A.a + (B.a - A.a) * t;
-    cur.c.lerp(tc, .06); cur.d += (td - cur.d) * .06; cur.a += (ta - cur.a) * .06;
-    const ang = cur.a + Math.sin(now / 6000) * .25 + mouse.x * .5;
+    const kk = AV ? 1 : .06; cur.c.lerp(tc, kk); cur.d += ((AV ? .85 : td) - cur.d) * kk; cur.a += (ta - cur.a) * kk;
+    const ang = cur.a + (AV ? 0 : Math.sin(now / 6000) * .25 + mouse.x * .5);
     camera.position.set(cur.c.x + Math.sin(ang) * cur.d, cur.c.y + cur.d * (.12 - mouse.y * .3), cur.c.z + Math.cos(ang) * cur.d);
-    camera.lookAt(cur.c);
+    camera.lookAt(AV ? tmp.copy(cur.c).setY(cur.c.y + .055) : cur.c);
 
     const k = Math.round(f), st = S[k];
     const lit = st.id === '*' ? null : st.id || ids[Math.floor(now / 1000) % ids.length];
     for (const [name, m] of Object.entries(parts)) {
-      const u = m.material.uniforms, on = name === 'skin' ? 1 : (!lit ? .45 : name === lit ? (/brain|intestines|lungs/.test(name) ? .8 : 1.15) : .1);
+      const u = m.material.uniforms, on = name === 'skin' ? 1 : (!lit ? .8 : name === lit ? 1.3 : .1);
       u.uOn.value += (on - u.uOn.value) * .08; u.uTime.value = now / 1000;
       const pop = name === st.id && !/skin|skeleton|muscles|arteries|nerves/.test(name) ? 1.15 : 1;
       m.userData.p = (m.userData.p || 1) + (pop - (m.userData.p || 1)) * .06;
@@ -157,8 +170,8 @@ renderer.setAnimationLoop(now => {
 
     // neurones
     if (now - lastFire > (st.id === 'brain' || st.id === 'nerves' ? 45 : 140)) { lastFire = now; fire(Math.random() * neurons.N | 0, now, 4); }
-    for (let n = 0; n < neurons.N; n++) { const g = Math.max(0, 1 - (now - neurons.t[n]) / 600); neurons.pc.set([1 * g + .25, .5 * g + .1, .9 * g + .25], n * 3); }
-    neurons.links.forEach((n, j) => { const g = Math.max(0, 1 - (now - neurons.t[n]) / 600) * .9 + .06; neurons.lc.set([g, g * .45, g * .85], j * 3); });
+    for (let n = 0; n < neurons.N; n++) { const g = Math.max(0, 1 - (now - neurons.t[n]) / 600); neurons.pc.set([1 * g + .06, .6 * g + .02, .9 * g + .06], n * 3); }
+    neurons.links.forEach((n, j) => { const g = Math.max(0, 1 - (now - neurons.t[n]) / 600) * .8 + .03; neurons.lc.set([g, g * .55, g * .9], j * 3); });
     neurons.pg.attributes.color.needsUpdate = neurons.lg.attributes.color.needsUpdate = true;
 
     // étiquette : flèche vers l'organe + nom
