@@ -53,40 +53,42 @@ for name, (srcs, target) in GROUPS.items():
     meshes[name] = m
     print(f'{name:11s} {len(parts):4d} files {raw:8d} -> {len(m.faces):7d} faces', flush=True)
 
-# Silhouette en V : épaules et thorax élargis, taille affinée
-zs = meshes['skeleton'].vertices[:, 2]; z0, H = zs.min(), np.ptp(zs)
-cx0 = (meshes['skeleton'].vertices[:, 0].min() + meshes['skeleton'].vertices[:, 0].max()) / 2
-g = lambda r, c, w: np.exp(-((r - c) / w) ** 2)
-for m in meshes.values():
-    r = (m.vertices[:, 2] - z0) / H
-    k = 1 + .11 * g(r, .78, .07) - .08 * g(r, .60, .05)
-    m.vertices[:, 0] = cx0 + (m.vertices[:, 0] - cx0) * k
-
-# Peau : enveloppe lissée autour des muscles et du squelette
-from skimage import measure
-from scipy import ndimage
-pitch = 5.0
-pts = np.vstack([meshes['muscles'].vertices, meshes['skeleton'].vertices])
-lo = pts.min(0) - 30
-vox = trimesh.util.concatenate([meshes[k] for k in ('muscles', 'skeleton', 'lungs', 'heart', 'liver', 'stomach', 'intestines', 'kidneys', 'brain')]).voxelized(pitch).fill()
-grid = vox.matrix.astype(np.float32)
-grid = ndimage.binary_closing(np.pad(grid, 6), iterations=4)[6:-6, 6:-6, 6:-6]
-grid = ndimage.binary_fill_holes(ndimage.binary_dilation(grid, iterations=1)).astype(np.float32)
-grid = ndimage.gaussian_filter(np.pad(grid, 4), 1.3)
-v, f, _, _ = measure.marching_cubes(grid, 0.5)
-v = (v - 4) * pitch + vox.translation
-skin = max(trimesh.Trimesh(v, f[:, ::-1]).split(only_watertight=False), key=lambda c: len(c.faces))
-trimesh.smoothing.filter_taubin(skin, iterations=20)
-meshes['skin'] = simplify(skin, 55000)
-print('skin', len(meshes['skin'].faces), flush=True)
-
 # Z-up (mm) -> Y-up (m), centré au sol
 allv = np.vstack([m.vertices for m in meshes.values()])
 cx, cy, zmin = (allv[:, 0].min() + allv[:, 0].max()) / 2, (allv[:, 1].min() + allv[:, 1].max()) / 2, allv[:, 2].min()
-scene = trimesh.Scene()
 for name, m in meshes.items():
     x, y, z = (m.vertices - [cx, cy, zmin]).T / 1000
-    mm = trimesh.Trimesh(np.c_[x, z, -y].astype(np.float32), m.faces, process=False)
-    scene.add_geometry(mm, node_name=name, geom_name=name)
+    meshes[name] = trimesh.Trimesh(np.c_[x, z, -y], m.faces, process=False)
+
+# Peau : enveloppe lissée autour des muscles, du squelette et des organes
+from skimage import measure
+from scipy import ndimage
+pitch = .005
+vox = trimesh.util.concatenate([meshes[k] for k in ('muscles', 'skeleton', 'lungs', 'heart', 'liver', 'stomach', 'intestines', 'kidneys', 'brain')]).voxelized(pitch).fill()
+grid = ndimage.binary_closing(np.pad(vox.matrix, 8), iterations=3)[8:-8, 8:-8, 8:-8]
+# épaules arrondies : trapèzes en pente douce + deltoïdes ronds
+X, Y, Z = np.meshgrid(*[vox.translation[i] + np.arange(grid.shape[i]) * pitch for i in range(3)], indexing='ij')
+def capsule(a, b, r):
+    a, b = np.array(a), np.array(b); ab = b - a
+    P = np.stack([X - a[0], Y - a[1], Z - a[2]], -1)
+    t = np.clip((P @ ab) / (ab @ ab), 0, 1)
+    return np.linalg.norm(P - t[..., None] * ab, axis=-1) < r
+def ell(c, r): return ((X - c[0]) / r[0]) ** 2 + ((Y - c[1]) / r[1]) ** 2 + ((Z - c[2]) / r[2]) ** 2 < 1
+for sx in (-1, 1):
+    grid |= capsule((sx * .035, 1.53, -.035), (sx * .15, 1.45, -.025), .038)   # trapèze
+    grid |= ell((sx * .165, 1.395, -.005), (.06, .07, .062))                   # tête du deltoïde
+    grid |= capsule((sx * .17, 1.40, -.005), (sx * .175, 1.29, 0), .048)       # corps du deltoïde
+grid = ndimage.binary_fill_holes(ndimage.binary_dilation(grid, iterations=1)).astype(np.float32)
+grid = ndimage.gaussian_filter(np.pad(grid, 10), 2.5)
+v, f, _, _ = measure.marching_cubes(grid, .45)
+v = (v - 10) * pitch + vox.translation
+skin = max(trimesh.Trimesh(v, f[:, ::-1]).split(only_watertight=False), key=lambda c: len(c.faces))
+trimesh.smoothing.filter_taubin(skin, iterations=30)
+meshes['skin'] = simplify(skin, 55000)
+print('skin', len(meshes['skin'].faces), flush=True)
+
+scene = trimesh.Scene()
+for name, m in meshes.items():
+    scene.add_geometry(trimesh.Trimesh(m.vertices.astype(np.float32), m.faces, process=False), node_name=name, geom_name=name)
 scene.export('body.glb', include_normals=False)
 print('body.glb', os.path.getsize('body.glb') // 1024, 'KB')

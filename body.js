@@ -13,52 +13,55 @@ const lbl = document.getElementById('lbl'), lStep = lbl.querySelector('small'), 
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
 renderer.setSize(innerWidth, innerHeight);
-renderer.setClearColor(0x05080d, 1);
+renderer.setClearColor(0x000000, 1);
 stage.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x05080d, 0.18);
+scene.fog = new THREE.FogExp2(0x000000, 0.18);
 const camera = new THREE.PerspectiveCamera(35, innerWidth / innerHeight, 0.01, 50);
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
-const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth / 2, innerHeight / 2), 0.75, 0.45, 0.22);
+const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth / 2, innerHeight / 2), 0.5, 0.35, 0.3);
 composer.addPass(bloom);
 
 // Grille de sol holographique
-const grid = new THREE.GridHelper(6, 60, 0x3dffb0, 0x0d3326);
-grid.material.transparent = true; grid.material.opacity = .25;
+const grid = new THREE.GridHelper(6, 60, 0x9a9a9a, 0x262626);
+grid.material.transparent = true; grid.material.opacity = .18;
 scene.add(grid);
 
 // Matériau « verre néon » : transparent au centre, bords lumineux (effet de Fresnel)
-const neon = (color, { base = .05, power = 2.2, flow = 0, skin = 0 } = {}) => new THREE.ShaderMaterial({
+const neon = (color, { base = .05, power = 2.2, flow = 0, skin = 0, head = .3 } = {}) => new THREE.ShaderMaterial({
   uniforms: { uColor: { value: new THREE.Color(color) }, uBase: { value: base }, uPow: { value: power },
-    uOn: { value: .3 }, uTime: { value: 0 }, uFlow: { value: flow }, uSkin: { value: skin }, uScan: { value: 0 }, uSrc: { value: new THREE.Vector3() } },
+    uOn: { value: .3 }, uTime: { value: 0 }, uFlow: { value: flow }, uSkin: { value: skin }, uScan: { value: 0 }, uSrc: { value: new THREE.Vector3() }, uHead: { value: head }, uNeck: { value: 9 } },
   vertexShader: `varying vec3 vN; varying vec3 vV; varying vec3 vP;
     void main(){ vec4 w = modelMatrix * vec4(position,1.); vP = w.xyz;
       vN = normalize(mat3(modelMatrix) * normal); vV = normalize(cameraPosition - w.xyz);
       gl_Position = projectionMatrix * viewMatrix * w; }`,
-  fragmentShader: `uniform vec3 uColor; uniform float uBase, uPow, uOn, uTime, uFlow, uSkin, uScan; uniform vec3 uSrc; varying vec3 vN; varying vec3 vV; varying vec3 vP;
+  fragmentShader: `uniform vec3 uColor; uniform float uBase, uPow, uOn, uTime, uFlow, uSkin, uScan, uHead, uNeck; uniform vec3 uSrc; varying vec3 vN; varying vec3 vV; varying vec3 vP;
     void main(){ float f = pow(1. - abs(dot(normalize(vN), vV)), uPow);
       // sang / influx : des vagues partent du cœur (artères), y reviennent (veines), partent du cerveau (nerfs)
       float pulse = uFlow != 0. ? .3 + 2.2 * pow(.5 + .5 * sin(length(vP - uSrc) * 42. - uTime * 5. * uFlow), 10.) : 1.;
       float a = (uBase + f) * uOn * pulse;
       // peau : balayage holographique qui descend le long du corps + fines lignes de scan
       if (uSkin > 0.) a += uOn * (exp(-pow((vP.y - uScan) * 16., 2.)) * (.25 + f) * 1.4 + .03 * step(.6, fract(vP.y * 160. - uTime)) * f);
-      gl_FragColor = vec4(uColor * a, 1.); }`,
+      // tête : beaucoup de couches se superposent, on les atténue pour éviter un visage saturé
+      a *= mix(1., uHead, smoothstep(uNeck, uNeck + .06, vP.y));
+      gl_FragColor = vec4(uColor * a * .42, 1.); }`,  // blanc : ~3× plus lumineux qu'une couleur pure
   transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide
 });
 
-const STYLE = {
-  skin: ['#4cc9ff', { base: .015, power: 2.6, skin: 1 }], skeleton: ['#dfeaff', { base: .012, power: 2.2 }],
-  muscles: ['#ff4f6d', { base: .01, power: 2.4 }], brain: ['#ff7ad9', { base: .008, power: 2.2 }],
-  eyes: ['#7df9ff', { base: .01, power: 2.4 }], heart: ['#ff2e55', { base: .03, power: 1.8 }], lungs: ['#7fa8ff', { base: .01, power: 2.4 }],
-  liver: ['#ff8c3a', { base: .02, power: 2.4 }], stomach: ['#ffd166', { base: .03, power: 2.2 }], kidneys: ['#c77dff', { base: .04, power: 2 }],
-  intestines: ['#ff8fab', { base: .015, power: 2.4 }], arteries: ['#ff3355', { base: .1, power: 1.6, flow: 1 }],
-  veins: ['#3d7bff', { base: .1, power: 1.6, flow: -1 }], nerves: ['#f5ff6b', { base: .15, power: 1.4, flow: 1 }]
+const STYLE = {  // tout en blanc : seules l'intensité et le contour différencient les couches
+  skin: ['#ffffff', { base: .01, power: 2.8, skin: 1, head: .45 }], skeleton: ['#ffffff', { base: .005, power: 2.6, head: .25 }],
+  muscles: ['#ffffff', { base: .003, power: 3, head: .15 }], brain: ['#ffffff', { base: .006, power: 2.4, head: 1 }],
+  eyes: ['#ffffff', { base: .01, power: 2.4, head: 1 }], heart: ['#ffffff', { base: .025, power: 2 }], lungs: ['#ffffff', { base: .008, power: 2.6 }],
+  liver: ['#ffffff', { base: .015, power: 2.4 }], stomach: ['#ffffff', { base: .02, power: 2.2 }], kidneys: ['#ffffff', { base: .03, power: 2 }],
+  intestines: ['#ffffff', { base: .012, power: 2.4 }], arteries: ['#ffffff', { base: .08, power: 1.6, flow: 1, head: .2 }],
+  veins: ['#d0d0d0', { base: .07, power: 1.6, flow: -1, head: .2 }], nerves: ['#ffffff', { base: .1, power: 1.4, flow: 1, head: .2 }]
 };
 
 // Chaque organe = une étape de la conception d'un site
 const FLOW = { arteries: .5, veins: .45, nerves: .35 };  // la circulation reste toujours visible
+const LIT = { brain: .6, muscles: .45, skeleton: .7 };  // surbrillance de l'étape (les grandes couches saturent vite)
 const SOLID = ['brain', 'heart', 'liver', 'stomach', 'kidneys', 'intestines'];
 
 const S = [
@@ -108,6 +111,8 @@ new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load('body.glb', gltf => {
   const hc = new THREE.Box3().setFromObject(parts.heart).getCenter(new THREE.Vector3()), bc = new THREE.Box3().setFromObject(parts.brain).getCenter(new THREE.Vector3());
   parts.arteries.material.uniforms.uSrc.value.copy(hc); parts.veins.material.uniforms.uSrc.value.copy(hc); parts.nerves.material.uniforms.uSrc.value.copy(bc);
   scanRange = [box.min.y, box.max.y];
+  const neck = new THREE.Box3().setFromObject(parts.brain).min.y - .07;  // base du crâne
+  Object.values(parts).forEach(m => m.material.uniforms.uNeck.value = neck);
   neurons = makeNeurons(parts.brain);
   ready = true;
   hudT.textContent = 'SCAN · ' + S[0].name.toUpperCase();
@@ -178,7 +183,7 @@ renderer.setAnimationLoop(now => {
     const k = Math.round(f), st = S[k];
     const lit = st.id === '*' ? null : st.id || ids[Math.floor(now / 1000) % ids.length];
     for (const [name, m] of Object.entries(parts)) {
-      const u = m.material.uniforms, on = name === 'skin' ? 1 : (!lit ? .8 : name === lit ? (name === 'brain' ? .6 : 1.3) : FLOW[name] || .1);
+      const u = m.material.uniforms, on = name === 'skin' ? 1 : (!lit ? .8 : name === lit ? (LIT[name] || 1.3) : FLOW[name] || .1);
       u.uOn.value += (on - u.uOn.value) * .08; u.uTime.value = now / 1000;
       const pop = name === st.id && !/skin|skeleton|muscles|arteries|nerves/.test(name) ? 1.15 : 1;
       m.userData.p = (m.userData.p || 1) + (pop - (m.userData.p || 1)) * .06;
@@ -188,14 +193,14 @@ renderer.setAnimationLoop(now => {
 
     // neurones
     if (now - lastFire > (st.id === 'brain' || st.id === 'nerves' ? 30 : 110)) { lastFire = now; fire(Math.random() * neurons.N | 0, now, 4); }
-    for (let n = 0; n < neurons.N; n++) { const g = Math.max(0, 1 - (now - neurons.t[n]) / 600); neurons.pc.set([1.4 * g + .2, 1.1 * g + .08, 1.4 * g + .25], n * 3); }
-    neurons.links.forEach((n, j) => { const g = Math.max(0, 1 - (now - neurons.t[n]) / 600) * 1.1 + .07; neurons.lc.set([g * .9, g * .6, g], j * 3); });
+    for (let n = 0; n < neurons.N; n++) { const g = Math.max(0, 1 - (now - neurons.t[n]) / 600); neurons.pc.set([1.3 * g + .15, 1.3 * g + .15, 1.3 * g + .15], n * 3); }
+    neurons.links.forEach((n, j) => { const g = Math.max(0, 1 - (now - neurons.t[n]) / 600) * 1.1 + .07; neurons.lc.set([g * .8, g * .8, g * .8], j * 3); });
     neurons.pg.attributes.color.needsUpdate = neurons.lg.attributes.color.needsUpdate = true;
     neurons.sparks = neurons.sparks.filter(k => now - k.t0 < k.dur);
     neurons.sp.fill(99);
     neurons.sparks.forEach((k, j) => {
       tmp.lerpVectors(neurons.pts[k.a], neurons.pts[k.b], (now - k.t0) / k.dur).toArray(neurons.sp, j * 3);
-      neurons.sc.set([1, .95, .7], j * 3);
+      neurons.sc.set([1, 1, 1], j * 3);
     });
     neurons.sg.attributes.position.needsUpdate = neurons.sg.attributes.color.needsUpdate = true;
     // balayage de la peau, de la tête aux pieds
