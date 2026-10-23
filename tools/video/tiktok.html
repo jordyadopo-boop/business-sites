@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Je fais ton site internet · images TikTok</title>
-<!-- Images pour la page TikTok (1080×1920) : ?i=1 « Je fais ton site internet », ?i=2 « Mes réalisations ».
+<!-- Images pour la page TikTok (1080×1920) : ?i=1 « Je fais ton site internet », ?i=2 « Mes réalisations » ; ?i=3 photo de profil HD (2160×2160, lisible dans le rond).
      Capture : NODE_PATH=$(npm root -g) node tools/video/tiktok.cjs <dossier> (serveur sur la racine du dépôt, voir README.md).
      Zones réservées à l'application laissées vides : 150 px en haut, 400 px en bas, 140 px à droite. -->
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
@@ -20,6 +20,14 @@ body { position: relative; font-family: 'Space Grotesk', sans-serif; color: var(
 .world canvas { display: block; }
 [data-i="1"] .world { transform: translate(-40px, -250px) scale(.8); }
 [data-i="2"] .world { transform: translateY(-120px) scale(1.25); opacity: .45; }
+[data-i="3"], [data-i="3"] body { width: 2160px; height: 2160px; }   /* HD : rendu natif en 2160×2160 */
+[data-i="3"] .world { transform: translateY(-210px) scale(1.5); }
+[data-i="3"] .p3 { zoom: 2; }
+[data-i="3"] .corners { display: none; }
+[data-i="3"] .grade { background: radial-gradient(50% 50% at 50% 50%, transparent 70%, #000); }
+.p3 { position: absolute; left: 0; right: 0; bottom: 150px; text-align: center; }
+.p3 b { display: block; font-size: 104px; line-height: 1; font-weight: 700; letter-spacing: -.01em; text-shadow: 0 6px 30px #000, 0 0 12px #000; }
+.p3 span { display: block; margin-top: 12px; font: 700 36px var(--mono); letter-spacing: .28em; color: var(--red); text-shadow: 0 0 12px #000; }
 .grade { position: absolute; inset: 0; background: radial-gradient(110% 80% at 50% 35%, transparent 45%, rgba(0, 0, 0, .8)); }
 .page { position: absolute; left: 64px; right: 150px; top: 170px; bottom: 400px; display: flex; flex-direction: column; }
 .code { font: 700 34px var(--mono); }
@@ -51,8 +59,8 @@ body { position: relative; font-family: 'Space Grotesk', sans-serif; color: var(
 .p2 .url { margin-top: auto; font: 600 24px var(--mono); color: #ddd; }
 .p2 .url::before { content: '→ '; color: var(--red); }
 .p2 .wa { margin-top: 18px; font-size: 28px; padding: 13px 22px; }
-.p1, .p2 { display: none; }
-[data-i="1"] .p1, [data-i="2"] .p2 { display: flex; }
+.p1, .p2, .p3 { display: none; }
+[data-i="1"] .p1, [data-i="2"] .p2 { display: flex; } [data-i="3"] .p3 { display: block; }
 </style>
 </head>
 <body>
@@ -78,6 +86,8 @@ body { position: relative; font-family: 'Space Grotesk', sans-serif; color: var(
   <p class="wa"><b>WhatsApp</b> +225 07 09 95 10 92</p>
 </div>
 
+<div class="p3"><b>Je fais ton <span style="display:inline;margin:0;font:inherit;letter-spacing:inherit;color:var(--red)">site</span></b><span>&lt;INTERNET/&gt;</span></div>
+
 <script type="module">
 // les réalisations viennent de projects.json (même source que le site)
 const list = await fetch('../../projects.json').then((r) => r.json());
@@ -88,7 +98,7 @@ await Promise.all([...document.images].map((i) => i.decode().catch(() => {})));
 while (!window.__brain || !window.__brain.ready()) await new Promise((r) => setTimeout(r, 100));
 await document.fonts.ready;
 // on laisse le réseau du cortex s'allumer quelques secondes avant la capture
-window.__brain.user.yaw = window.__IMG === '1' ? 0.35 : -0.5;
+window.__brain.user.yaw = { 1: 0.35, 2: -0.5, 3: 0 }[window.__IMG];
 for (let t = 0; t < 4; t += 1 / 30) window.__brain.render(t, 0);
 window.__ready = true;
 </script>
