@@ -60,6 +60,16 @@ for name, m in meshes.items():
     x, y, z = (m.vertices - [cx, cy, zmin]).T / 1000
     meshes[name] = trimesh.Trimesh(np.c_[x, z, -y], m.faces, process=False)
 
+g = lambda r, c, w: np.exp(-((r - c) / w) ** 2)
+sm = lambda t: (lambda u: u * u * (3 - 2 * u))(np.clip(t, 0, 1))
+# Épaules plus larges : les bras s'écartent un peu du tronc (le tronc ne bouge pas)
+for m in meshes.values():
+    v = m.vertices.copy(); y, ax = v[:, 1], np.abs(v[:, 0])
+    inner = np.where(y > 1.2, .13, np.where(y < 1.1, .175, .13 + (1.2 - y) / .1 * .045))
+    w = sm((ax - inner) / .05) * sm((1.50 - y) / .08) * sm((y - .66) / .04)
+    v[:, 0] += np.sign(v[:, 0]) * .035 * w
+    m.vertices = v
+
 # Jambes : volumineuses, verticales et parallèles (cuisses séparées), pieds pointés droit devant
 g = lambda r, c, w: np.exp(-((r - c) / w) ** 2)
 sm = lambda t: (lambda u: u * u * (3 - 2 * u))(np.clip(t, 0, 1))
@@ -98,9 +108,9 @@ def capsule(a, b, r):
     return np.linalg.norm(P - t[..., None] * ab, axis=-1) < r
 def ell(c, r): return ((X - c[0]) / r[0]) ** 2 + ((Y - c[1]) / r[1]) ** 2 + ((Z - c[2]) / r[2]) ** 2 < 1
 for sx in (-1, 1):
-    grid |= capsule((sx * .035, 1.53, -.035), (sx * .15, 1.45, -.025), .038)   # trapèze
-    grid |= ell((sx * .165, 1.395, -.005), (.06, .07, .062))                   # tête du deltoïde
-    grid |= capsule((sx * .17, 1.40, -.005), (sx * .175, 1.29, 0), .048)       # corps du deltoïde
+    grid |= capsule((sx * .035, 1.535, -.035), (sx * .18, 1.475, -.025), .04)   # trapèze
+    grid |= ell((sx * .195, 1.41, -.005), (.065, .075, .065))                   # tête du deltoïde
+    grid |= capsule((sx * .20, 1.41, -.005), (sx * .21, 1.29, 0), .05)       # corps du deltoïde
 grid[(np.abs(X) < .016) & (Y < .79)] = 0  # fente entre les cuisses
 grid = ndimage.binary_fill_holes(ndimage.binary_dilation(grid, iterations=1)).astype(np.float32)
 grid = ndimage.gaussian_filter(np.pad(grid, 10), 2.5)
@@ -118,6 +128,10 @@ for sx in (-1, 1):
     kk = 1 + w * (.04 * g(y[s], .68, .1) - .10 * g(y[s], .50, .05) + .04 * g(y[s], .36, .06) - .22 * g(y[s], .13, .06))
     cx, cz = np.interp(y[s], bins, c[:, 0]), np.interp(y[s], bins, c[:, 1])
     sv[s, 0] = cx + (sv[s, 0] - cx) * kk; sv[s, 2] = cz + (sv[s, 2] - cz) * np.minimum(1, kk + .08)
+skin.vertices = sv
+# taille affinée (tronc seulement)
+sv = skin.vertices; tw = sm((.17 - np.abs(sv[:, 0])) / .02)
+sv[:, 0] *= 1 - .07 * g(sv[:, 1], 1.06, .09) * tw
 skin.vertices = sv
 meshes['skin'] = simplify(skin, 55000)
 print('skin', len(meshes['skin'].faces), flush=True)
