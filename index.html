@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jordy Adopo · Développeur web en Côte d'Ivoire</title>
+<meta name="description" content="Jordy Adopo, développeur web à Abidjan. Création de sites internet sur mesure pour entreprises, artisans, écoles et créateurs. Rapides, élégants, visibles sur Google.">
+<meta property="og:title" content="Jordy Adopo · Développeur web">
+<meta property="og:description" content="Je crée des sites internet sur mesure, rapides et visibles. Discutons de votre projet sur WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080d; --bg2:#0a111b; --card:rgba(14,22,34,.72); --line:rgba(120,255,200,.14);
+  --txt:#e6f1ee; --mute:#8da39d; --acc:#3dffb0; --acc2:#4cc9ff;
+  --mono:'JetBrains Mono',monospace; --sans:'Space Grotesk',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+#matrix{position:fixed;inset:0;z-index:0;width:100%;height:100%}
+.veil{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 30%,rgba(5,8,13,.25),rgba(5,8,13,.85) 70%)}
+main,header,footer{position:relative;z-index:2}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* Nav */
+header{position:sticky;top:0;backdrop-filter:blur(10px);background:rgba(5,8,13,.6);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-family:var(--mono);font-weight:600;color:var(--acc)}
+.logo span{color:var(--txt)}
+.links{display:flex;gap:28px;font-size:.95rem;color:var(--mute)}
+.links a:hover{color:var(--acc)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border-radius:10px;font-weight:600;
+  background:var(--acc);color:#02140d;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(61,255,176,.35)}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--acc);box-shadow:none}
+.btn.sm{padding:9px 16px;font-size:.9rem}
+
+/* Hero */
+.hero{min-height:calc(100vh - 64px);display:flex;align-items:center;padding:60px 0}
+.tag{font-family:var(--mono);color:var(--acc);font-size:.9rem;margin-bottom:18px}
+.tag::before{content:"> ";color:var(--acc2)}
+h1{font-size:clamp(2.4rem,6vw,4.6rem);line-height:1.05;letter-spacing:-.02em;max-width:900px}
+h1 em{font-style:normal;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:1.2rem;color:var(--mute);max-width:640px;margin:24px 0 36px}
+.cta{display:flex;flex-wrap:wrap;gap:14px}
+.formula{font-family:var(--mono);color:var(--mute);font-size:.85rem;margin-top:48px;opacity:.8}
+.formula b{color:var(--acc)}
+.caret{display:inline-block;width:.55em;height:1em;background:var(--acc);vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* Sections */
+section{padding:100px 0}
+.head{margin-bottom:48px}
+.head .tag{margin-bottom:10px}
+h2{font-size:clamp(1.9rem,4vw,2.8rem);letter-spacing:-.01em}
+.head p{color:var(--mute);max-width:620px;margin-top:12px}
+.grid{display:grid;gap:22px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;backdrop-filter:blur(6px);transition:border-color .3s,transform .3s}
+.card:hover{border-color:rgba(61,255,176,.45);transform:translateY(-4px)}
+.ico{font-family:var(--mono);font-size:1.4rem;color:var(--acc);width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:rgba(61,255,176,.08);margin-bottom:18px}
+.card h3{font-size:1.2rem;margin-bottom:8px}
+.card p{color:var(--mute);font-size:.97rem}
+
+/* Portfolio */
+.proj{padding:0;overflow:hidden;display:flex;flex-direction:column}
+.shot{position:relative;aspect-ratio:16/10;background:linear-gradient(135deg,#0d2a22,#0b1a2e);overflow:hidden;border-bottom:1px solid var(--line)}
+.shot img,.shot video{width:100%;height:100%;object-fit:cover;object-position:top;display:block;transition:transform .6s}
+.proj:hover .shot img{transform:scale(1.04)}
+.shot .fallback{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:1.6rem;color:var(--acc);opacity:.7}
+.badge{position:absolute;top:14px;left:14px;font-family:var(--mono);font-size:.75rem;padding:5px 10px;border-radius:999px;background:rgba(5,8,13,.8);border:1px solid var(--line)}
+.badge.live{color:var(--acc)} .badge.soon{color:#ffd166}
+.proj .body{padding:24px 26px 26px;display:flex;flex-direction:column;gap:10px;flex:1}
+.cat{font-family:var(--mono);font-size:.8rem;color:var(--acc2)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.chips span{font-size:.78rem;color:var(--mute);border:1px solid var(--line);padding:3px 10px;border-radius:999px}
+.proj .visit{margin-top:auto;padding-top:12px;font-weight:600;color:var(--acc)}
+.proj .visit:hover{text-decoration:underline}
+
+/* Process */
+.steps{counter-reset:s}
+.step{position:relative;padding-left:70px}
+.step::before{counter-increment:s;content:"0" counter(s);position:absolute;left:24px;top:28px;font-family:var(--mono);font-size:1.5rem;color:var(--acc)}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:22px;margin-top:56px}
+.stat{text-align:center;padding:24px;border:1px dashed var(--line);border-radius:14px}
+.stat b{display:block;font-family:var(--mono);font-size:2.2rem;color:var(--acc)}
+.stat span{color:var(--mute);font-size:.9rem}
+
+/* Contact */
+.contact{text-align:center;background:linear-gradient(135deg,rgba(61,255,176,.1),rgba(76,201,255,.08));border:1px solid var(--line);border-radius:24px;padding:64px 28px}
+.contact p{color:var(--mute);max-width:560px;margin:14px auto 30px}
+.phone{font-family:var(--mono);font-size:1.4rem;margin-bottom:28px;color:var(--txt)}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--mute);font-size:.9rem;text-align:center}
+footer code{font-family:var(--mono);color:var(--acc)}
+
+.wa-float{position:fixed;right:20px;bottom:20px;z-index:10;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.4);transition:transform .2s}
+.wa-float:hover{transform:scale(1.08)}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
+.reveal.on{opacity:1;transform:none}
+
+@media (max-width:760px){
+  .links{display:none}
+  section{padding:70px 0}
+  .step{padding-left:28px}
+  .step::before{position:static;display:block;margin-bottom:8px}
+}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}*{transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="matrix" aria-hidden="true"></canvas>
+<div class="veil"></div>
+
+<header>
+  <div class="wrap"><nav>
+    <a href="#" class="logo">&lt;jordy<span>.adopo</span>/&gt;</a>
+    <div class="links">
+      <a href="#services">Services</a><a href="#portfolio">Portfolio</a><a href="#methode">Méthode</a><a href="#contact">Contact</a>
+    </div>
+    <a class="btn sm" href="https://wa.me/2250709951092?text=Bonjour%20Jordy%2C%20je%20souhaite%20un%20site%20internet." target="_blank" rel="noopener">WhatsApp</a>
+  </nav></div>
+</header>
+
+<main>
+  <section class="hero"><div class="wrap">
+    <p class="tag">Développeur web · Abidjan, Côte d'Ivoire</p>
+    <h1>Votre activité mérite un site qui <em>travaille pour vous</em>.</h1>
+    <p class="lead">Je suis <strong>Jordy Adopo</strong>. Je conçois des sites internet sur mesure, rapides, élégants et visibles sur Google, pour les entreprises, les artisans, les écoles et les créateurs. Je suis disponible pour votre prochain projet.</p>
+    <div class="cta">
+      <a class="btn" href="https://wa.me/2250709951092?text=Bonjour%20Jordy%2C%20je%20souhaite%20un%20site%20internet." target="_blank" rel="noopener">Démarrer mon projet →</a>
+      <a class="btn ghost" href="#portfolio">Voir mes réalisations</a>
+    </div>
+    <p class="formula">f(<b>idée</b>) = ∫ design · code · SEO dt → <b>clients</b> <span class="caret"></span></p>
+  </div></section>
+
+  <section id="services"><div class="wrap">
+    <div class="head reveal"><p class="tag">services</p><h2>Ce que je fais pour vous</h2>
+      <p>Du site vitrine à la plateforme d'apprentissage, chaque projet est pensé pour vos clients et vos objectifs.</p></div>
+    <div class="grid g3">
+      <div class="card reveal"><div class="ico">{ }</div><h3>Site vitrine</h3><p>Présentez votre entreprise, vos services et vos contacts avec un site professionnel qui inspire confiance.</p></div>
+      <div class="card reveal"><div class="ico">∑</div><h3>Devis & commandes en ligne</h3><p>Formulaires de devis, prise de commande, bouton WhatsApp : vos visiteurs deviennent des clients.</p></div>
+      <div class="card reveal"><div class="ico">λ</div><h3>Applications web</h3><p>Plateformes de formation, jeux, espaces interactifs : des outils sur mesure, même sur mobile.</p></div>
+      <div class="card reveal"><div class="ico">√</div><h3>Référencement Google</h3><p>Structure, vitesse et contenus optimisés pour être trouvé quand vos clients vous cherchent.</p></div>
+      <div class="card reveal"><div class="ico">π</div><h3>Design mobile d'abord</h3><p>La majorité de vos visiteurs arrivent sur téléphone. Votre site y est parfait.</p></div>
+      <div class="card reveal"><div class="ico">∞</div><h3>Hébergement & suivi</h3><p>Nom de domaine, mise en ligne, mises à jour : je vous accompagne après le lancement.</p></div>
+    </div>
+  </div></section>
+
+  <section id="portfolio"><div class="wrap">
+    <div class="head reveal"><p class="tag">portfolio</p><h2>Des sites qui tournent déjà</h2>
+      <p>Quelques projets que j'ai conçus et développés, de A à Z.</p></div>
+    <div class="grid g2">
+
+      <article class="card proj reveal">
+        <div class="shot"><div class="fallback">❄ Le Glaceur</div>
+          <img loading="lazy" alt="Aperçu du site Le Glaceur" src="https://s0.wp.com/mshots/v1/https%3A%2F%2Fwww.leglaceur.ci?w=1000&h=625" onerror="this.remove()">
+          <span class="badge live">● en ligne</span></div>
+        <div class="body">
+          <p class="cat">Entreprise · Abidjan</p><h3>Le Glaceur</h3>
+          <p>Site de vente de glace alimentaire : glaçons, glace pilée, carboglace et barres de glace, avec devis gratuit en ligne et livraison 24h/24.</p>
+          <div class="chips"><span>Site vitrine</span><span>Devis en ligne</span><span>SEO local</span></div>
+          <a class="visit" href="https://www.leglaceur.ci" target="_blank" rel="noopener">Visiter leglaceur.ci ↗</a>
+        </div>
+      </article>
+
+      <article class="card proj reveal">
+        <div class="shot"><div class="fallback">▦ AMD Design</div>
+          <img loading="lazy" alt="Aperçu du site AMD Design" src="https://s0.wp.com/mshots/v1/https%3A%2F%2Fjordyadopo-boop.github.io%2Famddesign-archi3d%2F?w=1000&h=625" onerror="this.remove()">
+          <span class="badge soon">● bientôt en ligne</span></div>
+        <div class="body">
+          <p class="cat">Architecture · Côte d'Ivoire</p><h3>AMD Design</h3>
+          <p>Cabinet d'architecture : étude architecturale, suivi de chantier, urbanisme, permis de construire et rendus 3D. De l'idée à la réalité.</p>
+          <div class="chips"><span>Vitrine premium</span><span>Galerie 3D</span><span>Mobile</span></div>
+          <a class="visit" href="https://jordyadopo-boop.github.io/amddesign-archi3d/" target="_blank" rel="noopener">Voir l'aperçu ↗</a>
+        </div>
+      </article>
+
+      <article class="card proj reveal">
+        <div class="shot"><div class="fallback">◈ Odyssée Games</div>
+          <img loading="lazy" alt="Aperçu du site Odyssée Games" src="https://s0.wp.com/mshots/v1/https%3A%2F%2Fwww.odysseegames.com?w=1000&h=625" onerror="this.remove()">
+          <span class="badge live">● en ligne</span></div>
+        <div class="body">
+          <p class="cat">Jeux · Divertissement</p><h3>Odyssée Games</h3>
+          <p>Une plateforme de jeux en ligne, interactive et animée, pensée pour jouer directement dans le navigateur.</p>
+          <div class="chips"><span>Application web</span><span>Jeux</span><span>Interactif</span></div>
+          <a class="visit" href="https://www.odysseegames.com" target="_blank" rel="noopener">Visiter odysseegames.com ↗</a>
+        </div>
+      </article>
+
+      <article class="card proj reveal">
+        <div class="shot"><div class="fallback">∑ LIY10.LEARNING</div>
+          <img loading="lazy" alt="Aperçu du site LIY10 Learning" src="https://s0.wp.com/mshots/v1/https%3A%2F%2Fwww.liy10learning.com?w=1000&h=625" onerror="this.remove()">
+          <span class="badge live">● en ligne</span></div>
+        <div class="body">
+          <p class="cat">Éducation · E-learning</p><h3>LIY10.LEARNING</h3>
+          <p>Apprendre Excel, Word, PowerPoint, Power BI, SQL Server et plus, cinq minutes par jour sur son téléphone, avec des exercices sur des cas réels.</p>
+          <div class="chips"><span>Plateforme e-learning</span><span>Exercices</span><span>Mobile</span></div>
+          <a class="visit" href="https://www.liy10learning.com" target="_blank" rel="noopener">Visiter liy10learning.com ↗</a>
+        </div>
+      </article>
+
+    </div>
+    <div class="stats reveal">
+      <div class="stat"><b>4+</b><span>sites livrés</span></div>
+      <div class="stat"><b>100%</b><span>adaptés au mobile</span></div>
+      <div class="stat"><b>24/7</b><span>votre vitrine ouverte</span></div>
+      <div class="stat"><b>1</b><span>interlocuteur direct</span></div>
+    </div>
+  </div></section>
+
+  <section id="methode"><div class="wrap">
+    <div class="head reveal"><p class="tag">méthode</p><h2>Simple, du premier message au lancement</h2></div>
+    <div class="grid g3 steps">
+      <div class="card step reveal"><h3>On échange</h3><p>Un message WhatsApp suffit. Vous me parlez de votre activité, je vous propose une solution et un devis clair.</p></div>
+      <div class="card step reveal"><h3>Je conçois</h3><p>Maquette, textes, design : vous voyez votre site prendre forme et vous validez chaque étape.</p></div>
+      <div class="card step reveal"><h3>On lance</h3><p>Mise en ligne sur votre nom de domaine, référencement Google, et je reste disponible pour la suite.</p></div>
+    </div>
+  </div></section>
+
+  <section id="contact"><div class="wrap">
+    <div class="contact reveal">
+      <p class="tag">contact</p>
+      <h2>Prêt à mettre votre activité en ligne ?</h2>
+      <p>Entreprise, commerce, école, association ou projet personnel : écrivez-moi, je réponds rapidement.</p>
+      <p class="phone">+225 07 09 95 10 92</p>
+      <div class="cta" style="justify-content:center">
+        <a class="btn" href="https://wa.me/2250709951092?text=Bonjour%20Jordy%2C%20je%20souhaite%20un%20site%20internet." target="_blank" rel="noopener">Écrire sur WhatsApp</a>
+        <a class="btn ghost" href="tel:+2250709951092">Appeler</a>
+      </div>
+    </div>
+  </div></section>
+</main>
+
+<footer><div class="wrap">© <span id="y"></span> Jordy Adopo · Développeur web · <code>while(true) build();</code></div></footer>
+
+<a class="wa-float" href="https://wa.me/2250709951092" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.1.1.6-.1 1.1z"/></svg>
+</a>
+
+<script>
+document.getElementById('y').textContent = new Date().getFullYear();
+
+// Fond : pluie "matrice" de symboles mathématiques + réseau de points réactif à la souris
+(() => {
+  const c = document.getElementById('matrix'), x = c.getContext('2d');
+  const glyphs = '01∑∫∂πλ√∞≈≠∇θφΩμσ×÷±<>{}[]=+01'.split('');
+  const fs = 16; let w, h, cols, drops, nodes;
+  const mouse = {x: -999, y: -999};
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function size() {
+    w = c.width = innerWidth; h = c.height = innerHeight;
+    cols = Math.ceil(w / fs);
+    drops = Array.from({length: cols}, () => Math.random() * -h / fs);
+    const n = Math.min(70, Math.floor(w * h / 22000));
+    nodes = Array.from({length: n}, () => ({x: Math.random()*w, y: Math.random()*h, vx: (Math.random()-.5)*.4, vy: (Math.random()-.5)*.4}));
+    x.fillStyle = '#05080d'; x.fillRect(0, 0, w, h);
+  }
+  addEventListener('resize', size);
+  addEventListener('pointermove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  size();
+
+  function frame() {
+    x.fillStyle = 'rgba(5,8,13,.09)'; x.fillRect(0, 0, w, h);
+    x.font = fs + 'px JetBrains Mono, monospace';
+    for (let i = 0; i < cols; i++) {
+      const px = i * fs, py = drops[i] * fs;
+      const near = Math.hypot(px - mouse.x, py - mouse.y) < 140;
+      x.fillStyle = near ? '#c8fff0' : (Math.random() > .97 ? '#4cc9ff' : 'rgba(61,255,176,.55)');
+      x.fillText(glyphs[Math.random() * glyphs.length | 0], px, py);
+      if (py > h && Math.random() > .975) drops[i] = 0;
+      drops[i] += near ? .25 : .5;
+    }
+    // réseau : graphe de points reliés (géométrie)
+    for (const p of nodes) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+    }
+    for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
+      const a = nodes[i], b = nodes[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (d < 130) { x.strokeStyle = `rgba(76,201,255,${(1 - d/130) * .25})`; x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(b.x, b.y); x.stroke(); }
+    }
+    if (!still) requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// Apparition au défilement
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } }), {threshold: .12});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
