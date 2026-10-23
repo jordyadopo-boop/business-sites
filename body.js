@@ -197,6 +197,7 @@ addEventListener('resize', () => {
 const ease = t => { t = Math.min(1, Math.max(0, (t - .25) / .5)); return t * t * (3 - 2 * t); };
 const ids = Object.keys(STYLE).filter(k => k !== 'skin'), tmp = new THREE.Vector3();
 let last = -1, lastFire = 0;
+const mobile = matchMedia('(max-width:760px)');  // sur mobile, l'étiquette flottante est masquée : le bandeau donne aussi le rôle
 
 renderer.setAnimationLoop(now => {
   if (ready) {
@@ -238,7 +239,7 @@ renderer.setAnimationLoop(now => {
     parts.skin.material.uniforms.uScan.value = scanRange[1] - ((now / 4000) % 1.2) * (scanRange[1] - scanRange[0]);
 
     // étiquette : flèche vers l'organe + nom
-    if (k !== last) { last = k; lStep.textContent = 'ÉTAPE ' + String(k).padStart(2, '0'); lName.textContent = st.name; lRole.textContent = '→ ' + st.role; type(st.sub); hudT.textContent = 'SCAN · ' + st.name.toUpperCase(); }
+    if (k !== last) { last = k; lStep.textContent = 'ÉTAPE ' + String(k).padStart(2, '0'); lName.textContent = st.name; lRole.textContent = '→ ' + st.role; type(st.sub); hudT.textContent = (mobile.matches ? st.name.toUpperCase() + ' → ' + st.role : 'SCAN · ' + st.name.toUpperCase()); }
     tmp.copy(st.anchor).project(camera);
     const x = (tmp.x * .5 + .5) * innerWidth, y = (-tmp.y * .5 + .5) * innerHeight, show = Math.abs(f - k) < .3;
     const right = x < innerWidth * .55 || x - 90 - lbl.offsetWidth < 8, lx = right ? Math.min(x + 90, innerWidth - lbl.offsetWidth - 8) : x - 90, ly = Math.max(90, y - 70);
