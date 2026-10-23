@@ -2,7 +2,7 @@
 
 Site portfolio et vente de services de création de sites internet.
 
-- Fond animé : pluie « matrice » de symboles mathématiques + réseau de points réactif à la souris
+- Fond animé : corps humain transparent parcouru au défilement (cerveau aux neurones actifs, organes qui s'illuminent avec flèches et noms, squelette, muscles, influx nerveux)
 - Portfolio : Le Glaceur, AMD Design, Odyssée Games, LIY10.LEARNING
 - Contact WhatsApp : +225 07 09 95 10 92
 
