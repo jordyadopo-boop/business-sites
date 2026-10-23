@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aperçu corps 3D</title>
+<style>
+html,body{margin:0;background:#05080d;color:#fff;font:14px system-ui,sans-serif}
+#stage{position:fixed;inset:0}
+#stage canvas{display:block}
+/* éléments requis par body.js, masqués : seul le corps est affiché */
+#lbl,#arrow,.hud{display:none}
+#scroll{height:1400vh}
+nav{position:fixed;left:12px;top:12px;z-index:2;display:flex;flex-wrap:wrap;gap:6px;max-width:calc(100vw - 24px)}
+nav button{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:4px 8px;cursor:pointer;font:inherit}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<div id="lbl"><small></small><b></b><em></em><span></span></div>
+<svg id="arrow"><path id="lblLine"/><circle r="3"/></svg>
+<div class="hud"><span id="hudT"></span><i id="hudB"></i></div>
+<nav id="nav"></nav>
+<div id="scroll"></div>
+<script>
+// Boutons : aller directement à une étape (0 = vue d'ensemble)
+['Corps','Cerveau','Nerfs','Yeux','Squelette','Cœur','Sang','Poumons','Muscles','Estomac','Intestins','Foie','Reins','Final'].forEach((n, i, a) => {
+  const b = document.createElement('button'); b.textContent = n;
+  b.onclick = () => scrollTo(0, i / (a.length - 1) * (document.documentElement.scrollHeight - innerHeight));
+  nav.appendChild(b);
+});
+</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module" src="body.js"></script>
+</body>
+</html>
