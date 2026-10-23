@@ -8,7 +8,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 
 const stage = document.getElementById('stage');
 const hudT = document.getElementById('hudT'), hudB = document.getElementById('hudB');
-const lbl = document.getElementById('lbl'), lName = lbl.querySelector('b'), lSub = lbl.querySelector('span'), lLine = document.getElementById('lblLine');
+const lbl = document.getElementById('lbl'), lStep = lbl.querySelector('small'), lName = lbl.querySelector('b'), lRole = lbl.querySelector('em'), lSub = lbl.querySelector('span'), lLine = document.getElementById('lblLine');
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
@@ -54,21 +54,22 @@ const STYLE = {
   veins: ['#3d7bff', { base: .1, power: 1.6, flow: 1 }], nerves: ['#f5ff6b', { base: .15, power: 1.4, flow: 1 }]
 };
 
+// Chaque organe = une étape de la conception d'un site
 const S = [
-  { name: 'Corps humain', sub: 'Tout le corps travaille pour vous', fit: 1 },
-  { id: 'brain', name: 'Cerveau', sub: 'Stratégie, logique et idées', d: .55, a: .5 },
-  { id: 'eyes', name: 'Yeux', sub: 'Un design qui capte le regard', d: .4, a: 0 },
-  { id: 'nerves', name: 'Système nerveux', sub: 'Chaque clic transmis instantanément', d: 1.5, a: -.4 },
-  { id: 'heart', name: 'Cœur', sub: 'La passion du travail bien fait', d: .45, a: .35 },
-  { id: 'lungs', name: 'Poumons', sub: 'Des sites légers qui respirent', d: .75, a: -.3 },
-  { id: 'liver', name: 'Foie', sub: 'Sécurité : je filtre le nuisible', d: .55, a: -.6 },
-  { id: 'stomach', name: 'Estomac', sub: 'Je digère vos idées', d: .5, a: .6 },
-  { id: 'kidneys', name: 'Reins', sub: 'Optimisation et SEO', d: .55, a: 2.8 },
-  { id: 'intestines', name: 'Intestins', sub: 'Vos données traitées en profondeur', d: .6, a: .2 },
-  { id: 'arteries', name: 'Artères & veines', sub: 'Le flux continu de votre trafic', d: 1.9, a: .5 },
-  { id: 'skeleton', name: 'Squelette', sub: 'Un code structuré et solide', d: 1.9, a: -.7 },
-  { id: 'muscles', name: 'Muscles', sub: 'La puissance de vos ambitions', d: 1.4, a: .9, dy: -.35 },
-  { id: '*', name: 'Prêt', sub: 'Tout le corps est prêt. Et vous ?', fit: 1 }
+  { name: 'Corps humain', role: 'Un site, c\'est un corps vivant', sub: 'Chaque organe a son rôle. Descendez : je vous montre comment je construis le vôtre.', fit: 1 },
+  { id: 'brain', name: 'Cerveau', role: 'La réflexion · stratégie', sub: 'Tout commence ici : vos objectifs, vos clients, le plan du site.', d: .55, a: .5 },
+  { id: 'nerves', name: 'Nerfs & neurones', role: 'Les connexions', sub: 'Pages, liens, formulaires, WhatsApp : tout est relié et répond à la seconde.', d: 1.5, a: -.4 },
+  { id: 'eyes', name: 'Yeux', role: 'Le design', sub: 'Ce que vos visiteurs voient en premier : un site beau qui inspire confiance.', d: .4, a: 0 },
+  { id: 'skeleton', name: 'Squelette', role: 'La structure · le code', sub: 'Une architecture propre et solide qui tient sur ordinateur et mobile.', d: 1.9, a: -.7 },
+  { id: 'heart', name: 'Cœur', role: 'Le moteur · serveur', sub: 'Il fait battre le site 24h/24 : hébergement, back-end, mises en ligne.', d: .45, a: .35 },
+  { id: 'arteries', name: 'Artères & veines', role: 'Le flux de données', sub: 'Les informations circulent sans interruption entre vos visiteurs et vous.', d: 1.9, a: .5 },
+  { id: 'lungs', name: 'Poumons', role: 'La performance', sub: 'Un site léger qui respire : il s\'ouvre en un instant, même en 3G.', d: .75, a: -.3 },
+  { id: 'muscles', name: 'Muscles', role: 'Les fonctionnalités', sub: 'Devis, commandes, animations, espace client : le site agit pour vous.', d: 1.4, a: .9, dy: -.35 },
+  { id: 'stomach', name: 'Estomac', role: 'Le contenu', sub: 'Je digère vos textes, photos et idées pour en faire un message clair.', d: .5, a: .6 },
+  { id: 'intestines', name: 'Intestins', role: 'La base de données', sub: 'Commandes, contacts, élèves : vos données rangées et traitées en profondeur.', d: .6, a: .2 },
+  { id: 'liver', name: 'Foie', role: 'La sécurité', sub: 'Il filtre le nuisible : HTTPS, protection des formulaires, sauvegardes.', d: .55, a: -.6 },
+  { id: 'kidneys', name: 'Reins', role: 'Le référencement · SEO', sub: 'Ils purifient et optimisent pour que Google vous trouve.', d: .55, a: 2.8 },
+  { id: '*', name: 'Site vivant', role: 'Tout le corps travaille', sub: 'Chaque organe est prêt. Le vôtre est le prochain ?', fit: 1 }
 ];
 
 const parts = {}, body = new THREE.Group();
@@ -97,6 +98,10 @@ new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load('body.glb', gltf => {
   ready = true;
   hudT.textContent = 'SCAN · ' + S[0].name.toUpperCase();
 }, e => { if (e.total) hudT.textContent = 'CHARGEMENT ' + Math.round(e.loaded / e.total * 100) + '%'; });
+
+// Texte qui s'écrit lettre par lettre
+let typing;
+function type(t) { clearInterval(typing); let n = 0; lSub.textContent = ''; typing = setInterval(() => { lSub.textContent = t.slice(0, ++n); if (n >= t.length) clearInterval(typing); }, 18); }
 
 // Neurones : points sur le cortex reliés entre eux, qui s'allument en chaîne
 function makeNeurons(brain) {
@@ -142,22 +147,25 @@ renderer.setAnimationLoop(now => {
     const k = Math.round(f), st = S[k];
     const lit = st.id === '*' ? null : st.id || ids[Math.floor(now / 1000) % ids.length];
     for (const [name, m] of Object.entries(parts)) {
-      const u = m.material.uniforms, on = name === 'skin' ? 1 : (!lit ? .45 : name === lit ? 1.5 : .12);
+      const u = m.material.uniforms, on = name === 'skin' ? 1 : (!lit ? .45 : name === lit ? (/brain|intestines|lungs/.test(name) ? .8 : 1.15) : .1);
       u.uOn.value += (on - u.uOn.value) * .08; u.uTime.value = now / 1000;
+      const pop = name === st.id && !/skin|skeleton|muscles|arteries|nerves/.test(name) ? 1.15 : 1;
+      m.userData.p = (m.userData.p || 1) + (pop - (m.userData.p || 1)) * .06;
+      const beat = name === 'heart' ? 1 + Math.max(0, Math.sin(now / 1000 * 7.5)) ** 8 * .06 : 1;
+      m.scale.copy(m.userData.s).multiplyScalar(m.userData.p * beat);
     }
-    if (parts.heart) { const s = 1 + Math.max(0, Math.sin(now / 1000 * 7.5)) ** 8 * .06; parts.heart.scale.copy(parts.heart.userData.s).multiplyScalar(s); }
 
     // neurones
-    if (now - lastFire > 140) { lastFire = now; fire(Math.random() * neurons.N | 0, now, 4); }
+    if (now - lastFire > (st.id === 'brain' || st.id === 'nerves' ? 45 : 140)) { lastFire = now; fire(Math.random() * neurons.N | 0, now, 4); }
     for (let n = 0; n < neurons.N; n++) { const g = Math.max(0, 1 - (now - neurons.t[n]) / 600); neurons.pc.set([1 * g + .25, .5 * g + .1, .9 * g + .25], n * 3); }
     neurons.links.forEach((n, j) => { const g = Math.max(0, 1 - (now - neurons.t[n]) / 600) * .9 + .06; neurons.lc.set([g, g * .45, g * .85], j * 3); });
     neurons.pg.attributes.color.needsUpdate = neurons.lg.attributes.color.needsUpdate = true;
 
     // étiquette : flèche vers l'organe + nom
-    if (k !== last) { last = k; lName.textContent = st.name; lSub.textContent = st.sub; hudT.textContent = 'SCAN · ' + st.name.toUpperCase(); }
+    if (k !== last) { last = k; lStep.textContent = 'ÉTAPE ' + String(k).padStart(2, '0'); lName.textContent = st.name; lRole.textContent = '→ ' + st.role; type(st.sub); hudT.textContent = 'SCAN · ' + st.name.toUpperCase(); }
     tmp.copy(st.anchor).project(camera);
-    const x = (tmp.x * .5 + .5) * innerWidth, y = (-tmp.y * .5 + .5) * innerHeight, show = st.id && st.id !== '*' && Math.abs(f - k) < .3;
-    const right = x < innerWidth * .6, lx = right ? x + 90 : x - 90, ly = y - 70;
+    const x = (tmp.x * .5 + .5) * innerWidth, y = (-tmp.y * .5 + .5) * innerHeight, show = Math.abs(f - k) < .3;
+    const right = x < innerWidth * .55 || x - 90 - lbl.offsetWidth < 8, lx = right ? Math.min(x + 90, innerWidth - lbl.offsetWidth - 8) : x - 90, ly = Math.max(90, y - 70);
     lbl.style.opacity = show ? 1 : 0; lLine.style.opacity = show ? 1 : 0;
     lbl.style.transform = `translate(${right ? lx : lx - lbl.offsetWidth}px, ${ly - 22}px)`;
     lLine.setAttribute('d', `M${x},${y} L${right ? x + 60 : x - 60},${ly} L${lx},${ly}`);
