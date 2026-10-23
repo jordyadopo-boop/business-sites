@@ -193,7 +193,7 @@ html{touch-action:pan-y}  /* glisser horizontalement = pivoter le corps, pincer 
   <section id="portfolio"><div class="wrap">
     <div class="head reveal"><p class="tag">portfolio</p><h2>Des sites qui tournent déjà</h2>
       <p>Quelques projets que j'ai conçus et développés, de A à Z.</p></div>
-    <div class="grid g2">
+    <div class="grid g2" id="projets">
 
       <article class="card proj reveal">
         <div class="shot"><div class="fallback">❄ Le Glaceur</div>
@@ -245,7 +245,7 @@ html{touch-action:pan-y}  /* glisser horizontalement = pivoter le corps, pincer 
 
     </div>
     <div class="stats reveal">
-      <div class="stat"><b>4+</b><span>sites livrés</span></div>
+      <div class="stat"><b id="nbSites">4+</b><span>sites livrés</span></div>
       <div class="stat"><b>100%</b><span>adaptés au mobile</span></div>
       <div class="stat"><b>24/7</b><span>votre vitrine ouverte</span></div>
       <div class="stat"><b>1</b><span>interlocuteur direct</span></div>
@@ -287,6 +287,25 @@ document.getElementById('y').textContent = new Date().getFullYear();
 // Apparition au défilement
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } }), {threshold: .12});
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// Portfolio : chargé depuis projects.json (rempli depuis admin.html) ; le HTML ci-dessus reste en secours
+const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+fetch('projects.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : Promise.reject()).then(list => {
+  if (!Array.isArray(list) || !list.length) return;
+  document.getElementById('projets').innerHTML = list.map(p => `
+      <article class="card proj reveal on">
+        <div class="shot"><div class="fallback">${esc(p.icon)} ${esc(p.name)}</div>
+          ${p.image ? `<img loading="lazy" alt="Aperçu du site ${esc(p.name)}" src="${esc(p.image)}" onerror="this.remove()">` : ''}
+          <span class="badge ${p.status === 'soon' ? 'soon' : 'live'}">● ${p.status === 'soon' ? 'bientôt en ligne' : 'en ligne'}</span></div>
+        <div class="body">
+          <p class="cat">${esc(p.cat)}</p><h3>${esc(p.name)}</h3>
+          <p>${esc(p.desc)}</p>
+          <div class="chips">${(p.tags || []).map(t => `<span>${esc(t)}</span>`).join('')}</div>
+          ${p.url ? `<a class="visit" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.link || 'Visiter le site')} ↗</a>` : ''}
+        </div>
+      </article>`).join('');
+  document.getElementById('nbSites').textContent = list.length + '+';
+}).catch(() => {});
 </script>
 </body>
 </html>

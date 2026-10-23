@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Le Glaceur",
+    "icon": "❄",
+    "cat": "Entreprise · Abidjan",
+    "desc": "Site de vente de glace alimentaire : glaçons, glace pilée, carboglace et barres de glace, avec devis gratuit en ligne et livraison 24h/24.",
+    "tags": [
+      "Site vitrine",
+      "Devis en ligne",
+      "SEO local"
+    ],
+    "url": "https://www.leglaceur.ci",
+    "link": "Visiter leglaceur.ci",
+    "status": "live",
+    "image": "img/leglaceur.jpg"
+  },
+  {
+    "name": "AMD Design",
+    "icon": "▦",
+    "cat": "Architecture · Côte d'Ivoire",
+    "desc": "Cabinet d'architecture : étude architecturale, suivi de chantier, urbanisme, permis de construire et rendus 3D. De l'idée à la réalité.",
+    "tags": [
+      "Vitrine premium",
+      "Galerie 3D",
+      "Mobile"
+    ],
+    "url": "https://jordyadopo-boop.github.io/amddesign-archi3d/",
+    "link": "Voir l'aperçu",
+    "status": "soon",
+    "image": "img/amddesign.jpg"
+  },
+  {
+    "name": "Odyssée Games",
+    "icon": "◈",
+    "cat": "Jeux · Divertissement",
+    "desc": "Une plateforme de jeux en ligne, interactive et animée, pensée pour jouer directement dans le navigateur.",
+    "tags": [
+      "Application web",
+      "Jeux",
+      "Interactif"
+    ],
+    "url": "https://www.odysseegames.com",
+    "link": "Visiter odysseegames.com",
+    "status": "live",
+    "image": "img/odysseegames.jpg"
+  },
+  {
+    "name": "LIY10.LEARNING",
+    "icon": "∑",
+    "cat": "Éducation · E-learning",
+    "desc": "Apprendre Excel, Word, PowerPoint, Power BI, SQL Server et plus, cinq minutes par jour sur son téléphone, avec des exercices sur des cas réels.",
+    "tags": [
+      "Plateforme e-learning",
+      "Exercices",
+      "Mobile"
+    ],
+    "url": "https://www.liy10learning.com",
+    "link": "Visiter liy10learning.com",
+    "status": "live",
+    "image": "img/liy10learning.jpg"
+  }
+]

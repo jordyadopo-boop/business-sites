@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Admin · Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050505;--card:#111;--line:rgba(255,80,90,.2);--txt:#f2f2f2;--mute:#9a9a9a;--acc:#ff3b4e;--ok:#3ddc84;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.5 'Space Grotesk',system-ui,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:24px 16px 80px}
+h1{font-size:1.5rem;margin:0 0 4px} h2{font-size:1.1rem;margin:0 0 12px}
+.mute{color:var(--mute);font-size:.9rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:18px}
+label{display:block;font-size:.85rem;color:var(--mute);margin:12px 0 4px}
+input,textarea,select{width:100%;background:#000;color:var(--txt);border:1px solid #333;border-radius:8px;padding:10px;font:inherit}
+textarea{min-height:90px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--acc)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+button{font:inherit;font-weight:600;border-radius:8px;padding:10px 16px;cursor:pointer;border:1px solid var(--acc);background:var(--acc);color:#1a0004}
+button.ghost{background:transparent;color:var(--txt);border-color:#444}
+button.small{padding:5px 10px;font-size:.85rem}
+.bar{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;align-items:center}
+.item{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #222}
+.item:first-child{border-top:0}
+.item img{width:72px;height:46px;object-fit:cover;object-position:top;border-radius:6px;background:#222;flex:none}
+.item .t{flex:1;min-width:0}
+.item .t b{display:block} .item .t span{color:var(--mute);font-size:.82rem}
+.soon{color:#ffd166} .live{color:var(--acc)}
+#msg{font-family:var(--mono);font-size:.85rem;min-height:1.4em;margin-top:12px}
+#msg.err{color:var(--acc)} #msg.ok{color:var(--ok)}
+.hidden{display:none}
+a{color:var(--acc)}
+@media (max-width:600px){.row{grid-template-columns:1fr}.item{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Admin · Mes réalisations</h1>
+  <p class="mute">Ajoutez, modifiez ou retirez les sites affichés dans le portfolio, puis cliquez sur « Publier ».</p>
+
+  <!-- 1. Code d'accès -->
+  <div class="card" id="gate">
+    <h2>Code d'accès</h2>
+    <input id="code" type="password" inputmode="numeric" autocomplete="off" placeholder="Code">
+    <div class="bar"><button id="enter">Entrer</button><span id="gateMsg" class="mute"></span></div>
+  </div>
+
+  <div id="app" class="hidden">
+    <!-- 2. Clé GitHub (une seule fois par appareil) -->
+    <div class="card" id="tokenCard">
+      <h2>Clé de publication GitHub</h2>
+      <p class="mute">À faire une seule fois sur cet appareil. Créez une clé sur <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Fine-grained token</a> :
+        accès au seul dépôt <b>business-sites</b>, permission <b>Contents : Read and write</b>. Collez-la ici, elle reste enregistrée dans ce navigateur uniquement.</p>
+      <input id="token" type="password" autocomplete="off" placeholder="github_pat_…">
+      <div class="bar"><button id="saveToken" class="ghost">Enregistrer la clé</button><button id="forget" class="ghost small">Oublier la clé</button></div>
+    </div>
+
+    <!-- 3. Liste -->
+    <div class="card">
+      <h2>Sites du portfolio</h2>
+      <div id="list"></div>
+      <div class="bar"><button id="add" class="ghost">+ Ajouter un site</button><button id="publish">Publier sur le site</button></div>
+      <div id="msg"></div>
+    </div>
+
+    <!-- 4. Formulaire -->
+    <div class="card hidden" id="form">
+      <h2 id="formTitle">Nouveau site</h2>
+      <div class="row">
+        <div><label>Nom du site *</label><input id="f_name" placeholder="Le Glaceur"></div>
+        <div><label>Catégorie</label><input id="f_cat" placeholder="Entreprise · Abidjan"></div>
+      </div>
+      <label>Description</label><textarea id="f_desc" placeholder="Ce que fait le site, pour qui…"></textarea>
+      <div class="row">
+        <div><label>Adresse du site</label><input id="f_url" type="url" placeholder="https://…"></div>
+        <div><label>Texte du lien</label><input id="f_link" placeholder="Visiter leglaceur.ci"></div>
+      </div>
+      <div class="row">
+        <div><label>Mots-clés (séparés par des virgules)</label><input id="f_tags" placeholder="Site vitrine, Devis en ligne, SEO local"></div>
+        <div><label>État</label><select id="f_status"><option value="live">● En ligne</option><option value="soon">● Bientôt en ligne</option></select></div>
+      </div>
+      <div class="row">
+        <div><label>Capture d'écran (JPG ou PNG)</label><input id="f_img" type="file" accept="image/*"><div id="f_imgNow" class="mute"></div></div>
+        <div><label>Symbole (si pas de capture)</label><input id="f_icon" maxlength="3" placeholder="❄"></div>
+      </div>
+      <div class="bar"><button id="save">Valider</button><button id="cancel" class="ghost">Annuler</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const REPO = 'jordyadopo-boop/business-sites', BRANCH = 'main', API = `https://api.github.com/repos/${REPO}/contents/`;
+// Empreinte SHA-256 du code : le code n'apparaît pas en clair. La vraie protection est la clé GitHub, sans laquelle rien ne peut être publié.
+const CODE = 'b296a83c9245f82e12120ce11643011079609a9ecf54885bc0481031b9c3e078';
+const $ = id => document.getElementById(id);
+const store = { get: k => { try { return localStorage.getItem(k) } catch { return null } }, set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v) } catch {} } };
+const say = (t, cls = '') => { $('msg').textContent = t; $('msg').className = cls; };
+const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+let list = [], editing = -1, pending = {};  // pending : images à envoyer { chemin: base64 }
+
+// --- code d'accès
+const sha = async t => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)))].map(b => b.toString(16).padStart(2, '0')).join('');
+async function enter() {
+  if (await sha($('code').value.trim()) !== CODE) { $('gateMsg').textContent = 'Code incorrect.'; return; }
+  try { sessionStorage.setItem('admin', '1') } catch {}
+  $('gate').classList.add('hidden'); $('app').classList.remove('hidden'); load();
+}
+$('enter').onclick = enter; $('code').onkeydown = e => e.key === 'Enter' && enter();
+try { if (sessionStorage.getItem('admin')) { $('gate').classList.add('hidden'); $('app').classList.remove('hidden'); } } catch {}
+
+// --- clé GitHub
+const token = () => store.get('gh_token');
+function showToken() { $('token').value = ''; $('token').placeholder = token() ? 'Clé enregistrée ✓' : 'github_pat_…'; }
+$('saveToken').onclick = () => { const v = $('token').value.trim(); if (v) { store.set('gh_token', v); showToken(); say('Clé enregistrée.', 'ok'); load(); } };
+$('forget').onclick = () => { store.set('gh_token', null); showToken(); say('Clé oubliée sur cet appareil.'); };
+
+// --- GitHub
+const gh = (path, opt = {}) => fetch(API + path + (opt.method ? '' : `?ref=${BRANCH}&t=${Date.now()}`), { ...opt, headers: { Accept: 'application/vnd.github+json', Authorization: `Bearer ${token()}`, ...(opt.headers || {}) } });
+const b64 = bytes => { let s = ''; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode(...bytes.subarray(i, i + 0x8000)); return btoa(s); };
+const unb64 = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\n/g, '')), c => c.charCodeAt(0)));
+async function shaOf(path) { const r = await gh(path); if (r.status === 404) return null; if (!r.ok) throw new Error(r.status + ' sur ' + path); return (await r.json()).sha; }
+async function put(path, content, message) {
+  const body = { message, content, branch: BRANCH }, s = await shaOf(path); if (s) body.sha = s;
+  const r = await gh(path, { method: 'PUT', body: JSON.stringify(body) });
+  if (!r.ok) throw new Error((await r.json().catch(() => ({}))).message || r.status);
+}
+
+// --- chargement : la version publiée la plus récente
+async function load() {
+  showToken();
+  try {
+    if (token()) { const r = await gh('projects.json'); if (!r.ok) throw new Error(r.status === 401 ? 'clé GitHub refusée' : 'erreur ' + r.status); list = JSON.parse(unb64((await r.json()).content)); }
+    else list = await (await fetch('projects.json', { cache: 'no-cache' })).json();
+    render(); say(token() ? '' : 'Enregistrez votre clé GitHub pour pouvoir publier.');
+  } catch (e) { say('Chargement impossible : ' + e.message, 'err'); }
+}
+
+function render() {
+  $('list').innerHTML = list.length ? list.map((p, i) => `
+    <div class="item">
+      ${p.image ? `<img src="${esc(pending[p.image] ? 'data:image/jpeg;base64,' + pending[p.image] : p.image)}" alt="">` : `<img alt="">`}
+      <div class="t"><b>${esc(p.name)}</b><span class="${p.status === 'soon' ? 'soon' : 'live'}">● ${p.status === 'soon' ? 'bientôt en ligne' : 'en ligne'}</span> <span>${esc(p.cat)}</span></div>
+      <button class="ghost small" data-a="up" data-i="${i}" ${i ? '' : 'disabled'}>↑</button>
+      <button class="ghost small" data-a="down" data-i="${i}" ${i < list.length - 1 ? '' : 'disabled'}>↓</button>
+      <button class="ghost small" data-a="edit" data-i="${i}">Modifier</button>
+      <button class="ghost small" data-a="del" data-i="${i}">Retirer</button>
+    </div>`).join('') : '<p class="mute">Aucun site pour le moment.</p>';
+}
+$('list').onclick = e => {
+  const b = e.target.closest('button'); if (!b) return; const i = +b.dataset.i;
+  if (b.dataset.a === 'up') [list[i - 1], list[i]] = [list[i], list[i - 1]];
+  if (b.dataset.a === 'down') [list[i + 1], list[i]] = [list[i], list[i + 1]];
+  if (b.dataset.a === 'del' && confirm(`Retirer « ${list[i].name} » du portfolio ?`)) list.splice(i, 1);
+  if (b.dataset.a === 'edit') return openForm(i);
+  render(); say('Modifications à publier.');
+};
+
+// --- formulaire
+const F = ['name', 'cat', 'desc', 'url', 'link', 'status', 'icon'];
+function openForm(i) {
+  editing = i; const p = list[i] || { status: 'live' };
+  F.forEach(k => $('f_' + k).value = p[k] || (k === 'status' ? 'live' : ''));
+  $('f_tags').value = (p.tags || []).join(', '); $('f_img').value = '';
+  $('f_imgNow').textContent = p.image ? 'Actuelle : ' + p.image : '';
+  $('formTitle').textContent = i < 0 ? 'Nouveau site' : 'Modifier « ' + p.name + ' »';
+  $('form').classList.remove('hidden'); $('form').scrollIntoView({ behavior: 'smooth' });
+}
+$('add').onclick = () => openForm(-1);
+$('cancel').onclick = () => $('form').classList.add('hidden');
+const slug = t => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'site';
+// capture réduite à 1200 px de large, en JPG, pour un site rapide
+const shrink = file => new Promise((ok, ko) => {
+  const im = new Image(); im.onerror = () => ko(new Error('image illisible'));
+  im.onload = () => { const w = Math.min(1200, im.width), c = Object.assign(document.createElement('canvas'), { width: w, height: Math.round(im.height * w / im.width) });
+    c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); URL.revokeObjectURL(im.src); ok(c.toDataURL('image/jpeg', .85).split(',')[1]); };
+  im.src = URL.createObjectURL(file);
+});
+$('save').onclick = async () => {
+  const p = {}; F.forEach(k => p[k] = $('f_' + k).value.trim());
+  if (!p.name) { alert('Le nom du site est obligatoire.'); return; }
+  if (p.url && !/^https?:\/\//.test(p.url)) p.url = 'https://' + p.url;
+  p.tags = $('f_tags').value.split(',').map(t => t.trim()).filter(Boolean);
+  p.image = (list[editing] || {}).image || '';
+  const file = $('f_img').files[0];
+  if (file) { try { p.image = `img/${slug(p.name)}.jpg`; pending[p.image] = await shrink(file); } catch (e) { alert(e.message); return; } }
+  if (editing < 0) list.push(p); else list[editing] = p;
+  $('form').classList.add('hidden'); render(); say('Modifications à publier.');
+};
+
+// --- publication : images puis liste, envoyées sur GitHub ; le site se met à jour en 1 à 2 minutes
+$('publish').onclick = async () => {
+  if (!token()) { say('Enregistrez d\'abord votre clé GitHub.', 'err'); $('tokenCard').scrollIntoView({ behavior: 'smooth' }); return; }
+  $('publish').disabled = true;
+  try {
+    for (const [path, data] of Object.entries(pending)) { say('Envoi de ' + path + '…'); await put(path, data, 'Admin : capture ' + path); }
+    pending = {};
+    say('Publication de la liste…');
+    await put('projects.json', b64(new TextEncoder().encode(JSON.stringify(list, null, 2) + '\n')), 'Admin : mise à jour du portfolio');
+    say('Publié ✓ Le site sera à jour dans 1 à 2 minutes.', 'ok');
+  } catch (e) { say('Échec de la publication : ' + e.message, 'err'); }
+  $('publish').disabled = false;
+};
+
+if (!$('app').classList.contains('hidden')) load();
+</script>
+</body>
+</html>
