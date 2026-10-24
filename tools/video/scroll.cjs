@@ -25,7 +25,7 @@ for (const id of ids.length ? ids : Object.keys(SITES)) {
   const home = new URL(SITES[id]);
   await p.goto(SITES[id], { waitUntil: 'networkidle', timeout: 90000 }).catch(() => {});
   await p.waitForTimeout(2500);
-  for (const txt of ['Continuer sans compte', 'Passer']) {     // fenêtres d'accueil
+  for (const txt of ['Continuer sans compte', 'Passer', 'Reste dans ton coin']) {     // fenêtres d'accueil
     const btn = p.getByText(txt, { exact: true }).first();
     if (await btn.isVisible().catch(() => false)) { await btn.click().catch(() => {}); await p.waitForTimeout(1500); }
   }
@@ -46,13 +46,18 @@ for (const id of ids.length ? ids : Object.keys(SITES)) {
   const moveTo = async (x, y, n) => { const x0 = mx, y0 = my; for (let j = 1; j <= n; j++) { mx = x0 + (x - x0) * ease(j / n); my = y0 + (y - y0) * ease(j / n); await p.mouse.move(mx, my).catch(() => {}); await shot(); } };
   const wait = async (n) => { for (let j = 0; j < n; j++) await shot(); };
   const click = async () => { for (let j = 0; j < 8; j++) { ring = 1 - j / 8; if (j === 2) { await p.mouse.click(mx, my).catch(() => {}); } await shot(); } ring = 0; };
-  // liens du menu : même site, visibles, ni WhatsApp ni téléphone ni nouvel onglet
-  const links = () => p.evaluate((host) => [...document.querySelectorAll('header a, nav a')].map((a) => {
-    const r = a.getBoundingClientRect(), h = a.getAttribute('href') || '';
-    let ok = r.width > 8 && r.height > 8 && r.top >= 0 && r.bottom < innerHeight && a.target !== '_blank' && !/^(tel:|mailto:|https?:\/\/(wa\.me|api\.whatsapp))/.test(h);
-    try { ok = ok && (h.startsWith('#') || new URL(a.href).host === host); } catch { ok = false; }
-    return ok ? { x: r.left + r.width / 2, y: r.top + r.height / 2, t: a.textContent.trim() } : null;
-  }).filter((l) => l && l.t), home.host).catch(() => []);
+  // rubriques du menu : liens ou boutons visibles du même site, ni logo, ni connexion, ni WhatsApp, ni téléphone, ni nouvel onglet
+  const links = () => p.evaluate((host) => {
+    const skip = /connect|connexion|compte|login|app|whatsapp|devis|commander|appeler|t[ée]l[ée]charger|play|panier/i, seen = new Set();
+    return [...document.querySelectorAll('header a, header button, nav a, nav button')].map((a) => {
+      const r = a.getBoundingClientRect(), h = a.getAttribute('href'), txt = a.textContent.trim().replace(/\s+/g, ' ');
+      let ok = r.width > 8 && r.height > 8 && r.top >= 0 && r.bottom < innerHeight && a.target !== '_blank' && !a.querySelector('img, svg')
+        && txt.length >= 2 && txt.length <= 24 && !skip.test(txt) && !seen.has(txt) && h !== '/' && h !== '#' && !/^(tel:|mailto:|https?:\/\/(wa\.me|api\.whatsapp))/.test(h || '');
+      try { ok = ok && (!h || h.startsWith('#') || new URL(a.href).host === host); } catch { ok = false; }
+      if (ok) seen.add(txt);
+      return ok ? { x: r.left + r.width / 2, y: r.top + r.height / 2, t: txt } : null;
+    }).filter(Boolean);
+  }, home.host).catch(() => []);
 
   await wait(20);
   await scrollTo(700, 50);
@@ -61,7 +66,7 @@ for (const id of ids.length ? ids : Object.keys(SITES)) {
   for (let n = 0; n < 4 && k < FRAMES; n++) {
     const L = (await links()).filter((l) => !done.has(l.t));
     if (!L.length) break;
-    const l = L[Math.min(L.length - 1, n === 0 ? 0 : Math.floor(L.length / 2) + n - 2 < 0 ? n : Math.floor(L.length / 2) + n - 2)];
+    const l = L[0];   // les rubriques dans l'ordre du menu
     done.add(l.t);
     await moveTo(l.x, l.y, 18);
     await click();
