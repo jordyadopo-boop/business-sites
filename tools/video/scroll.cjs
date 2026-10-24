@@ -7,6 +7,7 @@
 const { chromium } = require('playwright');
 const { mkdirSync } = require('node:fs');
 const SITES = { leglaceur: 'https://www.leglaceur.ci', amddesign: 'https://jordyadopo-boop.github.io/amddesign-archi3d/', odysseegames: 'https://www.odysseegames.com', liy10learning: 'https://www.liy10learning.com' };
+const WHEEL = new Set(['amddesign']);              // sites à défilement maison : on fait défiler à la molette, comme un visiteur
 const FRAMES = 1320, STEP = 2;                      // 44 s à 30 i/s pour les mouvements, une image enregistrée sur 2 (15 i/s, 660 images)
 const ease = (u) => u < .5 ? 2 * u * u : 1 - (-2 * u + 2) ** 2 / 2;
 const CURSOR = `(() => { if (document.getElementById('__cur')) return; const c = document.createElement('div'); c.id = '__cur';
@@ -46,7 +47,15 @@ for (const id of ids.length ? ids : Object.keys(SITES)) {
     k++;
   };
   const sy = () => p.evaluate(() => scrollY).catch(() => 0);
-  const scrollTo = async (y, n) => { const y0 = await sy(); for (let j = 1; j <= n; j++) { await p.evaluate((v) => scrollTo({ top: v, behavior: 'instant' }), Math.round(y0 + (y - y0) * ease(j / n))).catch(() => {}); await shot(); } };
+  const scrollTo = async (y, n) => {
+    const y0 = await sy();
+    for (let j = 1; j <= n; j++) {
+      const v = Math.round(y0 + (y - y0) * ease(j / n));
+      if (WHEEL.has(id)) await p.mouse.wheel(0, v - Math.round(y0 + (y - y0) * ease((j - 1) / n))).catch(() => {});
+      else await p.evaluate((v) => scrollTo({ top: v, behavior: 'instant' }), v).catch(() => {});
+      await shot();
+    }
+  };
   const moveTo = async (x, y, n) => { const x0 = mx, y0 = my; for (let j = 1; j <= n; j++) { mx = x0 + (x - x0) * ease(j / n); my = y0 + (y - y0) * ease(j / n); await p.mouse.move(mx, my).catch(() => {}); await shot(); } };
   const wait = async (n) => { for (let j = 0; j < n; j++) await shot(); };
   const click = async () => { for (let j = 0; j < 8; j++) { ring = 1 - j / 8; if (j === 2) { await p.mouse.click(mx, my).catch(() => {}); } await shot(); } ring = 0; };
