@@ -16,6 +16,11 @@ for (const id of ids.length ? ids : Object.keys(SITES)) {
   const p = await b.newPage({ viewport: { width: 1280, height: 800 } });
   await p.goto(SITES[id], { waitUntil: 'networkidle', timeout: 90000 }).catch(() => {});
   await p.waitForTimeout(2500);
+  // fenêtres d'accueil (connexion, intro) : on les ferme pour montrer le site lui-même
+  for (const txt of ['Continuer sans compte', 'Passer']) {
+    const btn = p.getByText(txt, { exact: true }).first();
+    if (await btn.isVisible().catch(() => false)) { await btn.click().catch(() => {}); await p.waitForTimeout(1500); }
+  }
   const max = await p.evaluate(() => document.documentElement.scrollHeight - innerHeight);
   const depth = Math.min(DEPTH, max);
   mkdirSync(`${out}/${id}`, { recursive: true });
