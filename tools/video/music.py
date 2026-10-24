@@ -2,23 +2,37 @@
 ambiance aérienne pendant la plongée dans les neurones, souffles aux coupes, impacts au logo et à la fin.
 Adapté de tools/video/music.py de la vidéo AMD Design (dépôt jordyadopo-boop/amddesign-archi3d) : même synthèse
 additive en numpy et même réverbération par convolution. Usage : python3 music.py sortie.wav
+Les options servent aux shorts TikTok (shorts.py) : python3 music.py sortie.wav --dur 16 --cuts 3.1,6.4 --booms 0.3,12 --pulse 0.3,12 --risers 10.5,12
 """
-import sys
+import argparse
 import wave
 import numpy as np
 
-SR = 48000
-DUR = 60.0
-N = int(SR * DUR)
-t = np.arange(N) / SR
-rng = np.random.default_rng(11)
-out = np.zeros((N, 2))
-
-# Minutage : mêmes valeurs que video.js
+# Minutage par défaut : mêmes valeurs que video.js
 T0, SLOT = 14.15, 3
 Ti = lambda i: T0 + SLOT * i
-CUTS = [7.9, 11.8] + [Ti(i) - 1.35 for i in range(1, 11)] + [45.6, 50.6, 55.2]
-NEURO = (45.6, 50.6)
+ap = argparse.ArgumentParser()
+ap.add_argument('out', nargs='?', default='music.wav')
+ap.add_argument('--dur', type=float, default=60.0)
+ap.add_argument('--cuts', default=','.join(str(c) for c in [7.9, 11.8] + [Ti(i) - 1.35 for i in range(1, 11)] + [45.6, 50.6, 55.2]))
+ap.add_argument('--booms', default='0.4,55.2')                    # impacts graves (logo, fin)
+ap.add_argument('--pulse', default=f'{T0 - 0.15},45.6')           # pulsation (zones)
+ap.add_argument('--air', default='45.6,50.6')                     # nappe aérienne (neurones), « none » pour aucune
+ap.add_argument('--hats', default='50.6,55.2')                    # pulsation légère (le site), « none » pour aucune
+ap.add_argument('--risers', default='1.0,3.0,43.6,45.6')          # montées : paires début,fin
+ap.add_argument('--seed', type=int, default=11)
+A = ap.parse_args()
+nums = lambda v: [] if v in ('', 'none') else [float(x) for x in v.split(',')]
+
+SR = 48000
+DUR = A.dur
+N = int(SR * DUR)
+t = np.arange(N) / SR
+rng = np.random.default_rng(A.seed)
+out = np.zeros((N, 2))
+CUTS = nums(A.cuts)
+NEURO = tuple(nums(A.air)) or None
+PULSE = nums(A.pulse)
 
 def note(f):
     return 440.0 * 2 ** ((f - 69) / 12)
@@ -42,7 +56,7 @@ def add(sig, gain=1.0, pan=0.0):
 
 # ---------- Nappe : Dm9 – B♭maj7 – Fmaj7 – C6, 6 s par accord (2 zones) ----------
 chords = [[50, 57, 60, 64, 65], [46, 53, 57, 62, 65], [41, 53, 57, 60, 64], [48, 55, 60, 62, 64]]
-for k in range(10):
+for k in range(int(np.ceil(DUR / 6))):
     start = k * 6.0
     ch = chords[k % 4]
     e = env(start - 0.3, 6.9, 1.8, 2.0)
@@ -56,8 +70,8 @@ for k in range(10):
 
 # ---------- Pulsation pendant les zones (100 bpm : 5 temps par zone, calée sur T0) ----------
 beat = 0.6
-b0 = T0 - 0.15                                  # premier temps : début de la première zone (14 s)
-for i in range(int((NEURO[0] - b0) / beat) + 1):
+b0 = PULSE[0] if PULSE else 0                  # premier temps : début de la première zone (14 s)
+for i in range(int((PULSE[1] - b0) / beat) + 1 if PULSE else 0):
     tb = b0 + i * beat
     i0 = int(tb * SR); L = int(0.45 * SR)
     x = np.arange(L) / SR
@@ -73,29 +87,31 @@ for i in range(int((NEURO[0] - b0) / beat) + 1):
         ta = tb + half * beat / 2
         ch = chords[int(ta // 6) % 4]
         f = note(ch[(i * 2 + half) % 5] + 24)
-        La = int(0.35 * SR); xa = np.arange(La) / SR; ia = int(ta * SR)
+        La = min(int(0.35 * SR), N - int(ta * SR)); xa = np.arange(La) / SR; ia = int(ta * SR)
         pl = np.sin(2 * np.pi * f * xa) * np.exp(-xa * 11) * 0.018 * ramp
         pan = 0.4 if (i + half) % 2 else -0.4
         out[ia:ia + La, 0] += pl * (1 - pan); out[ia:ia + La, 1] += pl * (1 + pan)
 
 # ---------- Plongée dans les neurones : nappe aérienne, carillons, sans pulsation ----------
-e = env(NEURO[0] - 0.4, NEURO[1] - NEURO[0] + 1.6, 1.2, 1.4)
-for m in [69, 74, 76, 81, 86]:
-    f = note(m)
-    for det, pan in ((-0.25, -0.8), (0.25, 0.8)):
-        trem = 1 + 0.25 * np.sin(2 * np.pi * rng.uniform(0.2, 0.5) * t + rng.uniform(0, 6))
-        add(np.sin(2 * np.pi * (f + det) * t + rng.uniform(0, 6)) * e * trem, 0.014, pan)
-for j in range(16):
-    tc = NEURO[0] + 0.15 + j * 0.31 + rng.uniform(-0.05, 0.05)
-    f = note([81, 86, 88, 93, 98][rng.integers(5)])
-    Lc = int(1.2 * SR); xc = np.arange(Lc) / SR; ic = int(tc * SR)
-    s = (np.sin(2 * np.pi * f * xc) + 0.3 * np.sin(2 * np.pi * 2.76 * f * xc)) * np.exp(-xc * 4) * 0.012
-    pan = rng.uniform(-0.9, 0.9)
-    out[ic:ic + Lc, 0] += s * (1 - pan); out[ic:ic + Lc, 1] += s * (1 + pan)
+if NEURO:
+    e = env(NEURO[0] - 0.4, NEURO[1] - NEURO[0] + 1.6, 1.2, 1.4)
+    for m in [69, 74, 76, 81, 86]:
+        f = note(m)
+        for det, pan in ((-0.25, -0.8), (0.25, 0.8)):
+            trem = 1 + 0.25 * np.sin(2 * np.pi * rng.uniform(0.2, 0.5) * t + rng.uniform(0, 6))
+            add(np.sin(2 * np.pi * (f + det) * t + rng.uniform(0, 6)) * e * trem, 0.014, pan)
+    for j in range(16):
+        tc = NEURO[0] + 0.15 + j * 0.31 + rng.uniform(-0.05, 0.05)
+        f = note([81, 86, 88, 93, 98][rng.integers(5)])
+        Lc = int(1.2 * SR); xc = np.arange(Lc) / SR; ic = int(tc * SR)
+        s = (np.sin(2 * np.pi * f * xc) + 0.3 * np.sin(2 * np.pi * 2.76 * f * xc)) * np.exp(-xc * 4) * 0.012
+        pan = rng.uniform(-0.9, 0.9)
+        out[ic:ic + Lc, 0] += s * (1 - pan); out[ic:ic + Lc, 1] += s * (1 + pan)
 
 # ---------- Le site : pulsation légère qui revient ----------
-for i in range(int((55.2 - 50.6) / beat)):
-    i0 = int((50.6 + i * beat) * SR); Lh = int(0.05 * SR)
+HATS = nums(A.hats)
+for i in range(int((HATS[1] - HATS[0]) / beat) if HATS else 0):
+    i0 = int((HATS[0] + i * beat) * SR); Lh = int(0.05 * SR)
     hat = np.diff(rng.normal(0, 1, Lh) * np.exp(-np.arange(Lh) / SR * 80), prepend=0)
     out[i0:i0 + Lh, 0] += hat * 0.018; out[i0:i0 + Lh, 1] += hat * 0.02
 
@@ -113,7 +129,8 @@ def whoosh(c, length=0.9, gain=0.09):
     out[i0:i0 + L, 0] += s * (1 - x); out[i0:i0 + L, 1] += s * x
 
 for c in CUTS:
-    whoosh(c, 1.4 if c == NEURO[0] else 0.9, 0.12 if c == NEURO[0] else 0.09)
+    plunge = NEURO and c == NEURO[0]
+    whoosh(c, 1.4 if plunge else 0.9, 0.12 if plunge else 0.09)
 
 # ---------- Impacts graves (logo, fin) et montées ----------
 def boom(c, gain=0.35):
@@ -128,8 +145,11 @@ def riser(a, b, gain=0.03):
     s = rng.normal(0, 1, r1 - r0) * x ** 2 * gain
     out[r0:r1, 0] += s; out[r0:r1, 1] += np.roll(s, 40)
 
-boom(0.4); boom(55.2, 0.3)
-riser(1.0, 3.0); riser(43.6, 45.6, 0.035)
+for k, c in enumerate(nums(A.booms)):
+    boom(c, 0.35 if k == 0 else 0.3)
+R = nums(A.risers)
+for k in range(0, len(R), 2):
+    riser(R[k], R[k + 1], 0.03 if k == 0 else 0.035)
 
 # ---------- Réverbération (convolution, queue de 2,5 s) ----------
 L = int(2.5 * SR)
@@ -144,7 +164,7 @@ mix *= fade[:, None]
 mix /= np.abs(mix).max() + 1e-9
 mix *= 0.89
 pcm = (mix * 32767).astype(np.int16)
-with wave.open(sys.argv[1] if len(sys.argv) > 1 else 'music.wav', 'wb') as w:
+with wave.open(A.out, 'wb') as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR)
     w.writeframes(pcm.tobytes())
 print('ok')

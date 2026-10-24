@@ -10,6 +10,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 FX = ('highpass=f=80,equalizer=f=200:t=q:w=1:g=-1.5,equalizer=f=3800:t=q:w=1.2:g=4,highshelf=f=9000:g=1,'
       'acompressor=threshold=-20dB:ratio=3.5:attack=5:release=120:makeup=4,deesser=i=0.35:f=0.55,alimiter=limit=0.95')
 
+TRIM = ('silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.02,areverse,'
+        'silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.05,areverse')
+# mixage : la musique se baisse sous la voix (sidechain), puis loudnorm -15 LUFS
+MIX = ('[0:a]volume=0.55[m];[1:a]aformat=channel_layouts=stereo,asplit=2[vk][vo];[m][vk]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=400[md];'
+       '[md][vo]amix=inputs=2:normalize=0,loudnorm=I=-15:TP=-1.5:LRA=9[a]')
+
 def voice_table():
     src = open(os.path.join(HERE, 'video.js'), encoding='utf-8').read()
     T0, SLOT = [float(x) for x in re.search(r'const SLOT = ([\d.]+), T0 = ([\d.]+)', src).groups()][::-1]
@@ -34,20 +40,18 @@ def tts(folder):
     for i, (_, txt) in enumerate(V):
         mp3 = f'{folder}/{i:02d}.mp3'
         asyncio.run(edge_tts.Communicate(txt, 'fr-FR-HenriNeural', rate='+4%').save(mp3))
-        trim = 'silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.02,areverse,' \
-               'silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.05,areverse'
-        run('-i', mp3, '-af', trim, '-ar', '48000', '-ac', '1', f'{folder}/{i:02d}.wav'); os.remove(mp3)
+        run('-i', mp3, '-af', TRIM, '-ar', '48000', '-ac', '1', f'{folder}/{i:02d}.wav'); os.remove(mp3)
         durs.append(round(float(subprocess.check_output(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', f'{folder}/{i:02d}.wav'])), 2))
     json.dump(durs, open(os.path.join(HERE, 'voice.json'), 'w'))
     print(durs)
 
-def place(folder, out):
-    V, ins, fl = voice_table(), [], []
+def place(folder, out, V=None, total=60):
+    V, ins, fl = V or voice_table(), [], []
     for i, (a, _) in enumerate(V):
         ins += ['-i', f'{folder}/{i:02d}.wav']
         d = int(round(a * 1000))
         fl.append(f'[{i}:a]aresample=48000,aformat=channel_layouts=mono,{FX},adelay={d}|{d}[v{i}]')
-    fl.append(''.join(f'[v{i}]' for i in range(len(V))) + f'amix=inputs={len(V)}:normalize=0,apad,atrim=0:60,loudnorm=I=-16:TP=-1.5:LRA=7[o]')
+    fl.append(''.join(f'[v{i}]' for i in range(len(V))) + f'amix=inputs={len(V)}:normalize=0,apad,atrim=0:{total},loudnorm=I=-16:TP=-1.5:LRA=7[o]')
     run(*ins, '-filter_complex', ';'.join(fl), '-map', '[o]', '-ar', '48000', out)
 
 if __name__ == '__main__':

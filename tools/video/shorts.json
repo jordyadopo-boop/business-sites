@@ -1,0 +1,1357 @@
+[
+ {
+  "id": "cerveau-01",
+  "series": "Ton site a un cerveau · 01/10",
+  "cover": {
+   "k": "Épisode 01/10",
+   "t": "Ton site a un *cerveau*",
+   "p": "Lobe temporal"
+  },
+  "beats": [
+   {
+    "say": "Ton site a un cerveau. Épisode 1 : le lobe temporal.",
+    "card": {
+     "big": true,
+     "k": "Épisode 01/10",
+     "t": "Ton site a un *cerveau*",
+     "p": "Lobe temporal"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Le lobe temporal traite ce que l'on entend.",
+    "card": {
+     "n": "01",
+     "k": "Lobe temporal",
+     "f": "→ Écouter",
+     "t": "Lobe temporal"
+    },
+    "brain": {
+     "step": 1,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Pour ton site, c'est l'écoute : ton activité, tes clients, tes objectifs. Je commence toujours par là.",
+    "card": {
+     "n": "01",
+     "k": "Lobe temporal",
+     "f": "→ Écouter",
+     "t": "On échange",
+     "p": "Ton activité, tes clients, tes objectifs. Je commence toujours par là."
+    },
+    "brain": {
+     "step": 1,
+     "zoom": 0.85
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "cerveau-02",
+  "series": "Ton site a un cerveau · 02/10",
+  "cover": {
+   "k": "Épisode 02/10",
+   "t": "Ton site a un *cerveau*",
+   "p": "Lobe frontal"
+  },
+  "beats": [
+   {
+    "say": "Ton site a un cerveau. Épisode 2 : le lobe frontal.",
+    "card": {
+     "big": true,
+     "k": "Épisode 02/10",
+     "t": "Ton site a un *cerveau*",
+     "p": "Lobe frontal"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Le lobe frontal prend les décisions et planifie.",
+    "card": {
+     "n": "02",
+     "k": "Lobe frontal",
+     "f": "→ Planifier",
+     "t": "Lobe frontal"
+    },
+    "brain": {
+     "step": 2,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Pour ton site, c'est la stratégie : les pages, les messages, le parcours de tes visiteurs.",
+    "card": {
+     "n": "02",
+     "k": "Lobe frontal",
+     "f": "→ Planifier",
+     "t": "La stratégie",
+     "p": "Les pages, les messages, le parcours de tes visiteurs."
+    },
+    "brain": {
+     "step": 2,
+     "zoom": 0.85
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "cerveau-03",
+  "series": "Ton site a un cerveau · 03/10",
+  "cover": {
+   "k": "Épisode 03/10",
+   "t": "Ton site a un *cerveau*",
+   "p": "Aire de Broca"
+  },
+  "beats": [
+   {
+    "say": "Ton site a un cerveau. Épisode 3 : l'aire de Broca.",
+    "card": {
+     "big": true,
+     "k": "Épisode 03/10",
+     "t": "Ton site a un *cerveau*",
+     "p": "Aire de Broca"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "L'aire de Broca met les idées en mots.",
+    "card": {
+     "n": "03",
+     "k": "Aire de Broca",
+     "f": "→ Le langage",
+     "t": "Aire de Broca"
+    },
+    "brain": {
+     "step": 3,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Pour ton site, ce sont les textes : clairs, et qui donnent envie de te contacter.",
+    "card": {
+     "n": "03",
+     "k": "Aire de Broca",
+     "f": "→ Le langage",
+     "t": "Tes contenus",
+     "p": "Clairs, et qui donnent envie de te contacter."
+    },
+    "brain": {
+     "step": 3,
+     "zoom": 0.85
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "cerveau-04",
+  "series": "Ton site a un cerveau · 04/10",
+  "cover": {
+   "k": "Épisode 04/10",
+   "t": "Ton site a un *cerveau*",
+   "p": "Cortex moteur"
+  },
+  "beats": [
+   {
+    "say": "Ton site a un cerveau. Épisode 4 : le cortex moteur.",
+    "card": {
+     "big": true,
+     "k": "Épisode 04/10",
+     "t": "Ton site a un *cerveau*",
+     "p": "Cortex moteur"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Le cortex moteur commande chaque geste.",
+    "card": {
+     "n": "04",
+     "k": "Cortex moteur",
+     "f": "→ Le mouvement",
+     "t": "Cortex moteur"
+    },
+    "brain": {
+     "step": 4,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Pour ton site, ce sont les fonctionnalités : devis, commandes, formulaires, WhatsApp. Ton site agit pour toi.",
+    "card": {
+     "n": "04",
+     "k": "Cortex moteur",
+     "f": "→ Le mouvement",
+     "t": "Les fonctionnalités",
+     "p": "Devis, commandes, formulaires, WhatsApp. Ton site agit pour toi."
+    },
+    "brain": {
+     "step": 4,
+     "zoom": 0.85
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "cerveau-05",
+  "series": "Ton site a un cerveau · 05/10",
+  "cover": {
+   "k": "Épisode 05/10",
+   "t": "Ton site a un *cerveau*",
+   "p": "Lobe pariétal"
+  },
+  "beats": [
+   {
+    "say": "Ton site a un cerveau. Épisode 5 : le lobe pariétal.",
+    "card": {
+     "big": true,
+     "k": "Épisode 05/10",
+     "t": "Ton site a un *cerveau*",
+     "p": "Lobe pariétal"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Le lobe pariétal nous situe dans l'espace.",
+    "card": {
+     "n": "05",
+     "k": "Lobe pariétal",
+     "f": "→ S'orienter",
+     "t": "Lobe pariétal"
+    },
+    "brain": {
+     "step": 5,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Pour ton site, c'est la navigation : tes visiteurs trouvent tout de suite, sur mobile comme sur ordinateur.",
+    "card": {
+     "n": "05",
+     "k": "Lobe pariétal",
+     "f": "→ S'orienter",
+     "t": "La navigation",
+     "p": "Tes visiteurs trouvent tout de suite, sur mobile comme sur ordinateur."
+    },
+    "brain": {
+     "step": 5,
+     "zoom": 0.85
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "cerveau-06",
+  "series": "Ton site a un cerveau · 06/10",
+  "cover": {
+   "k": "Épisode 06/10",
+   "t": "Ton site a un *cerveau*",
+   "p": "Lobe occipital"
+  },
+  "beats": [
+   {
+    "say": "Ton site a un cerveau. Épisode 6 : le lobe occipital.",
+    "card": {
+     "big": true,
+     "k": "Épisode 06/10",
+     "t": "Ton site a un *cerveau*",
+     "p": "Lobe occipital"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Le lobe occipital traite tout ce que l'on voit.",
+    "card": {
+     "n": "06",
+     "k": "Lobe occipital",
+     "f": "→ La vision",
+     "t": "Lobe occipital"
+    },
+    "brain": {
+     "step": 6,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Pour ton site, c'est le design : il inspire confiance au premier regard.",
+    "card": {
+     "n": "06",
+     "k": "Lobe occipital",
+     "f": "→ La vision",
+     "t": "Le design",
+     "p": "Il inspire confiance au premier regard."
+    },
+    "brain": {
+     "step": 6,
+     "zoom": 0.85
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "cerveau-07",
+  "series": "Ton site a un cerveau · 07/10",
+  "cover": {
+   "k": "Épisode 07/10",
+   "t": "Ton site a un *cerveau*",
+   "p": "Cervelet"
+  },
+  "beats": [
+   {
+    "say": "Ton site a un cerveau. Épisode 7 : le cervelet.",
+    "card": {
+     "big": true,
+     "k": "Épisode 07/10",
+     "t": "Ton site a un *cerveau*",
+     "p": "Cervelet"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Le cervelet rend chaque mouvement fluide.",
+    "card": {
+     "n": "07",
+     "k": "Cervelet",
+     "f": "→ La coordination",
+     "t": "Cervelet"
+    },
+    "brain": {
+     "step": 7,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Pour ton site, c'est la vitesse : il s'ouvre vite et réagit sans à-coups, même en 3G.",
+    "card": {
+     "n": "07",
+     "k": "Cervelet",
+     "f": "→ La coordination",
+     "t": "La fluidité",
+     "p": "Il s'ouvre vite et réagit sans à-coups, même en 3G."
+    },
+    "brain": {
+     "step": 7,
+     "zoom": 0.85
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "cerveau-08",
+  "series": "Ton site a un cerveau · 08/10",
+  "cover": {
+   "k": "Épisode 08/10",
+   "t": "Ton site a un *cerveau*",
+   "p": "Tronc cérébral"
+  },
+  "beats": [
+   {
+    "say": "Ton site a un cerveau. Épisode 8 : le tronc cérébral.",
+    "card": {
+     "big": true,
+     "k": "Épisode 08/10",
+     "t": "Ton site a un *cerveau*",
+     "p": "Tronc cérébral"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Le tronc cérébral nous fait respirer, jour et nuit, sans qu'on y pense.",
+    "card": {
+     "n": "08",
+     "k": "Tronc cérébral",
+     "f": "→ Les fonctions vitales",
+     "t": "Tronc cérébral"
+    },
+    "brain": {
+     "step": 8,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Pour ton site, c'est l'hébergement et la sécurité : en ligne et protégé, 24 heures sur 24.",
+    "card": {
+     "n": "08",
+     "k": "Tronc cérébral",
+     "f": "→ Les fonctions vitales",
+     "t": "Hébergement & sécurité",
+     "p": "En ligne et protégé, 24 heures sur 24."
+    },
+    "brain": {
+     "step": 8,
+     "zoom": 0.85
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "cerveau-09",
+  "series": "Ton site a un cerveau · 09/10",
+  "cover": {
+   "k": "Épisode 09/10",
+   "t": "Ton site a un *cerveau*",
+   "p": "Hippocampe"
+  },
+  "beats": [
+   {
+    "say": "Ton site a un cerveau. Épisode 9 : l'hippocampe.",
+    "card": {
+     "big": true,
+     "k": "Épisode 09/10",
+     "t": "Ton site a un *cerveau*",
+     "p": "Hippocampe"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "L'hippocampe range les souvenirs.",
+    "card": {
+     "n": "09",
+     "k": "Hippocampe",
+     "f": "→ La mémoire",
+     "t": "Hippocampe"
+    },
+    "brain": {
+     "step": 9,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Pour ton site, c'est la base de données : contacts, commandes, élèves, tout est bien rangé.",
+    "card": {
+     "n": "09",
+     "k": "Hippocampe",
+     "f": "→ La mémoire",
+     "t": "La base de données",
+     "p": "Contacts, commandes, élèves, tout est bien rangé."
+    },
+    "brain": {
+     "step": 9,
+     "zoom": 0.85
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "cerveau-10",
+  "series": "Ton site a un cerveau · 10/10",
+  "cover": {
+   "k": "Épisode 10/10",
+   "t": "Ton site a un *cerveau*",
+   "p": "Corps calleux"
+  },
+  "beats": [
+   {
+    "say": "Ton site a un cerveau. Épisode 10 : le corps calleux.",
+    "card": {
+     "big": true,
+     "k": "Épisode 10/10",
+     "t": "Ton site a un *cerveau*",
+     "p": "Corps calleux"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Le corps calleux relie les deux moitiés du cerveau.",
+    "card": {
+     "n": "10",
+     "k": "Corps calleux",
+     "f": "→ Relier",
+     "t": "Corps calleux"
+    },
+    "brain": {
+     "step": 10,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Pour ton site, ce sont les connexions : Google, WhatsApp, tes réseaux et tes outils.",
+    "card": {
+     "n": "10",
+     "k": "Corps calleux",
+     "f": "→ Relier",
+     "t": "Les connexions",
+     "p": "Google, WhatsApp, tes réseaux et tes outils."
+    },
+    "brain": {
+     "step": 10,
+     "zoom": 0.85
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "realisation-leglaceur",
+  "series": "Réalisation · 1/4",
+  "cover": {
+   "k": "Réalisation",
+   "t": "Le Glaceur",
+   "p": "Entreprise · Abidjan"
+  },
+  "beats": [
+   {
+    "say": "Ce site, c'est moi qui l'ai fait.",
+    "card": {
+     "big": true,
+     "k": "Réalisation 1/4",
+     "t": "Ce site, c'est *moi* qui l'ai fait",
+     "p": "Le Glaceur"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7
+    }
+   },
+   {
+    "say": "Le Glaceur vend de la glace alimentaire à Abidjan : glaçons, glace pilée, carboglace.",
+    "sub": "Le Glaceur vend de la glace alimentaire à Abidjan : glaçons, glace pilée, carboglace.",
+    "project": {
+     "img": "img/leglaceur.jpg",
+     "url": "www.leglaceur.ci",
+     "name": "Le Glaceur",
+     "cat": "Entreprise · Abidjan",
+     "tags": [
+      "Site vitrine",
+      "Devis en ligne",
+      "SEO local"
+     ]
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Avec un devis gratuit en ligne et la livraison 24 heures sur 24.",
+    "project": {
+     "img": "img/leglaceur.jpg",
+     "url": "www.leglaceur.ci",
+     "name": "Le Glaceur",
+     "cat": "Entreprise · Abidjan",
+     "tags": [
+      "Site vitrine",
+      "Devis en ligne",
+      "SEO local"
+     ]
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Le prochain, c'est le tien ? Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "realisation-amddesign",
+  "series": "Réalisation · 2/4",
+  "cover": {
+   "k": "Réalisation",
+   "t": "AMD Design",
+   "p": "Architecture · Côte d'Ivoire"
+  },
+  "beats": [
+   {
+    "say": "Ce site, c'est moi qui l'ai fait.",
+    "card": {
+     "big": true,
+     "k": "Réalisation 2/4",
+     "t": "Ce site, c'est *moi* qui l'ai fait",
+     "p": "AMD Design"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7
+    }
+   },
+   {
+    "say": "AMD Design, un cabinet d'architecture en Côte d'Ivoire.",
+    "sub": "AMD Design, un cabinet d'architecture en Côte d'Ivoire.",
+    "project": {
+     "img": "img/amddesign.jpg",
+     "url": "jordyadopo-boop.github.io/amddesign-archi3d",
+     "name": "AMD Design",
+     "cat": "Architecture · Côte d'Ivoire",
+     "tags": [
+      "Vitrine premium",
+      "Galerie 3D",
+      "Mobile"
+     ]
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Étude, suivi de chantier, permis de construire et rendus 3D : de l'idée à la réalité.",
+    "project": {
+     "img": "img/amddesign.jpg",
+     "url": "jordyadopo-boop.github.io/amddesign-archi3d",
+     "name": "AMD Design",
+     "cat": "Architecture · Côte d'Ivoire",
+     "tags": [
+      "Vitrine premium",
+      "Galerie 3D",
+      "Mobile"
+     ]
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Le prochain, c'est le tien ? Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "realisation-odysseegames",
+  "series": "Réalisation · 3/4",
+  "cover": {
+   "k": "Réalisation",
+   "t": "Odyssée Games",
+   "p": "Jeux · Divertissement"
+  },
+  "beats": [
+   {
+    "say": "Ce site, c'est moi qui l'ai fait.",
+    "card": {
+     "big": true,
+     "k": "Réalisation 3/4",
+     "t": "Ce site, c'est *moi* qui l'ai fait",
+     "p": "Odyssée Games"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7
+    }
+   },
+   {
+    "say": "Odyssée Games, une plateforme de jeux en ligne.",
+    "sub": "Odyssée Games, une plateforme de jeux en ligne.",
+    "project": {
+     "img": "img/odysseegames.jpg",
+     "url": "www.odysseegames.com",
+     "name": "Odyssée Games",
+     "cat": "Jeux · Divertissement",
+     "tags": [
+      "Application web",
+      "Jeux",
+      "Interactif"
+     ]
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Interactive et animée : on joue directement dans le navigateur.",
+    "project": {
+     "img": "img/odysseegames.jpg",
+     "url": "www.odysseegames.com",
+     "name": "Odyssée Games",
+     "cat": "Jeux · Divertissement",
+     "tags": [
+      "Application web",
+      "Jeux",
+      "Interactif"
+     ]
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Le prochain, c'est le tien ? Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "realisation-liy10learning",
+  "series": "Réalisation · 4/4",
+  "cover": {
+   "k": "Réalisation",
+   "t": "LIY10.LEARNING",
+   "p": "Éducation · E-learning"
+  },
+  "beats": [
+   {
+    "say": "Ce site, c'est moi qui l'ai fait.",
+    "card": {
+     "big": true,
+     "k": "Réalisation 4/4",
+     "t": "Ce site, c'est *moi* qui l'ai fait",
+     "p": "LIY10.LEARNING"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7
+    }
+   },
+   {
+    "say": "L.I.Y. dix Learning, pour apprendre Excel, Word, Power BI et plus.",
+    "sub": "LIY10 Learning, pour apprendre Excel, Word, Power BI et plus.",
+    "project": {
+     "img": "img/liy10learning.jpg",
+     "url": "www.liy10learning.com",
+     "name": "LIY10.LEARNING",
+     "cat": "Éducation · E-learning",
+     "tags": [
+      "Plateforme e-learning",
+      "Exercices",
+      "Mobile"
+     ]
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Cinq minutes par jour sur son téléphone, avec des exercices sur des cas réels.",
+    "project": {
+     "img": "img/liy10learning.jpg",
+     "url": "www.liy10learning.com",
+     "name": "LIY10.LEARNING",
+     "cat": "Éducation · E-learning",
+     "tags": [
+      "Plateforme e-learning",
+      "Exercices",
+      "Mobile"
+     ]
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Le prochain, c'est le tien ? Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "mes-realisations",
+  "series": "Mes réalisations",
+  "cover": {
+   "k": "Portfolio",
+   "t": "Mes *réalisations*",
+   "p": "4 sites qui tournent déjà"
+  },
+  "beats": [
+   {
+    "say": "Quatre sites, quatre activités différentes.",
+    "card": {
+     "big": true,
+     "k": "Portfolio",
+     "t": "Mes *réalisations*",
+     "p": "4 sites qui tournent déjà"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7
+    }
+   },
+   {
+    "say": "Le Glaceur : la vente de glace à Abidjan, avec devis en ligne.",
+    "sub": "Le Glaceur : la vente de glace à Abidjan, avec devis en ligne.",
+    "project": {
+     "img": "img/leglaceur.jpg",
+     "url": "www.leglaceur.ci",
+     "name": "Le Glaceur",
+     "cat": "Entreprise · Abidjan",
+     "tags": [
+      "Site vitrine",
+      "Devis en ligne",
+      "SEO local"
+     ]
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "AMD Design : un cabinet d'architecture, avec galerie 3D.",
+    "sub": "AMD Design : un cabinet d'architecture, avec galerie 3D.",
+    "project": {
+     "img": "img/amddesign.jpg",
+     "url": "jordyadopo-boop.github.io/amddesign-archi3d",
+     "name": "AMD Design",
+     "cat": "Architecture · Côte d'Ivoire",
+     "tags": [
+      "Vitrine premium",
+      "Galerie 3D",
+      "Mobile"
+     ]
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Odyssée Games : des jeux en ligne, dans le navigateur.",
+    "sub": "Odyssée Games : des jeux en ligne, dans le navigateur.",
+    "project": {
+     "img": "img/odysseegames.jpg",
+     "url": "www.odysseegames.com",
+     "name": "Odyssée Games",
+     "cat": "Jeux · Divertissement",
+     "tags": [
+      "Application web",
+      "Jeux",
+      "Interactif"
+     ]
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "L.I.Y. dix Learning : apprendre la bureautique sur son téléphone.",
+    "sub": "LIY10 Learning : apprendre la bureautique sur son téléphone.",
+    "project": {
+     "img": "img/liy10learning.jpg",
+     "url": "www.liy10learning.com",
+     "name": "LIY10.LEARNING",
+     "cat": "Éducation · E-learning",
+     "tags": [
+      "Plateforme e-learning",
+      "Exercices",
+      "Mobile"
+     ]
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Ton activité est la prochaine ? Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "comment-ca-marche",
+  "series": "Comment ça marche",
+  "cover": {
+   "k": "Méthode",
+   "t": "Ton site en *4 étapes*",
+   "p": "Comment ça marche"
+  },
+  "beats": [
+   {
+    "say": "Comment je crée ton site, en quatre étapes.",
+    "card": {
+     "big": true,
+     "k": "Méthode",
+     "t": "Ton site en *4 étapes*",
+     "p": "Comment ça marche"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Un : on échange sur ton activité et tes objectifs.",
+    "card": {
+     "n": "01",
+     "k": "Étape 1",
+     "t": "On échange",
+     "p": "Ton activité, tes clients, tes objectifs."
+    },
+    "brain": {
+     "step": 1,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Deux : je prépare le plan du site et les textes.",
+    "card": {
+     "n": "02",
+     "k": "Étape 2",
+     "t": "Le plan & les textes",
+     "p": "Les pages, les messages, le parcours du visiteur."
+    },
+    "brain": {
+     "step": 2,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Trois : je construis le design et les fonctionnalités.",
+    "card": {
+     "n": "03",
+     "k": "Étape 3",
+     "t": "Design & fonctionnalités",
+     "p": "Devis, commandes, formulaires, WhatsApp."
+    },
+    "brain": {
+     "step": 4,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Quatre : je le mets en ligne, relié à Google et à WhatsApp.",
+    "card": {
+     "n": "04",
+     "k": "Étape 4",
+     "t": "En ligne",
+     "p": "Hébergé, sécurisé, relié à Google et WhatsApp."
+    },
+    "brain": {
+     "step": 10,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "On commence quand tu veux. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "astuce-clients-google",
+  "series": "Astuce web",
+  "cover": {
+   "k": "Astuce",
+   "t": "Pourquoi tes clients ne te *trouvent pas*",
+   "p": "3 raisons"
+  },
+  "beats": [
+   {
+    "say": "Trois raisons pour lesquelles tes clients ne te trouvent pas.",
+    "card": {
+     "big": true,
+     "k": "Astuce",
+     "t": "Pourquoi tes clients ne te *trouvent pas*",
+     "p": "3 raisons"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Un : tu n'as pas de site. Sur Google, ton activité est invisible.",
+    "card": {
+     "n": "01",
+     "k": "Raison 1",
+     "t": "Pas de site",
+     "p": "Sur Google, ton activité est invisible."
+    },
+    "brain": {
+     "step": 10,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Deux : ton site est illisible sur téléphone, alors les visiteurs repartent.",
+    "card": {
+     "n": "02",
+     "k": "Raison 2",
+     "t": "Illisible sur mobile",
+     "p": "Les visiteurs repartent aussitôt."
+    },
+    "brain": {
+     "step": 5,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Trois : on ne peut pas te contacter en un clic. Il manque le bouton WhatsApp.",
+    "card": {
+     "n": "03",
+     "k": "Raison 3",
+     "t": "Pas de contact en un clic",
+     "p": "Il manque le bouton WhatsApp."
+    },
+    "brain": {
+     "step": 4,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "astuce-facebook-ou-site",
+  "series": "Astuce web",
+  "cover": {
+   "k": "Astuce",
+   "t": "Page Facebook ou *site internet* ?",
+   "p": ""
+  },
+  "beats": [
+   {
+    "say": "Page Facebook ou site internet ?",
+    "card": {
+     "big": true,
+     "k": "Astuce",
+     "t": "Page Facebook ou *site internet* ?",
+     "p": ""
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Une page Facebook, c'est bien. Mais elle appartient à Facebook.",
+    "card": {
+     "k": "Facebook",
+     "t": "Chez Facebook",
+     "p": "Leurs règles, leur vitrine."
+    },
+    "brain": {
+     "step": 2,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Ton site, c'est chez toi : ton nom, tes règles, et on te trouve sur Google.",
+    "card": {
+     "k": "Ton site",
+     "t": "Chez *toi*",
+     "p": "Ton nom, tes règles, et on te trouve sur Google."
+    },
+    "brain": {
+     "step": 6,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Le mieux ? Les deux, reliés ensemble.",
+    "card": {
+     "k": "Le mieux",
+     "t": "Les *deux*, reliés",
+     "p": "Ta page renvoie vers ton site, ton site vers WhatsApp."
+    },
+    "brain": {
+     "step": 10,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "astuce-site-la-nuit",
+  "series": "Astuce web",
+  "cover": {
+   "k": "Astuce",
+   "t": "Ton site travaille *la nuit*",
+   "p": ""
+  },
+  "beats": [
+   {
+    "say": "Ton business dort la nuit. Ton site, non.",
+    "card": {
+     "big": true,
+     "k": "Astuce",
+     "t": "Ton business dort la nuit. Ton site, *non*.",
+     "p": ""
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Minuit : un client cherche ton service sur Google.",
+    "card": {
+     "k": "00 h 00",
+     "t": "Un client cherche",
+     "p": "Ton service, sur Google."
+    },
+    "brain": {
+     "step": 1,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Il trouve ton site, découvre ce que tu proposes, et demande un devis.",
+    "card": {
+     "k": "00 h 05",
+     "t": "Il trouve *ton site*",
+     "p": "Il découvre ton offre et demande un devis."
+    },
+    "brain": {
+     "step": 4,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Le matin, un message WhatsApp t'attend.",
+    "card": {
+     "k": "08 h 00",
+     "t": "Un message t'attend",
+     "p": "Sur WhatsApp, au réveil."
+    },
+    "brain": {
+     "step": 10,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "pub",
+  "series": "Je fais ton site internet",
+  "cover": {
+   "k": "Abidjan",
+   "t": "Je fais ton *site* internet",
+   "p": "Vitrine · Commandes · Applications · Google"
+  },
+  "beats": [
+   {
+    "say": "Ton activité mérite un site qui travaille pour toi.",
+    "card": {
+     "big": true,
+     "k": "Jordy Adopo · Abidjan",
+     "t": "Ton activité mérite un site qui *travaille pour toi*",
+     "p": ""
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.7
+    }
+   },
+   {
+    "say": "Site vitrine, commandes en ligne, applications web, référencement Google.",
+    "card": {
+     "k": "Services",
+     "t": "Vitrine · Commandes · Applications · *Google*",
+     "p": ""
+    },
+    "brain": {
+     "step": 4,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Je fais ton site internet, à Abidjan.",
+    "card": {
+     "big": true,
+     "k": "Abidjan",
+     "t": "Je fais ton *site* internet",
+     "p": ""
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Écris-moi sur WhatsApp : zéro sept, zéro neuf, quatre-vingt-quinze, dix, quatre-vingt-douze.",
+    "sub": "Écris-moi sur WhatsApp : 07 09 95 10 92",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ }
+]

@@ -11,7 +11,10 @@ composition déterministe = le cerveau 3D du site (`brain.js` en mode vidéo, `w
 - `voice.json` : durées des phrases de la voix off, pour caler les sous-titres (écrit par `voice.py tts`)
 - `voice.py` : voix off (synthèse edge-tts, coupe des silences, tonus, pose aux heures de VOICE)
 - `music.py` : bande-son originale, adaptée de celle d'AMD Design (coupes aux heures de CUTS, pulsation pendant les zones, plongée aérienne)
-- `tiktok.html`, `tiktok.cjs` : deux images 1080×1920 pour la page TikTok (`?i=1` présentation, `?i=2` réalisations)
+- `tiktok.html`, `tiktok.cjs` : deux images 1080×1920 pour la page TikTok (`?i=1` présentation, `?i=2` réalisations) et la photo de profil HD (`?i=3`)
+- `neurons.js` : fond de neurones animés, partagé par la vidéo et les shorts
+- Shorts TikTok : `shorts.json` (contenu des 20 shorts : phrases, cartes, étape du cerveau), `shorts.py` (voix, minutage → `shorts-timing.json`, bande-son),
+  `shorts.html` + `shorts.js` (composition, `?s=<id>`, `&cover` pour la couverture), `shorts.cjs` (couvertures)
 
 ## Régénérer
 ```bash
@@ -29,4 +32,9 @@ ffmpeg -framerate 30 -i frames-h/%05d.jpg -i soundtrack.wav -c:v libx264 -preset
 ffmpeg -framerate 30 -i frames-v/%05d.jpg -i soundtrack.wav -c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p -c:a aac -b:a 192k -shortest -movflags +faststart JFTS-presentation-portrait.mp4
 # images TikTok
 NODE_PATH=$(npm root -g) node tools/video/tiktok.cjs tiktok
+# shorts TikTok (pour chaque id de shorts.json)
+python3 tools/video/shorts.py tts travail && python3 tools/video/shorts.py audio travail
+PAGE='shorts.html?s=pub' VERT=1 NODE_PATH=$(npm root -g) node tools/video/render.cjs frames-pub 30 0 17.5   # durée : shorts-timing.json
+ffmpeg -framerate 30 -i frames-pub/%05d.jpg -i travail/pub/soundtrack.wav -c:v libx264 -preset slow -crf 20 -pix_fmt yuv420p -c:a aac -b:a 192k -shortest -movflags +faststart JFTS-pub.mp4
+NODE_PATH=$(npm root -g) node tools/video/shorts.cjs covers
 ```
