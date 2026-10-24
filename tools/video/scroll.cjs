@@ -7,7 +7,7 @@
 const { chromium } = require('playwright');
 const { mkdirSync } = require('node:fs');
 const SITES = { leglaceur: 'https://www.leglaceur.ci', amddesign: 'https://jordyadopo-boop.github.io/amddesign-archi3d/', odysseegames: 'https://www.odysseegames.com', liy10learning: 'https://www.liy10learning.com' };
-const WHEEL = new Set(['amddesign']);              // sites à défilement maison : on fait défiler à la molette, comme un visiteur
+const NOCLICK = new Set(['amddesign']);            // menu sans effet hors navigateur réel (longue scène 3D) : descente avec survol des cartes
 const FRAMES = 1320, STEP = 2;                      // 44 s à 30 i/s pour les mouvements, une image enregistrée sur 2 (15 i/s, 660 images)
 const ease = (u) => u < .5 ? 2 * u * u : 1 - (-2 * u + 2) ** 2 / 2;
 const CURSOR = `(() => { if (document.getElementById('__cur')) return; const c = document.createElement('div'); c.id = '__cur';
@@ -51,8 +51,7 @@ for (const id of ids.length ? ids : Object.keys(SITES)) {
     const y0 = await sy();
     for (let j = 1; j <= n; j++) {
       const v = Math.round(y0 + (y - y0) * ease(j / n));
-      if (WHEEL.has(id)) await p.mouse.wheel(0, v - Math.round(y0 + (y - y0) * ease((j - 1) / n))).catch(() => {});
-      else await p.evaluate((v) => scrollTo({ top: v, behavior: 'instant' }), v).catch(() => {});
+      await p.evaluate((v) => scrollTo({ top: v, behavior: 'instant' }), v).catch(() => {});
       await shot();
     }
   };
@@ -72,11 +71,24 @@ for (const id of ids.length ? ids : Object.keys(SITES)) {
     }).filter(Boolean);
   }, home.host).catch(() => []);
 
+  if (NOCLICK.has(id)) {
+    // descente par paliers ; à chaque palier, le curseur survole une carte ou un bouton visible
+    const max = await p.evaluate(() => document.documentElement.scrollHeight - innerHeight).catch(() => 6000);
+    const steps = 16, depth = Math.min(max, 7000);
+    await wait(20);
+    for (let n = 1; n <= steps && k < FRAMES; n++) {
+      await scrollTo(depth * n / steps, 36);
+      const c = await p.evaluate(() => { const v = [...document.querySelectorAll('article, [class*=card], [class*=item], a, button')].map((e) => e.getBoundingClientRect())
+        .filter((r) => r.width > 60 && r.height > 40 && r.top > 80 && r.bottom < innerHeight - 40); const r = v[Math.floor(v.length / 2)]; return r ? { x: r.left + r.width / 2, y: r.top + r.height / 2 } : null; }).catch(() => null);
+      if (c) await moveTo(c.x, c.y, 22);
+      await wait(16);
+    }
+  }
   await wait(20);
   await scrollTo(700, 50);
   await scrollTo(0, 25);
   const done = new Set();
-  for (let n = 0; n < 4 && k < FRAMES; n++) {
+  for (let n = 0; n < 4 && k < FRAMES && !NOCLICK.has(id); n++) {
     await dismiss();
     const L = (await links()).filter((l) => !done.has(l.t));
     if (!L.length) break;
