@@ -25,10 +25,14 @@ for (const id of ids.length ? ids : Object.keys(SITES)) {
   const home = new URL(SITES[id]);
   await p.goto(SITES[id], { waitUntil: 'networkidle', timeout: 90000 }).catch(() => {});
   await p.waitForTimeout(2500);
-  for (const txt of ['Continuer sans compte', 'Passer', 'Reste dans ton coin']) {     // fenêtres d'accueil
-    const btn = p.getByText(txt, { exact: true }).first();
-    if (await btn.isVisible().catch(() => false)) { await btn.click().catch(() => {}); await p.waitForTimeout(1500); }
-  }
+  // fenêtres d'accueil (connexion, assistant, intro qui bloque le défilement) : on les ferme, ici et avant chaque clic
+  const dismiss = async () => {
+    for (const re of [/^Continuer sans compte$/, /^Passer/i, /^Reste dans ton coin$/]) {
+      const btn = p.getByText(re).first();
+      if (await btn.isVisible().catch(() => false)) { await btn.click().catch(() => {}); await p.waitForTimeout(1500); }
+    }
+  };
+  for (let j = 0; j < 6; j++) { await dismiss(); await p.waitForTimeout(1500); }   // une intro peut démarrer quelques secondes après le chargement
   mkdirSync(`${out}/${id}`, { recursive: true });
   let k = 0, mx = 900, my = 420, ring = 0;
   const shot = async () => {
@@ -64,6 +68,7 @@ for (const id of ids.length ? ids : Object.keys(SITES)) {
   await scrollTo(0, 25);
   const done = new Set();
   for (let n = 0; n < 4 && k < FRAMES; n++) {
+    await dismiss();
     const L = (await links()).filter((l) => !done.has(l.t));
     if (!L.length) break;
     const l = L[0];   // les rubriques dans l'ordre du menu
