@@ -633,7 +633,8 @@
       "Site vitrine",
       "Devis en ligne",
       "SEO local"
-     ]
+     ],
+     "scroll": "leglaceur"
     },
     "brain": {
      "step": 12,
@@ -652,7 +653,8 @@
       "Site vitrine",
       "Devis en ligne",
       "SEO local"
-     ]
+     ],
+     "scroll": "leglaceur"
     },
     "brain": {
      "step": 12,
@@ -677,7 +679,7 @@
   "cover": {
    "k": "Réalisation",
    "t": "AMD Design",
-   "p": "Architecture · Côte d'Ivoire"
+   "p": "Plans & rendus 3D"
   },
   "beats": [
    {
@@ -694,18 +696,19 @@
     }
    },
    {
-    "say": "AMD Design, un cabinet d'architecture en Côte d'Ivoire.",
-    "sub": "AMD Design, un cabinet d'architecture en Côte d'Ivoire.",
+    "say": "AMD Design conçoit des plans et des rendus 3D, comme un cabinet d'architecture.",
+    "sub": "AMD Design conçoit des plans et des rendus 3D, comme un cabinet d'architecture.",
     "project": {
      "img": "img/amddesign.jpg",
      "url": "jordyadopo-boop.github.io/amddesign-archi3d",
      "name": "AMD Design",
-     "cat": "Architecture · Côte d'Ivoire",
+     "cat": "Plans & rendus 3D · Architecture",
      "tags": [
       "Vitrine premium",
       "Galerie 3D",
       "Mobile"
-     ]
+     ],
+     "scroll": "amddesign"
     },
     "brain": {
      "step": 12,
@@ -714,17 +717,18 @@
     }
    },
    {
-    "say": "Étude, suivi de chantier, permis de construire et rendus 3D : de l'idée à la réalité.",
+    "say": "Étude, suivi de chantier, permis de construire : de l'idée à la réalité.",
     "project": {
      "img": "img/amddesign.jpg",
      "url": "jordyadopo-boop.github.io/amddesign-archi3d",
      "name": "AMD Design",
-     "cat": "Architecture · Côte d'Ivoire",
+     "cat": "Plans & rendus 3D · Architecture",
      "tags": [
       "Vitrine premium",
       "Galerie 3D",
       "Mobile"
-     ]
+     ],
+     "scroll": "amddesign"
     },
     "brain": {
      "step": 12,
@@ -777,7 +781,8 @@
       "Application web",
       "Jeux",
       "Interactif"
-     ]
+     ],
+     "scroll": "odysseegames"
     },
     "brain": {
      "step": 12,
@@ -796,7 +801,8 @@
       "Application web",
       "Jeux",
       "Interactif"
-     ]
+     ],
+     "scroll": "odysseegames"
     },
     "brain": {
      "step": 12,
@@ -849,7 +855,8 @@
       "Plateforme e-learning",
       "Exercices",
       "Mobile"
-     ]
+     ],
+     "scroll": "liy10learning"
     },
     "brain": {
      "step": 12,
@@ -868,7 +875,8 @@
       "Plateforme e-learning",
       "Exercices",
       "Mobile"
-     ]
+     ],
+     "scroll": "liy10learning"
     },
     "brain": {
      "step": 12,
@@ -921,7 +929,8 @@
       "Site vitrine",
       "Devis en ligne",
       "SEO local"
-     ]
+     ],
+     "scroll": "leglaceur"
     },
     "brain": {
      "step": 12,
@@ -930,18 +939,19 @@
     }
    },
    {
-    "say": "AMD Design : un cabinet d'architecture, avec galerie 3D.",
-    "sub": "AMD Design : un cabinet d'architecture, avec galerie 3D.",
+    "say": "AMD Design : des plans et des rendus 3D, comme un cabinet d'architecture.",
+    "sub": "AMD Design : des plans et des rendus 3D, comme un cabinet d'architecture.",
     "project": {
      "img": "img/amddesign.jpg",
      "url": "jordyadopo-boop.github.io/amddesign-archi3d",
      "name": "AMD Design",
-     "cat": "Architecture · Côte d'Ivoire",
+     "cat": "Plans & rendus 3D · Architecture",
      "tags": [
       "Vitrine premium",
       "Galerie 3D",
       "Mobile"
-     ]
+     ],
+     "scroll": "amddesign"
     },
     "brain": {
      "step": 12,
@@ -961,7 +971,8 @@
       "Application web",
       "Jeux",
       "Interactif"
-     ]
+     ],
+     "scroll": "odysseegames"
     },
     "brain": {
      "step": 12,
@@ -981,7 +992,8 @@
       "Plateforme e-learning",
       "Exercices",
       "Mobile"
-     ]
+     ],
+     "scroll": "liy10learning"
     },
     "brain": {
      "step": 12,

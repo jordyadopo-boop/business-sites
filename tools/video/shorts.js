@@ -14,7 +14,7 @@ const red = (s) => esc(s).replace(/\*(.+?)\*/g, '<span class="red">$1</span>'); 
 const q = new URLSearchParams(location.search), COVER = q.has('cover');
 const [all, timing] = await Promise.all([fetch('./shorts.json').then((r) => r.json()), fetch('./shorts-timing.json').then((r) => r.json())]);
 const S = all.find((s) => s.id === q.get('s')) || all[0], T = timing[S.id];
-const N = S.beats.length;
+const N = S.beats.length, SCROLL = 240;   // images de défilement par site (8 s à 30 i/s)
 // la carte d'une phrase apparaît un peu avant la voix et reste jusqu'à la phrase suivante
 const A = T.starts.map((a) => Math.max(0, a - 0.25)), B = A.map((_, i) => (i < N - 1 ? A[i + 1] : T.dur + 1));
 window.__DUR = T.dur;
@@ -73,11 +73,19 @@ window.__render = (t) => {
   let so = 0;
   S.beats.forEach((b, i) => { if (b.project) so = Math.max(so, fade(i)); });
   $('#site').style.opacity = so;
+  let wait = null;
   if (P) {
-    if ($('#shot').dataset.src !== P.img) { $('#shot').src = '../../' + P.img; $('#shot').dataset.src = P.img; $('#url').textContent = '🔒 ' + P.url; }
-    const u = clamp((t - A[pk]) / (B[pk] - A[pk]));
-    $('#shot').style.transform = `scale(${1 + 0.08 * u})`; $('#shot').style.transformOrigin = '50% 20%';
-    $('#browser').style.transform = `rotateX(${8 - 4 * u}deg) rotateY(${-12 + 20 * u}deg) scale(.9)`;
+    // petite vidéo du site qui défile (scroll.cjs) : la phrase, ou la suite de phrases sur le même site, parcourt toute la séquence
+    let a = pk, b = pk;
+    while (a > 0 && S.beats[a - 1].project?.name === P.name) a--;
+    while (b < N - 1 && S.beats[b + 1].project?.name === P.name) b++;
+    const u = clamp((t - A[a]) / (B[b] - A[a] - 0.3));
+    const src = P.scroll ? `./scroll/${P.scroll}/${String(Math.round(u * (SCROLL - 1))).padStart(5, '0')}.jpg` : '../../' + P.img;
+    const shot = $('#shot');
+    if (shot.dataset.src !== src) { shot.src = src; shot.dataset.src = src; wait = shot.decode().catch(() => {}); }
+    $('#url').textContent = '🔒 ' + P.url;
+    const v = clamp((t - A[pk]) / (B[pk] - A[pk]));
+    $('#browser').style.transform = `rotateX(${8 - 4 * v}deg) rotateY(${-12 + 20 * v}deg) scale(.9)`;
   }
   // appel final
   const ce = N - 1, cf = smooth((t - A[ce]) / 0.6);
@@ -90,13 +98,14 @@ window.__render = (t) => {
   const cut = A.slice(1).find((a) => t >= a - 0.3 && t < a + 0.26);
   $('#wipe').style.opacity = cut === undefined ? 0 : 1;
   if (cut !== undefined) $('#wipe').style.transform = `translateX(${lerp(-40, W + 40, smooth((t - cut + 0.3) / 0.55))}px)`;
+  return wait;   // render.cjs attend que l'image du défilement soit décodée avant la capture
 };
 
 await document.fonts.ready;
 if (COVER) {
   // couverture : le cerveau tel qu'il est pendant la deuxième phrase (avec la capture du site pour une réalisation), sans texte animé
   const tc = A[Math.min(1, N - 1)] + 1.5;
-  for (let t = tc - 3; t < tc; t += 1 / 30) window.__render(t);
+  for (let t = tc - 3; t < tc; t += 1 / 30) await window.__render(t);
   $('#site').style.opacity = S.beats[Math.min(1, N - 1)].project ? 1 : 0; $('#end').style.opacity = 0; $('#dim').style.opacity = .15;
 } else window.__render(0);
 window.__ready = true;
