@@ -1,20 +1,19 @@
 [
  {
-  "id": "cerveau-01",
-  "series": "Ton site a un cerveau · 01/10",
+  "id": "etape-01",
+  "series": "Ton site, étape par étape · 01/10",
   "cover": {
-   "k": "Épisode 01/10",
-   "t": "Ton site a un *cerveau*",
-   "p": "Lobe temporal"
+   "k": "Étape 01/10",
+   "t": "Avant de créer ton site, je t'*écoute*",
+   "p": "L'écoute"
   },
   "beats": [
    {
-    "say": "Ton site a un cerveau. Épisode 1 : le lobe temporal.",
+    "say": "Avant de créer ton site, je t'écoute.",
     "card": {
      "big": true,
-     "k": "Épisode 01/10",
-     "t": "Ton site a un *cerveau*",
-     "p": "Lobe temporal"
+     "k": "Étape 01/10 · L'écoute",
+     "t": "Avant de créer ton site, je t'*écoute*"
     },
     "brain": {
      "step": 0,
@@ -22,30 +21,16 @@
     }
    },
    {
-    "say": "Le lobe temporal traite ce que l'on entend.",
+    "say": "Ton activité, tes clients, tes objectifs : c'est la base de ton site.",
     "card": {
      "n": "01",
-     "k": "Lobe temporal",
-     "f": "→ Écouter",
-     "t": "Lobe temporal"
-    },
-    "brain": {
-     "step": 1,
-     "zoom": 1
-    }
-   },
-   {
-    "say": "Pour ton site, c'est l'écoute : ton activité, tes clients, tes objectifs. Je commence toujours par là.",
-    "card": {
-     "n": "01",
-     "k": "Lobe temporal",
-     "f": "→ Écouter",
+     "k": "Étape 01/10",
      "t": "On échange",
-     "p": "Ton activité, tes clients, tes objectifs. Je commence toujours par là."
+     "p": "Ton activité, tes clients, tes objectifs."
     },
     "brain": {
      "step": 1,
-     "zoom": 0.85
+     "zoom": 0.9
     }
    },
    {
@@ -60,21 +45,20 @@
   ]
  },
  {
-  "id": "cerveau-02",
-  "series": "Ton site a un cerveau · 02/10",
+  "id": "etape-02",
+  "series": "Ton site, étape par étape · 02/10",
   "cover": {
-   "k": "Épisode 02/10",
-   "t": "Ton site a un *cerveau*",
-   "p": "Lobe frontal"
+   "k": "Étape 02/10",
+   "t": "Un bon site commence par une *stratégie*",
+   "p": "La stratégie"
   },
   "beats": [
    {
-    "say": "Ton site a un cerveau. Épisode 2 : le lobe frontal.",
+    "say": "Un bon site commence par une stratégie.",
     "card": {
      "big": true,
-     "k": "Épisode 02/10",
-     "t": "Ton site a un *cerveau*",
-     "p": "Lobe frontal"
+     "k": "Étape 02/10 · La stratégie",
+     "t": "Un bon site commence par une *stratégie*"
     },
     "brain": {
      "step": 0,
@@ -82,30 +66,16 @@
     }
    },
    {
-    "say": "Le lobe frontal prend les décisions et planifie.",
+    "say": "Quelles pages, quels messages, quel parcours pour transformer un visiteur en client.",
     "card": {
      "n": "02",
-     "k": "Lobe frontal",
-     "f": "→ Planifier",
-     "t": "Lobe frontal"
-    },
-    "brain": {
-     "step": 2,
-     "zoom": 1
-    }
-   },
-   {
-    "say": "Pour ton site, c'est la stratégie : les pages, les messages, le parcours de tes visiteurs.",
-    "card": {
-     "n": "02",
-     "k": "Lobe frontal",
-     "f": "→ Planifier",
+     "k": "Étape 02/10",
      "t": "La stratégie",
-     "p": "Les pages, les messages, le parcours de tes visiteurs."
+     "p": "Pages, messages, parcours du visiteur."
     },
     "brain": {
      "step": 2,
-     "zoom": 0.85
+     "zoom": 0.9
     }
    },
    {
@@ -120,21 +90,20 @@
   ]
  },
  {
-  "id": "cerveau-03",
-  "series": "Ton site a un cerveau · 03/10",
+  "id": "etape-03",
+  "series": "Ton site, étape par étape · 03/10",
   "cover": {
-   "k": "Épisode 03/10",
-   "t": "Ton site a un *cerveau*",
-   "p": "Aire de Broca"
+   "k": "Étape 03/10",
+   "t": "Les bons mots font *vendre*",
+   "p": "Les contenus"
   },
   "beats": [
    {
-    "say": "Ton site a un cerveau. Épisode 3 : l'aire de Broca.",
+    "say": "Les bons mots font vendre.",
     "card": {
      "big": true,
-     "k": "Épisode 03/10",
-     "t": "Ton site a un *cerveau*",
-     "p": "Aire de Broca"
+     "k": "Étape 03/10 · Les contenus",
+     "t": "Les bons mots font *vendre*"
     },
     "brain": {
      "step": 0,
@@ -142,30 +111,16 @@
     }
    },
    {
-    "say": "L'aire de Broca met les idées en mots.",
+    "say": "J'écris des textes clairs qui donnent envie de te contacter.",
     "card": {
      "n": "03",
-     "k": "Aire de Broca",
-     "f": "→ Le langage",
-     "t": "Aire de Broca"
-    },
-    "brain": {
-     "step": 3,
-     "zoom": 1
-    }
-   },
-   {
-    "say": "Pour ton site, ce sont les textes : clairs, et qui donnent envie de te contacter.",
-    "card": {
-     "n": "03",
-     "k": "Aire de Broca",
-     "f": "→ Le langage",
+     "k": "Étape 03/10",
      "t": "Tes contenus",
-     "p": "Clairs, et qui donnent envie de te contacter."
+     "p": "Des textes clairs qui donnent envie de te contacter."
     },
     "brain": {
      "step": 3,
-     "zoom": 0.85
+     "zoom": 0.9
     }
    },
    {
@@ -180,21 +135,20 @@
   ]
  },
  {
-  "id": "cerveau-04",
-  "series": "Ton site a un cerveau · 04/10",
+  "id": "etape-04",
+  "series": "Ton site, étape par étape · 04/10",
   "cover": {
-   "k": "Épisode 04/10",
-   "t": "Ton site a un *cerveau*",
-   "p": "Cortex moteur"
+   "k": "Étape 04/10",
+   "t": "Ton site ne fait pas qu'exister. Il *agit*",
+   "p": "Les fonctionnalités"
   },
   "beats": [
    {
-    "say": "Ton site a un cerveau. Épisode 4 : le cortex moteur.",
+    "say": "Ton site ne se contente pas d'exister. Il agit.",
     "card": {
      "big": true,
-     "k": "Épisode 04/10",
-     "t": "Ton site a un *cerveau*",
-     "p": "Cortex moteur"
+     "k": "Étape 04/10 · Les fonctionnalités",
+     "t": "Ton site ne fait pas qu'exister. Il *agit*"
     },
     "brain": {
      "step": 0,
@@ -202,30 +156,16 @@
     }
    },
    {
-    "say": "Le cortex moteur commande chaque geste.",
+    "say": "Devis, commandes, formulaires, WhatsApp : il travaille pour toi.",
     "card": {
      "n": "04",
-     "k": "Cortex moteur",
-     "f": "→ Le mouvement",
-     "t": "Cortex moteur"
-    },
-    "brain": {
-     "step": 4,
-     "zoom": 1
-    }
-   },
-   {
-    "say": "Pour ton site, ce sont les fonctionnalités : devis, commandes, formulaires, WhatsApp. Ton site agit pour toi.",
-    "card": {
-     "n": "04",
-     "k": "Cortex moteur",
-     "f": "→ Le mouvement",
+     "k": "Étape 04/10",
      "t": "Les fonctionnalités",
-     "p": "Devis, commandes, formulaires, WhatsApp. Ton site agit pour toi."
+     "p": "Devis, commandes, formulaires, WhatsApp."
     },
     "brain": {
      "step": 4,
-     "zoom": 0.85
+     "zoom": 0.9
     }
    },
    {
@@ -240,21 +180,20 @@
   ]
  },
  {
-  "id": "cerveau-05",
-  "series": "Ton site a un cerveau · 05/10",
+  "id": "etape-05",
+  "series": "Ton site, étape par étape · 05/10",
   "cover": {
-   "k": "Épisode 05/10",
-   "t": "Ton site a un *cerveau*",
-   "p": "Lobe pariétal"
+   "k": "Étape 05/10",
+   "t": "Un visiteur perdu, c'est un *client perdu*",
+   "p": "La navigation"
   },
   "beats": [
    {
-    "say": "Ton site a un cerveau. Épisode 5 : le lobe pariétal.",
+    "say": "Un visiteur perdu, c'est un client perdu.",
     "card": {
      "big": true,
-     "k": "Épisode 05/10",
-     "t": "Ton site a un *cerveau*",
-     "p": "Lobe pariétal"
+     "k": "Étape 05/10 · La navigation",
+     "t": "Un visiteur perdu, c'est un *client perdu*"
     },
     "brain": {
      "step": 0,
@@ -262,30 +201,16 @@
     }
    },
    {
-    "say": "Le lobe pariétal nous situe dans l'espace.",
+    "say": "Tes visiteurs trouvent tout de suite, sur mobile comme sur ordinateur.",
     "card": {
      "n": "05",
-     "k": "Lobe pariétal",
-     "f": "→ S'orienter",
-     "t": "Lobe pariétal"
-    },
-    "brain": {
-     "step": 5,
-     "zoom": 1
-    }
-   },
-   {
-    "say": "Pour ton site, c'est la navigation : tes visiteurs trouvent tout de suite, sur mobile comme sur ordinateur.",
-    "card": {
-     "n": "05",
-     "k": "Lobe pariétal",
-     "f": "→ S'orienter",
+     "k": "Étape 05/10",
      "t": "La navigation",
-     "p": "Tes visiteurs trouvent tout de suite, sur mobile comme sur ordinateur."
+     "p": "Tout se trouve tout de suite, sur mobile comme sur ordinateur."
     },
     "brain": {
      "step": 5,
-     "zoom": 0.85
+     "zoom": 0.9
     }
    },
    {
@@ -300,21 +225,20 @@
   ]
  },
  {
-  "id": "cerveau-06",
-  "series": "Ton site a un cerveau · 06/10",
+  "id": "etape-06",
+  "series": "Ton site, étape par étape · 06/10",
   "cover": {
-   "k": "Épisode 06/10",
-   "t": "Ton site a un *cerveau*",
-   "p": "Lobe occipital"
+   "k": "Étape 06/10",
+   "t": "On juge un site en *quelques secondes*",
+   "p": "Le design"
   },
   "beats": [
    {
-    "say": "Ton site a un cerveau. Épisode 6 : le lobe occipital.",
+    "say": "On juge un site en quelques secondes.",
     "card": {
      "big": true,
-     "k": "Épisode 06/10",
-     "t": "Ton site a un *cerveau*",
-     "p": "Lobe occipital"
+     "k": "Étape 06/10 · Le design",
+     "t": "On juge un site en *quelques secondes*"
     },
     "brain": {
      "step": 0,
@@ -322,30 +246,16 @@
     }
    },
    {
-    "say": "Le lobe occipital traite tout ce que l'on voit.",
+    "say": "Un design soigné inspire confiance au premier regard.",
     "card": {
      "n": "06",
-     "k": "Lobe occipital",
-     "f": "→ La vision",
-     "t": "Lobe occipital"
-    },
-    "brain": {
-     "step": 6,
-     "zoom": 1
-    }
-   },
-   {
-    "say": "Pour ton site, c'est le design : il inspire confiance au premier regard.",
-    "card": {
-     "n": "06",
-     "k": "Lobe occipital",
-     "f": "→ La vision",
+     "k": "Étape 06/10",
      "t": "Le design",
      "p": "Il inspire confiance au premier regard."
     },
     "brain": {
      "step": 6,
-     "zoom": 0.85
+     "zoom": 0.9
     }
    },
    {
@@ -360,21 +270,20 @@
   ]
  },
  {
-  "id": "cerveau-07",
-  "series": "Ton site a un cerveau · 07/10",
+  "id": "etape-07",
+  "series": "Ton site, étape par étape · 07/10",
   "cover": {
-   "k": "Épisode 07/10",
-   "t": "Ton site a un *cerveau*",
-   "p": "Cervelet"
+   "k": "Étape 07/10",
+   "t": "Trop lent ? Le visiteur est *déjà parti*",
+   "p": "La vitesse"
   },
   "beats": [
    {
-    "say": "Ton site a un cerveau. Épisode 7 : le cervelet.",
+    "say": "Trop lent ? Le visiteur est déjà parti.",
     "card": {
      "big": true,
-     "k": "Épisode 07/10",
-     "t": "Ton site a un *cerveau*",
-     "p": "Cervelet"
+     "k": "Étape 07/10 · La vitesse",
+     "t": "Trop lent ? Le visiteur est *déjà parti*"
     },
     "brain": {
      "step": 0,
@@ -382,30 +291,16 @@
     }
    },
    {
-    "say": "Le cervelet rend chaque mouvement fluide.",
+    "say": "Ton site s'ouvre vite et reste fluide, même en 3G.",
     "card": {
      "n": "07",
-     "k": "Cervelet",
-     "f": "→ La coordination",
-     "t": "Cervelet"
+     "k": "Étape 07/10",
+     "t": "La vitesse",
+     "p": "Rapide et fluide, même en 3G."
     },
     "brain": {
      "step": 7,
-     "zoom": 1
-    }
-   },
-   {
-    "say": "Pour ton site, c'est la vitesse : il s'ouvre vite et réagit sans à-coups, même en 3G.",
-    "card": {
-     "n": "07",
-     "k": "Cervelet",
-     "f": "→ La coordination",
-     "t": "La fluidité",
-     "p": "Il s'ouvre vite et réagit sans à-coups, même en 3G."
-    },
-    "brain": {
-     "step": 7,
-     "zoom": 0.85
+     "zoom": 0.9
     }
    },
    {
@@ -420,21 +315,20 @@
   ]
  },
  {
-  "id": "cerveau-08",
-  "series": "Ton site a un cerveau · 08/10",
+  "id": "etape-08",
+  "series": "Ton site, étape par étape · 08/10",
   "cover": {
-   "k": "Épisode 08/10",
-   "t": "Ton site a un *cerveau*",
-   "p": "Tronc cérébral"
+   "k": "Étape 08/10",
+   "t": "Ton site ne *dort jamais*",
+   "p": "L'hébergement"
   },
   "beats": [
    {
-    "say": "Ton site a un cerveau. Épisode 8 : le tronc cérébral.",
+    "say": "Ton site ne dort jamais.",
     "card": {
      "big": true,
-     "k": "Épisode 08/10",
-     "t": "Ton site a un *cerveau*",
-     "p": "Tronc cérébral"
+     "k": "Étape 08/10 · L'hébergement",
+     "t": "Ton site ne *dort jamais*"
     },
     "brain": {
      "step": 0,
@@ -442,30 +336,16 @@
     }
    },
    {
-    "say": "Le tronc cérébral nous fait respirer, jour et nuit, sans qu'on y pense.",
+    "say": "Hébergé et sécurisé, il reste en ligne 24 heures sur 24.",
     "card": {
      "n": "08",
-     "k": "Tronc cérébral",
-     "f": "→ Les fonctions vitales",
-     "t": "Tronc cérébral"
-    },
-    "brain": {
-     "step": 8,
-     "zoom": 1
-    }
-   },
-   {
-    "say": "Pour ton site, c'est l'hébergement et la sécurité : en ligne et protégé, 24 heures sur 24.",
-    "card": {
-     "n": "08",
-     "k": "Tronc cérébral",
-     "f": "→ Les fonctions vitales",
+     "k": "Étape 08/10",
      "t": "Hébergement & sécurité",
-     "p": "En ligne et protégé, 24 heures sur 24."
+     "p": "En ligne et protégé, 24 h/24."
     },
     "brain": {
      "step": 8,
-     "zoom": 0.85
+     "zoom": 0.9
     }
    },
    {
@@ -480,21 +360,20 @@
   ]
  },
  {
-  "id": "cerveau-09",
-  "series": "Ton site a un cerveau · 09/10",
+  "id": "etape-09",
+  "series": "Ton site, étape par étape · 09/10",
   "cover": {
-   "k": "Épisode 09/10",
-   "t": "Ton site a un *cerveau*",
-   "p": "Hippocampe"
+   "k": "Étape 09/10",
+   "t": "Contacts, commandes, élèves : *où sont-ils rangés* ?",
+   "p": "Les données"
   },
   "beats": [
    {
-    "say": "Ton site a un cerveau. Épisode 9 : l'hippocampe.",
+    "say": "Contacts, commandes, élèves : où sont-ils rangés ?",
     "card": {
      "big": true,
-     "k": "Épisode 09/10",
-     "t": "Ton site a un *cerveau*",
-     "p": "Hippocampe"
+     "k": "Étape 09/10 · Les données",
+     "t": "Contacts, commandes, élèves : *où sont-ils rangés* ?"
     },
     "brain": {
      "step": 0,
@@ -502,30 +381,16 @@
     }
    },
    {
-    "say": "L'hippocampe range les souvenirs.",
+    "say": "Dans une base de données : tout est enregistré et retrouvé en un instant.",
     "card": {
      "n": "09",
-     "k": "Hippocampe",
-     "f": "→ La mémoire",
-     "t": "Hippocampe"
-    },
-    "brain": {
-     "step": 9,
-     "zoom": 1
-    }
-   },
-   {
-    "say": "Pour ton site, c'est la base de données : contacts, commandes, élèves, tout est bien rangé.",
-    "card": {
-     "n": "09",
-     "k": "Hippocampe",
-     "f": "→ La mémoire",
+     "k": "Étape 09/10",
      "t": "La base de données",
-     "p": "Contacts, commandes, élèves, tout est bien rangé."
+     "p": "Tout est enregistré et retrouvé en un instant."
     },
     "brain": {
      "step": 9,
-     "zoom": 0.85
+     "zoom": 0.9
     }
    },
    {
@@ -540,21 +405,20 @@
   ]
  },
  {
-  "id": "cerveau-10",
-  "series": "Ton site a un cerveau · 10/10",
+  "id": "etape-10",
+  "series": "Ton site, étape par étape · 10/10",
   "cover": {
-   "k": "Épisode 10/10",
-   "t": "Ton site a un *cerveau*",
-   "p": "Corps calleux"
+   "k": "Étape 10/10",
+   "t": "Ton site ne travaille pas *seul*",
+   "p": "Les connexions"
   },
   "beats": [
    {
-    "say": "Ton site a un cerveau. Épisode 10 : le corps calleux.",
+    "say": "Ton site ne travaille pas seul.",
     "card": {
      "big": true,
-     "k": "Épisode 10/10",
-     "t": "Ton site a un *cerveau*",
-     "p": "Corps calleux"
+     "k": "Étape 10/10 · Les connexions",
+     "t": "Ton site ne travaille pas *seul*"
     },
     "brain": {
      "step": 0,
@@ -562,30 +426,16 @@
     }
    },
    {
-    "say": "Le corps calleux relie les deux moitiés du cerveau.",
+    "say": "Je le relie à Google, WhatsApp, tes réseaux et tes outils.",
     "card": {
      "n": "10",
-     "k": "Corps calleux",
-     "f": "→ Relier",
-     "t": "Corps calleux"
-    },
-    "brain": {
-     "step": 10,
-     "zoom": 1
-    }
-   },
-   {
-    "say": "Pour ton site, ce sont les connexions : Google, WhatsApp, tes réseaux et tes outils.",
-    "card": {
-     "n": "10",
-     "k": "Corps calleux",
-     "f": "→ Relier",
+     "k": "Étape 10/10",
      "t": "Les connexions",
-     "p": "Google, WhatsApp, tes réseaux et tes outils."
+     "p": "Google, WhatsApp, tes réseaux, tes outils."
     },
     "brain": {
      "step": 10,
-     "zoom": 0.85
+     "zoom": 0.9
     }
    },
    {

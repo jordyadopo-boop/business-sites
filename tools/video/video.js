@@ -16,24 +16,24 @@ export const DUR = 60;
 const SLOT = 3, T0 = 14.15;                 // zone i (1..10) centrée sur T0 + 3i ; neurones (11) à T0 + 33
 const Ti = (i) => T0 + SLOT * i;
 const CUTS = [7.9, 11.8, ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => Ti(i) - 1.35), 45.6, 50.6, 55.2];
-const ZONES = [
-  ['Lobe temporal', 'Écouter', 'On échange', 'Votre activité, vos clients, vos objectifs : je commence par vous écouter.'],
-  ['Lobe frontal', 'Planifier', 'La stratégie', 'Le plan du site : pages, messages, parcours du visiteur.'],
-  ['Aire de Broca', 'Le langage', 'Vos contenus', 'Des textes clairs qui donnent envie de vous contacter.'],
-  ['Cortex moteur', 'Le mouvement', 'Les fonctionnalités', 'Devis, commandes, formulaires, WhatsApp : votre site agit.'],
-  ['Lobe pariétal', "S'orienter", 'La navigation', 'Vos visiteurs trouvent tout, sur mobile comme sur ordinateur.'],
-  ['Lobe occipital', 'La vision', 'Le design', 'Un design qui inspire confiance au premier regard.'],
-  ['Cervelet', 'La coordination', 'La fluidité', 'Un site rapide et fluide, même en 3G.'],
-  ['Tronc cérébral', 'Les fonctions vitales', 'Hébergement & sécurité', 'En ligne et protégé, 24 h/24.'],
-  ['Hippocampe', 'La mémoire', 'La base de données', 'Contacts, commandes, élèves : tout est bien rangé.'],
-  ['Corps calleux', 'Relier', 'Les connexions', 'Relié à Google, WhatsApp et vos réseaux.'],
+const ZONES = [   // [étape, intention, titre, texte] : on parle du métier, le cerveau reste l'image de la marque
+  ['Écoute', 'Comprendre votre activité', 'On échange', 'Votre activité, vos clients, vos objectifs : je commence par vous écouter.'],
+  ['Stratégie', 'Penser le parcours', 'La stratégie', 'Le plan du site : pages, messages, parcours du visiteur.'],
+  ['Contenus', 'Trouver les bons mots', 'Vos contenus', 'Des textes clairs qui donnent envie de vous contacter.'],
+  ['Fonctionnalités', 'Faire agir le site', 'Les fonctionnalités', 'Devis, commandes, formulaires, WhatsApp : votre site agit.'],
+  ['Navigation', 'Guider le visiteur', 'La navigation', 'Vos visiteurs trouvent tout, sur mobile comme sur ordinateur.'],
+  ['Design', 'Inspirer confiance', 'Le design', 'Un design qui inspire confiance au premier regard.'],
+  ['Performance', 'Aller vite', 'La fluidité', 'Un site rapide et fluide, même en 3G.'],
+  ['Hébergement', 'Rester en ligne', 'Hébergement & sécurité', 'En ligne et protégé, 24 h/24.'],
+  ['Données', 'Tout ranger', 'La base de données', 'Contacts, commandes, élèves : tout est bien rangé.'],
+  ['Connexions', 'Tout relier', 'Les connexions', 'Relié à Google, WhatsApp et vos réseaux.'],
 ];
 // Voix off : [début, texte] ; les durées viennent de voice.json (généré par voice.py)
 export const VOICE = [
   [0.7, 'Je fais ton site internet.'],
   [3.3, 'Sites vitrines, commandes en ligne, applications web, référencement Google.'],
   [8.4, 'Votre activité mérite un site qui travaille pour vous.'],
-  [12.2, "Un site, c'est comme un cerveau : chaque zone a son rôle."],
+  [12.2, 'Voici comment je construis le vôtre, étape par étape.'],
   [Ti(1) - 1.1, "D'abord, je vous écoute."],
   [Ti(2) - 1.1, 'Je planifie la stratégie.'],
   [Ti(3) - 1.1, "J'écris vos contenus."],
@@ -44,7 +44,7 @@ export const VOICE = [
   [Ti(8) - 1.1, 'En ligne et protégé, jour et nuit.'],
   [Ti(9) - 1.1, 'Vos données, bien rangées.'],
   [Ti(10) - 1.1, 'Relié à Google, WhatsApp et vos réseaux.'],
-  [46.2, 'Et chaque connexion vous amène de nouveaux clients.'],
+  [46.2, 'Visible sur Google, votre site vous amène de nouveaux clients.'],
   [51.2, 'Découvrez mes réalisations sur mon site.'],
   [55.8, 'Vous avez un projet ? Écrivez-moi sur WhatsApp.'],
 ];
@@ -143,7 +143,7 @@ async function boot() {
     .to('#black', { opacity: 1, duration: .8, ease: 'power2.in' }, 59.2)
     .set({}, {}, DUR);
 
-  const labels = [[0, ''], [3, 'Cerveau · vue d\'ensemble'], ...ZONES.map((z, i) => [Ti(i + 1) - 1.35, z[0]]), [45.6, 'Neurones'], [50.6, 'Le site'], [55.2, 'Contact']];
+  const labels = [[0, ''], [3, 'Présentation'], ...ZONES.map((z, i) => [Ti(i + 1) - 1.35, z[0]]), [45.6, 'Visibilité'], [50.6, 'Le site'], [55.2, 'Contact']];
   const SUBS = VOICE.map(([a, txt], i) => [a, a + (durs ? durs[i] : 2.5) + .25, txt]);
   const LOGO = '<je.fais.ton.site/>';
   const zone = $('#zone'), typed = $('#typed');
