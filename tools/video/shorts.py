@@ -2,7 +2,7 @@
   python3 shorts.py tts <travail> [id…]      voix edge-tts (Henri, +4 %) par phrase, silences coupés ; écrit shorts-timing.json
   python3 shorts.py audio <travail> [id…]    bande-son de chaque short : voix traitée et posée, musique (music.py), mixage -15 LUFS
 Ensuite : PAGE='shorts.html?s=<id>' VERT=1 node render.cjs <images> 30 0 <durée>, et montage (voir README.md).
-Minutage : chaque phrase démarre 0,45 s après la fin de la précédente (0,6 s avant l'appel final) ; le short dure jusqu'à 1,6 s après la dernière.
+Minutage : chaque phrase (ou moment « hold » sans voix) démarre 0,45 s après la fin de la précédente (0,6 s avant l'appel final) ; le short dure jusqu'à 1,6 s après la dernière.
 """
 import json, os, subprocess, sys
 import voice
@@ -27,13 +27,17 @@ def tts(work, *ids):
         d = os.path.join(work, s['id']); os.makedirs(d, exist_ok=True)
         starts, lens, t = [], [], 0.5
         for i, b in enumerate(s['beats']):
-            mp3 = f'{d}/{i:02d}.mp3'
-            asyncio.run(edge_tts.Communicate(b['say'], 'fr-FR-HenriNeural', rate='+4%').save(mp3))
-            voice.run('-i', mp3, '-af', voice.TRIM, '-ar', '48000', '-ac', '1', f'{d}/{i:02d}.wav'); os.remove(mp3)
-            L = round(dur(f'{d}/{i:02d}.wav'), 2)
+            if b.get('say'):
+                mp3 = f'{d}/{i:02d}.mp3'
+                asyncio.run(edge_tts.Communicate(b['say'], 'fr-FR-HenriNeural', rate='+4%').save(mp3))
+                voice.run('-i', mp3, '-af', voice.TRIM, '-ar', '48000', '-ac', '1', f'{d}/{i:02d}.wav'); os.remove(mp3)
+                L = round(dur(f'{d}/{i:02d}.wav'), 2)
+            else:                    # moment sans voix : silence de la durée « hold »
+                voice.run('-f', 'lavfi', '-i', 'anullsrc=r=48000:cl=mono', '-t', str(b['hold']), f'{d}/{i:02d}.wav')
+                L = 0
             if i:
                 t += 0.6 if b.get('cta') else 0.45
-            starts.append(round(t, 2)); lens.append(L); t += L
+            starts.append(round(t, 2)); lens.append(L); t += max(L, b.get('hold', 0))   # « hold » : durée minimale du moment
         timing[s['id']] = {'dur': round(t + 1.6, 1), 'starts': starts, 'lens': lens}
         print(s['id'], timing[s['id']]['dur'])
     json.dump(timing, open(TIMING, 'w'), indent=1)

@@ -14,7 +14,7 @@ const red = (s) => esc(s).replace(/\*(.+?)\*/g, '<span class="red">$1</span>'); 
 const q = new URLSearchParams(location.search), COVER = q.has('cover');
 const [all, timing] = await Promise.all([fetch('./shorts.json').then((r) => r.json()), fetch('./shorts-timing.json').then((r) => r.json())]);
 const S = all.find((s) => s.id === q.get('s')) || all[0], T = timing[S.id];
-const N = S.beats.length, SCROLL = 240;   // images de défilement par site (8 s à 30 i/s)
+const N = S.beats.length, FRAMES = 660;   // parcours enregistré par site (scroll.cjs : 44 s à 15 i/s)
 // la carte d'une phrase apparaît un peu avant la voix et reste jusqu'à la phrase suivante
 const A = T.starts.map((a) => Math.max(0, a - 0.25)), B = A.map((_, i) => (i < N - 1 ? A[i + 1] : T.dur + 1));
 window.__DUR = T.dur;
@@ -75,12 +75,11 @@ window.__render = (t) => {
   $('#site').style.opacity = so;
   let wait = null;
   if (P) {
-    // petite vidéo du site qui défile (scroll.cjs) : la phrase, ou la suite de phrases sur le même site, parcourt toute la séquence
-    let a = pk, b = pk;
+    // petite vidéo du parcours du site (scroll.cjs : curseur, clics, défilement), lue en temps réel depuis la première phrase sur ce site
+    let a = pk;
     while (a > 0 && S.beats[a - 1].project?.name === P.name) a--;
-    while (b < N - 1 && S.beats[b + 1].project?.name === P.name) b++;
-    const u = clamp((t - A[a]) / (B[b] - A[a] - 0.3));
-    const src = P.scroll ? `./scroll/${P.scroll}/${String(Math.round(u * (SCROLL - 1))).padStart(5, '0')}.jpg` : '../../' + P.img;
+    const fr = Math.min(FRAMES - 1, Math.max(0, Math.floor((t - A[a]) * 15)));
+    const src = P.scroll ? `./scroll/${P.scroll}/${String(fr).padStart(5, '0')}.jpg` : '../../' + P.img;
     const shot = $('#shot');
     if (shot.dataset.src !== src) { shot.src = src; shot.dataset.src = src; wait = shot.decode().catch(() => {}); }
     $('#url').textContent = '🔒 ' + P.url;

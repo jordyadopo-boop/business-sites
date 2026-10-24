@@ -8,12 +8,12 @@ const { mkdirSync, readFileSync } = require('node:fs');
 (async () => {
 const [out = 'covers', ...ids] = process.argv.slice(2);
 mkdirSync(out, { recursive: true });
-const all = JSON.parse(readFileSync(`${__dirname}/shorts.json`, 'utf8')).map((s) => s.id).filter((id) => !ids.length || ids.includes(id));
+const all = JSON.parse(readFileSync(`${__dirname}/shorts.json`, 'utf8')).filter((s) => !ids.length || ids.includes(s.id));
 const b = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium', args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
-for (const id of all) {
+for (const { id, page = 'shorts.html' } of all) {
   const p = await b.newPage({ viewport: { width: 1080, height: 1920 } });
   p.on('pageerror', (e) => console.log('PAGEERR', e.message));
-  await p.goto(`http://127.0.0.1:${process.env.PORT || 8123}/tools/video/shorts.html?s=${id}&cover`);
+  await p.goto(`http://127.0.0.1:${process.env.PORT || 8123}/tools/video/${page}?s=${id}&cover`);
   await p.waitForFunction(() => window.__ready === true, null, { timeout: 300000 });
   await p.screenshot({ path: `${out}/${id}.png`, timeout: 300000 });
   await p.close();
