@@ -1,5 +1,5 @@
 """Shorts TikTok (portrait 1080×1920) : voix, minutage et bande-son, à partir de shorts.json.
-  python3 shorts.py tts <travail>            voix edge-tts (Henri, +4 %) par phrase, silences coupés ; écrit shorts-timing.json
+  python3 shorts.py tts <travail> [id…]      voix edge-tts (Henri, +4 %) par phrase, silences coupés ; écrit shorts-timing.json
   python3 shorts.py audio <travail> [id…]    bande-son de chaque short : voix traitée et posée, musique (music.py), mixage -15 LUFS
 Ensuite : PAGE='shorts.html?s=<id>' VERT=1 node render.cjs <images> 30 0 <durée>, et montage (voir README.md).
 Minutage : chaque phrase démarre 0,45 s après la fin de la précédente (0,6 s avant l'appel final) ; le short dure jusqu'à 1,6 s après la dernière.
@@ -14,14 +14,16 @@ TIMING = os.path.join(HERE, 'shorts-timing.json')
 def dur(f):
     return float(subprocess.check_output(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', f]))
 
-def tts(work):
+def tts(work, *ids):
     import asyncio, certifi
     ca = os.environ.get('CA_BUNDLE', '/root/.ccr/ca-bundle.crt')
     if os.path.exists(ca):
         certifi.where = lambda: ca   # avant import edge_tts ; la vérification TLS reste active
     import edge_tts
-    timing = {}
+    timing = json.load(open(TIMING)) if ids and os.path.exists(TIMING) else {}
     for s in SHORTS:
+        if ids and s['id'] not in ids:
+            continue                 # les autres shorts gardent leur voix et leur minutage
         d = os.path.join(work, s['id']); os.makedirs(d, exist_ok=True)
         starts, lens, t = [], [], 0.5
         for i, b in enumerate(s['beats']):

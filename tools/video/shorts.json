@@ -1299,7 +1299,7 @@
   "id": "pub",
   "series": "Je fais ton site internet",
   "cover": {
-   "k": "Abidjan",
+   "k": "Où que tu sois",
    "t": "Je fais ton *site* internet",
    "p": "Vitrine · Commandes · Applications · Google"
   },
@@ -1308,7 +1308,7 @@
     "say": "Ton activité mérite un site qui travaille pour toi.",
     "card": {
      "big": true,
-     "k": "Jordy Adopo · Abidjan",
+     "k": "Jordy Adopo",
      "t": "Ton activité mérite un site qui *travaille pour toi*",
      "p": ""
     },
@@ -1330,10 +1330,10 @@
     }
    },
    {
-    "say": "Je fais ton site internet, à Abidjan.",
+    "say": "Je fais ton site internet, où que tu sois.",
     "card": {
      "big": true,
-     "k": "Abidjan",
+     "k": "Où que tu sois",
      "t": "Je fais ton *site* internet",
      "p": ""
     },
