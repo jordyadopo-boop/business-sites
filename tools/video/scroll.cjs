@@ -55,7 +55,7 @@ for (const id of ids.length ? ids : Object.keys(SITES)) {
         && txt.length >= 2 && txt.length <= 24 && !skip.test(txt) && !seen.has(txt) && h !== '/' && h !== '#' && !/^(tel:|mailto:|https?:\/\/(wa\.me|api\.whatsapp))/.test(h || '');
       try { ok = ok && (!h || h.startsWith('#') || new URL(a.href).host === host); } catch { ok = false; }
       if (ok) seen.add(txt);
-      return ok ? { x: r.left + r.width / 2, y: r.top + r.height / 2, t: txt } : null;
+      return ok ? { x: r.left + r.width / 2, y: r.top + r.height / 2, t: txt, h } : null;
     }).filter(Boolean);
   }, home.host).catch(() => []);
 
@@ -69,9 +69,16 @@ for (const id of ids.length ? ids : Object.keys(SITES)) {
     const l = L[0];   // les rubriques dans l'ordre du menu
     done.add(l.t);
     await moveTo(l.x, l.y, 18);
+    const y0 = await sy();
     await click();
     await p.waitForLoadState('domcontentloaded').catch(() => {});
-    await wait(45);
+    await wait(15);
+    // site qui ne réagit pas au clic (navigation gérée à sa façon) : on descend nous-mêmes jusqu'à la section visée
+    if (l.h && l.h.startsWith('#') && Math.abs((await sy()) - y0) < 50) {
+      const ty = await p.evaluate((h) => { const e = document.querySelector(h); return e ? e.getBoundingClientRect().top + scrollY - 60 : null; }, l.h).catch(() => null);
+      if (ty != null) await scrollTo(ty, 40);
+    }
+    await wait(30);
     await moveTo(760, 520, 12);
     await scrollTo((await sy()) + 900, 90);
     if (new URL(p.url()).pathname !== home.pathname) { await p.goBack({ waitUntil: 'domcontentloaded' }).catch(() => {}); await wait(20); }
