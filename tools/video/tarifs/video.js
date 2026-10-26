@@ -8,6 +8,7 @@ const $ = (s) => document.querySelector(s);
 const fmt = (n) => Math.round(n).toLocaleString('fr-FR').replace(/ | /g, ' ');
 
 export const DUR = 35;
+const SUBS = false;
 // Voix off (Henri) : [début, texte] ; durées dans voice.json
 export const VOICE = [
   [0.3, "Ton site pro, sans payer le prix d'une agence."],
@@ -89,7 +90,8 @@ async function boot() {
     $('#num').textContent = NUM.slice(0, Math.round(clamp((t - 28.9) / 3.2) * NUM.length));
     $('#veil').style.opacity = t > 20.9 && t < 24.2 ? .9 : .8;
     tl.seek(t, false);
-    const c = cards.find((c) => t >= c.a && t < c.b + .15);
+    // version musique seule : pas de voix, donc pas de sous-titres (SUBS = true pour les remettre)
+    const c = SUBS && cards.find((c) => t >= c.a && t < c.b + .15);
     $('#subs').innerHTML = c ? c.words.map((w, i) => `<span class="${t >= c.a + i * c.per ? 'on' : ''}">${w.replace(/[<>&]/g, '')}</span>`).join(' ') : '';
   };
   await document.fonts.ready;
