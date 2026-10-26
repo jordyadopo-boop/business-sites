@@ -19,12 +19,14 @@ await p.waitForFunction(() => window.__ready === true, null, { timeout: 180000 }
 await p.waitForTimeout(1500);
 // le cerveau évolue image après image (influx, surbrillances) : on part toujours d'un peu avant le début demandé
 for (let t = Math.max(0, from - 2); t < from - 1e-6; t += 1 / fps) await p.evaluate((t) => window.__render(t), t);
+// le moteur 3D doit d'abord écouler ces images de mise en route : première capture sans limite de temps courte
+await p.screenshot({ type: 'jpeg', timeout: 300000 });
 const t0 = Date.now();
 let i = Math.round(from * fps);
 for (let t = from; t < to - 1e-6; t += step, i++) {
   await p.evaluate((t) => window.__render(t), t);
   const name = stepArg ? `t${t.toFixed(1)}` : String(i).padStart(5, '0');
-  await p.screenshot({ path: `${out}/${name}.jpg`, type: 'jpeg', quality: 92 });
+  await p.screenshot({ path: `${out}/${name}.jpg`, type: 'jpeg', quality: 92, timeout: 120000 });
   if (i % 60 === 0) console.log(`t=${t.toFixed(2)}s  ${((Date.now() - t0) / 1000).toFixed(0)}s`);
 }
 await b.close();
