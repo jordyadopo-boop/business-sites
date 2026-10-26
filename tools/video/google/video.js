@@ -14,7 +14,7 @@ export const VOICE = [
   [4.5, "Restaurant, salon, boutique, pressing… Beaucoup n'ont qu'une page Facebook ou un statut WhatsApp. Ça ne suffit plus."],
   [12.2, "Un site comme ça, c'est tes services, tes photos, tes prix, ta localisation, et un bouton pour te contacter directement sur WhatsApp."],
   [20.0, 'Je crée ton site professionnel, adapté au téléphone, livré en trois jours.'],
-  [24.6, 'Écris SITE en commentaire, ou clique sur le lien WhatsApp dans ma bio. Je te montre gratuitement à quoi ressemblerait le tien.'],
+  [24.6, 'Écris SITE en commentaire, ou écris-moi sur WhatsApp. Je te montre gratuitement à quoi ressemblerait le tien.'],
 ];
 window.__VOICE = VOICE; window.__DUR = DUR;
 
@@ -24,7 +24,7 @@ async function boot() {
   const durs = await fetch('./voice.json').then((r) => r.ok ? r.json() : null).catch(() => null) || [3.67, 7.16, 6.8, 3.72, 6.08];
 
   const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
-  tl.set(['.soc', '#neq', '#c1', '#c2', '#tap'], { opacity: 0 }, 0);
+  tl.set(['.soc', '#neq', '#c1', '#c2', '#tap', '#tap0'], { opacity: 0 }, 0);
   // A · recherche Google
   tl.set('#black', { opacity: 1 }, 0).to('#black', { opacity: 0, duration: .4 }, 0)
     .from('#hA', { opacity: 0, y: -40, duration: .6 }, .1)
@@ -42,12 +42,17 @@ async function boot() {
     .fromTo('#flash', { opacity: .35 }, { opacity: 0, duration: .5, immediateRender: false }, 10.25)
     .to(['#chips', '#socials', '#neq'], { opacity: 0, y: -60, duration: .4, ease: 'power2.in' }, 11.6);
   // C · démonstration : le faux site défile au rythme de la voix
+  // le téléphone revient plus grand : « Chez Awa » sort en premier sur Google, on tape dessus, le site s'ouvre
   tl.set('#site', { opacity: 0 }, 0)
-    .set('#site', { opacity: 1 }, 11.9)
-    .fromTo('#phone', { x: 900, rotate: 8 }, { x: 0, rotate: 0, duration: .7, immediateRender: false }, 11.9)
+    .set('#res', { opacity: 0 }, 11.9).set('#res2', { opacity: 1 }, 11.9)
+    .fromTo('#phone', { x: 900, rotate: 8, scale: 1 }, { x: 0, y: -30, rotate: 0, scale: 1.15, duration: .7, immediateRender: false }, 11.9)
+    .fromTo('#tap0', { opacity: 0, scale: 1.6 }, { opacity: 1, scale: 1, duration: .2, immediateRender: false }, 12.35)
+    .to('#tap0', { scale: .8, duration: .1, yoyo: true, repeat: 1 }, 12.55)
+    .to('#tap0', { opacity: 0, duration: .2 }, 12.8)
+    .fromTo('#site', { opacity: 0, scale: .9 }, { opacity: 1, scale: 1, duration: .35, immediateRender: false }, 12.75)
     .fromTo('#c1', { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: .5, immediateRender: false }, 13.0)
     .fromTo('#c2', { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: .5, immediateRender: false }, 16.9);
-  const scroll = [[12.9, 520], [13.6, 860], [14.3, 1240], [15.1, 1560], [16.0, 1800]];
+  const scroll = [[13.3, 520], [13.9, 860], [14.5, 1240], [15.2, 1600], [16.0, 1878]];
   scroll.forEach(([at, y]) => tl.to('#siteIn', { y: -y, duration: .7, ease: 'power2.inOut' }, at));
   tl.fromTo('#tap', { opacity: 0, scale: 1.6 }, { opacity: 1, scale: 1, duration: .25, immediateRender: false }, 17.4)
     .to('#tap', { scale: .8, duration: .12, yoyo: true, repeat: 1 }, 17.7)

@@ -58,8 +58,16 @@ body { font-family: 'Space Grotesk', sans-serif; color: #f2f2f2; -webkit-font-sm
 /* Faux site (démonstration) */
 .site { position: absolute; inset: 0; background: #fffaf3; color: #2a1a12; font-family: 'Space Grotesk', sans-serif; }
 .site__in { position: absolute; left: 0; right: 0; top: 0; }
-.s-nav { height: 120px; padding: 62px 28px 0; display: flex; justify-content: space-between; font-weight: 700; font-size: 26px; }
-.s-nav span:last-child { color: #c2410c; }
+/* barre d'adresse du navigateur : on voit que c'est un vrai site web */
+.s-url { position: absolute; left: 0; right: 0; top: 0; height: 118px; padding-top: 60px; background: #ececec; z-index: 3; text-align: center; border-bottom: 1px solid #ddd; }
+.s-url span { display: inline-block; padding: 8px 26px; border-radius: 14px; background: #fff; font: 500 24px 'Roboto', sans-serif; color: #333; }
+.site__in { top: 118px !important; }
+.s-nav { height: 80px; padding: 22px 28px 0; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 28px; }
+.s-links { font-size: 20px; font-weight: 500; color: #c2410c; }
+#res2 { position: absolute; left: 30px; right: 30px; top: 307px; opacity: 0; }
+.g__res.win { border: 2px solid #34a853; background: #f3fbf5; }
+.g__tag--ok { background: #34a853; }
+.cta__s .tel { font-family: var(--mono); font-weight: 700; }
 .s-hero { margin: 0 20px; height: 470px; border-radius: 30px; padding: 40px 34px; color: #fff; position: relative; overflow: hidden;
   background: radial-gradient(120% 90% at 80% 20%, #f59e0b, #c2410c 55%, #7c2d12); }
 .s-hero .dish { position: absolute; right: -20px; bottom: -30px; font-size: 230px; }
@@ -134,10 +142,16 @@ body { font-family: 'Space Grotesk', sans-serif; color: #f2f2f2; -webkit-font-sm
         <div class="g__res r2"><small>chezkofi-grill.com</small><b>Chez Kofi Grill · Cocody</b><span><span class="stars">★★★★☆</span> 4,4 · Menu · Itinéraire</span></div>
         <div class="g__res me r3"><small>???</small><b>Ton restaurant</b><span>✕ Aucun résultat</span></div>
       </div>
+      <!-- après : le restaurant a son site, il sort en premier -->
+      <div id="res2">
+        <div class="g__res win"><small>🌐 chez-awa.ci</small><b>Chez Awa · Restaurant à Cocody</b><span>Menu, prix, photos, livraison · Commander sur WhatsApp</span><em class="g__tag g__tag--ok">✓ SITE WEB</em></div>
+        <div class="g__res"><small>maquis-ladiva.ci</small><b>Maquis La Diva · Abidjan</b><span><span class="stars">★★★★★</span> 4,7 · Ouvert · Commander</span></div>
+        <div class="g__res"><small>chezkofi-grill.com</small><b>Chez Kofi Grill · Cocody</b><span><span class="stars">★★★★☆</span> 4,4 · Menu · Itinéraire</span></div>
+      </div>
     </div>
     <!-- C. Faux site créé (infos inventées) -->
-    <div class="site" id="site"><div class="site__in" id="siteIn">
-      <div class="s-nav"><span>Chez Awa</span><span>☰</span></div>
+    <div class="site" id="site"><div class="s-url"><span>🔒 chez-awa.ci</span></div><div class="site__in" id="siteIn">
+      <div class="s-nav"><span>Chez Awa</span><span class="s-links">Accueil · Menu · Contact</span></div>
       <div class="s-hero"><small>RESTAURANT · COCODY</small><h3>Chez Awa</h3><p>Cuisine ivoirienne maison, sur place ou en livraison.</p><span class="btn">Voir le menu →</span><span class="dish">🍲</span></div>
       <div class="s-sec"><h4>Nos services</h4><div class="s-serv"><div><span>🍽️</span>Sur place</div><div><span>🛵</span>Livraison</div><div><span>🎉</span>Traiteur</div><div><span>📦</span>À emporter</div></div></div>
       <div class="s-sec"><h4>Nos plats en photos</h4><div class="s-photos">
@@ -147,6 +161,7 @@ body { font-family: 'Space Grotesk', sans-serif; color: #f2f2f2; -webkit-font-sm
       <div class="s-sec"><h4>Nous trouver</h4><div class="s-map"><div class="road"></div><span class="pin">📍</span></div><p class="s-addr">Cocody, Riviera 2 · ouvert 11 h – 23 h</p></div>
       <div class="s-wa" id="waBtn">🟢 Commander sur WhatsApp</div>
     </div></div>
+    <span class="tap" id="tap0" style="left:300px;top:370px"></span>
     <span class="tap" id="tap" style="left:280px;top:486px"></span>
   </div></div>
 
@@ -166,7 +181,7 @@ body { font-family: 'Space Grotesk', sans-serif; color: #f2f2f2; -webkit-font-sm
   <div class="abs cta" id="cta">
     <p class="cta__t">Écris <span class="big">« SITE »</span><br>en commentaire</p>
     <div class="comment"><span class="av"></span><span class="txt"><span id="cmt"></span><i class="cur"></i></span><span class="send">➤</span></div>
-    <p class="cta__s" id="cs">ou clique sur le lien <b>WhatsApp</b><br>dans ma bio</p>
+    <p class="cta__s" id="cs">ou écris-moi sur <b>WhatsApp</b><br><span class="tel">+225 07 09 95 10 92</span></p>
     <p class="cta__g" id="cg">→ maquette GRATUITE de ton site</p>
     <p class="arrow" id="arrow">↓</p>
   </div>
