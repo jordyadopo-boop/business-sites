@@ -11,12 +11,12 @@ export const DUR = 35;
 // Voix off (Henri) : [début, texte] ; durées dans voice.json
 export const VOICE = [
   [0.3, "Ton site pro, sans payer le prix d'une agence."],
-  [3.0, 'En agence, un site vitrine coûte souvent entre 250 000 et 1 500 000 francs.'],
-  [7.6, 'Chez moi : la Page Pro à 75 000, livrée en trois jours.'],
-  [11.0, 'Le site Vitrine à 150 000. Le pack Business à 250 000. Et ta boutique en ligne, avec paiement Wave et Orange Money, dès 450 000.'],
+  [3.0, 'En agence, un site vitrine coûte souvent entre 250 000 et 1 500 000 francs.'],
+  [7.6, 'Chez moi : la Page Pro à 75 000, livrée en trois jours.'],
+  [11.0, 'Le site Vitrine à 150 000. Le pack Business à 250 000. Et ta boutique en ligne, avec paiement Wave et Orange Money, dès 450 000.'],
   [21.1, 'Offre de lancement : moins vingt pour cent pour mes cinq premiers clients !'],
   [24.3, 'Tu paies en deux fois, et tu valides ton site avant de payer le solde.'],
-  [27.7, 'Contacte-moi sur WhatsApp, au 07 09 95 10 92.'],
+  [27.7, 'Contacte-moi sur WhatsApp, au 07 09 95 10 92.'],
 ];
 window.__VOICE = VOICE; window.__DUR = DUR;
 
@@ -76,7 +76,7 @@ async function boot() {
   // sous-titres mot à mot, 4 mots par carton
   const cards = [];
   VOICE.forEach(([a, txt], i) => {
-    const w = txt.split(/\s+/), per = durs[i] / w.length;
+    const w = txt.split(/ +/), per = durs[i] / w.length;
     for (let k = 0; k < w.length; k += 4) cards.push({ a: a + k * per, b: a + Math.min(w.length, k + 4) * per, words: w.slice(k, k + 4), per });
   });
   const NUM = '+225 07 09 95 10 92';
