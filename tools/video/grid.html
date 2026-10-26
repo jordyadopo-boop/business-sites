@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr" class="vertical">
+<head>
+<meta charset="utf-8">
+<title>Je fais ton site internet · mes réalisations en 4 écrans</title>
+<!-- Short TikTok 1080×1920 : les 4 réalisations à la fois, chaque écran joue le parcours de son site (scroll.cjs), puis chacun en grand.
+     Rendu : PAGE='grid.html' VERT=1 node render.cjs <images> 30 0 <durée> ; couverture : grid.html?cover (shorts.cjs). -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./video.css">
+<script>window.__VIDEO = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module" src="../../brain.js"></script>
+<script type="module" src="./grid.js"></script>
+<style>
+.series { position: absolute; left: 68px; top: 262px; font: 700 20px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--red); text-shadow: 0 0 12px #000; }
+.head { position: absolute; left: 64px; right: 150px; top: 330px; text-shadow: 0 10px 40px #000; }
+.head h1 { font-size: 92px; line-height: 1; font-weight: 700; }
+.head p { margin-top: 12px; font: 600 24px var(--mono); letter-spacing: .08em; color: var(--red-2); }
+.wall { position: absolute; inset: 0; perspective: 2200px; }
+.grid { position: absolute; inset: 0; transform-style: preserve-3d; transform-origin: 50% 40%; }
+.scr { position: absolute; opacity: 0; }
+.scr .win { border-radius: 10px; overflow: hidden; background: #111; border: 1px solid rgba(255, 255, 255, .16); box-shadow: 0 30px 60px -20px #000, 0 0 0 1px rgba(255, 59, 78, .3); }
+.scr .bar { height: 22px; display: flex; align-items: center; gap: 5px; padding: 0 9px; background: #1b1b1e; }
+.scr .bar i { width: 7px; height: 7px; border-radius: 50%; background: #e0604f; } .scr .bar i:nth-child(2) { background: #e3b341; } .scr .bar i:nth-child(3) { background: #5bbf6a; }
+.scr .bar span { margin-left: 8px; font: 500 10px var(--mono); color: #aaa; white-space: nowrap; overflow: hidden; }
+.scr img { display: block; width: 100%; aspect-ratio: 16 / 10; }
+.scr b { display: block; margin-top: 12px; font-size: 30px; line-height: 1.1; text-shadow: 0 0 14px #000; }
+.scr em { display: block; margin-top: 4px; font: 600 15px var(--mono); font-style: normal; letter-spacing: .08em; text-transform: uppercase; color: #bbb; text-shadow: 0 0 10px #000; }
+.end__q { color: var(--red-2); }
+.info { position: absolute; left: 54px; right: 150px; top: 1080px; padding: 26px 32px 30px; background: rgba(8, 8, 8, .8); border: 1px solid rgba(255, 59, 78, .35); opacity: 0; }
+.info b { display: block; font-size: 56px; line-height: 1.05; }
+.info .c { margin-top: 8px; font: 600 20px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: #bbb; }
+.info .tags { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px; }
+.info .tags span { padding: 6px 14px; border: 1px solid rgba(255, 255, 255, .25); border-radius: 999px; font: 600 18px var(--mono); color: #ddd; }
+.is-cover .subs, .is-cover #end, .is-cover .info { display: none !important; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="stage" class="world"></div>
+  <canvas class="neurons" id="neurons"></canvas>
+  <div class="grade"></div>
+  <div class="dim" id="dim"></div>
+  <div class="head" id="head"><h1>Mes <span class="red">réalisations</span></h1><p>4 sites qui tournent déjà</p></div>
+  <div class="wall"><div class="grid" id="grid"></div></div>
+  <div class="info" id="info"></div>
+  <div class="end" id="end" style="opacity:0">
+    <p class="end__q">Tu as besoin d'un site internet ?</p>
+    <h2 class="end__t">Je fais <span class="red">ton site</span> internet</h2>
+    <p class="end__code">&lt;je.fais.ton<span class="red">.site</span>/&gt;</p>
+    <p class="end__wa"><b>WhatsApp</b> +225 07 09 95 10 92</p>
+    <p class="end__url">jordyadopo-boop.github.io/business-sites</p>
+  </div>
+  <div class="chrome">
+    <span class="chrome__c chrome__c--tl"></span><span class="chrome__c chrome__c--tr"></span><span class="chrome__c chrome__c--bl"></span><span class="chrome__c chrome__c--br"></span>
+    <p class="chrome__brand">JE FAIS TON SITE · <span class="red">INTERNET</span></p>
+    <p class="chrome__url">WhatsApp +225 07 09 95 10 92</p>
+  </div>
+  <p class="series">Portfolio</p>
+  <p class="subs" id="subs"></p>
+  <div class="wipe" id="wipe"></div>
+  <div class="grain"></div>
+</div>
+</body>
+</html>

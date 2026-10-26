@@ -1,7 +1,7 @@
 /**
  * Rendu de la vidéo image par image (Playwright + Chromium). Servir la racine du dépôt :
  *   python3 -m http.server 8123 &   puis   NODE_PATH=$(npm root -g) node tools/video/render.cjs <dossier> [fps] [début] [fin] [pas]
- * VERT=1 pour la version portrait 1080×1920 ; PAGE=chemin/de/la/composition.html pour une autre vidéo (défaut tools/video/index.html).
+ * VERT=1 pour la version portrait 1080×1920 ; PAGE='shorts.html?s=<id>' (avec VERT=1) pour un short TikTok.
  */
 const { chromium } = require('playwright');
 const { mkdirSync } = require('node:fs');
@@ -14,7 +14,7 @@ const b = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/
 const VERT = !!process.env.VERT;
 const p = await b.newPage({ viewport: VERT ? { width: 1080, height: 1920 } : { width: 1920, height: 1080 } });
 p.on('pageerror', (e) => console.log('PAGEERR', e.message));
-await p.goto(`http://127.0.0.1:${process.env.PORT || 8123}/${process.env.PAGE || 'tools/video/index.html'}${VERT ? '?v' : ''}`);
+await p.goto(`http://127.0.0.1:${process.env.PORT || 8123}/tools/video/${process.env.PAGE || 'index.html' + (VERT ? '?v' : '')}`);
 await p.waitForFunction(() => window.__ready === true, null, { timeout: 180000 });
 await p.waitForTimeout(1500);
 // le cerveau évolue image après image (influx, surbrillances) : on part toujours d'un peu avant le début demandé

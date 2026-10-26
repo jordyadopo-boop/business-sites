@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr" class="vertical">
+<head>
+<meta charset="utf-8">
+<title>Je fais ton site internet · shorts TikTok</title>
+<!-- Shorts TikTok 1080×1920 décrits dans shorts.json : ?s=<id> (vidéo, pilotée par window.__render(t)) ; ajouter &cover pour la couverture. -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./video.css">
+<script>window.__VIDEO = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module" src="../../brain.js"></script>
+<script type="module" src="./shorts.js"></script>
+<style>
+.series { position: absolute; left: 68px; top: 262px; font: 700 20px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--red); text-shadow: 0 0 12px #000; }
+.card { position: absolute; opacity: 0; }
+.card--big { left: 64px; right: 150px; bottom: 600px; text-shadow: 0 10px 50px #000, 0 0 20px #000; }
+.card--big .k { font: 700 24px var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--red-2); }
+.card--big .t { margin-top: 14px; font-size: 84px; line-height: 1.02; font-weight: 700; letter-spacing: -.01em; }
+.card--big .p { margin-top: 18px; font: 600 30px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: #ddd; }
+.card--box { left: 54px; right: 150px; bottom: 560px; padding: 34px 38px 40px; background: rgba(8, 8, 8, .74); backdrop-filter: blur(14px); border: 1px solid rgba(255, 59, 78, .35); }
+.card--box .zone__t { font-size: 56px; } .card--box .zone__p { font-size: 29px; }
+.card--box .n { position: absolute; right: 30px; top: 18px; font: 700 64px var(--mono); color: rgba(255, 59, 78, .9); }
+.card--proj { left: 54px; right: 150px; bottom: 540px; padding: 28px 34px 32px; background: rgba(8, 8, 8, .8); border: 1px solid rgba(255, 59, 78, .35); }
+.card--proj b { display: block; font-size: 58px; line-height: 1.05; }
+.card--proj .c { margin-top: 8px; font: 600 20px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: #bbb; }
+.card--proj .tags { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
+.card--proj .tags span { padding: 6px 14px; border: 1px solid rgba(255, 255, 255, .25); border-radius: 999px; font: 600 18px var(--mono); color: #ddd; }
+.card--proj .u { margin-top: 16px; font: 700 22px var(--mono); color: var(--red); }
+.vertical .site { right: 130px; } .vertical .browser { zoom: .6; top: 30%; }
+.browser__screen img { opacity: 1; }
+.end__q { color: var(--red-2); }
+/* couverture */
+.cover { position: absolute; left: 64px; right: 150px; bottom: 560px; display: none; text-shadow: 0 10px 50px #000, 0 0 24px #000; }
+.cover .k { display: inline-block; padding: 8px 18px; background: var(--red); font: 700 26px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: #fff; text-shadow: none; }
+.cover .t { margin-top: 26px; font-size: 104px; line-height: .98; font-weight: 700; letter-spacing: -.015em; }
+.cover .p { margin-top: 22px; font: 700 34px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: #eee; }
+.is-cover .cover { display: block; }
+.is-cover .card, .is-cover .subs, .is-cover #end { display: none !important; }
+.is-cover .vertical .browser, .is-cover .browser { top: 24%; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="stage" class="world"></div>
+  <canvas class="neurons" id="neurons"></canvas>
+  <div class="grade"></div>
+  <div class="dim" id="dim"></div>
+  <div id="cards"></div>
+  <div class="site" id="site" style="opacity:0">
+    <div class="browser" id="browser">
+      <div class="browser__bar"><i></i><i></i><i></i><span class="browser__url" id="url"></span></div>
+      <div class="browser__screen"><img id="shot" alt=""></div>
+    </div>
+  </div>
+  <div class="end" id="end" style="opacity:0">
+    <p class="end__q">Tu as un projet ?</p>
+    <h2 class="end__t">Je fais <span class="red">ton site</span> internet</h2>
+    <p class="end__code">&lt;je.fais.ton<span class="red">.site</span>/&gt;</p>
+    <p class="end__wa"><b>WhatsApp</b> +225 07 09 95 10 92</p>
+    <p class="end__url">jordyadopo-boop.github.io/business-sites</p>
+  </div>
+  <div class="cover" id="cover"><span class="k"></span><p class="t"></p><p class="p"></p></div>
+  <div class="chrome">
+    <span class="chrome__c chrome__c--tl"></span><span class="chrome__c chrome__c--tr"></span><span class="chrome__c chrome__c--bl"></span><span class="chrome__c chrome__c--br"></span>
+    <p class="chrome__brand">JE FAIS TON SITE · <span class="red">INTERNET</span></p>
+    <p class="chrome__url">WhatsApp +225 07 09 95 10 92</p>
+  </div>
+  <p class="series" id="series"></p>
+  <p class="subs" id="subs"></p>
+  <div class="wipe" id="wipe"></div>
+  <div class="grain"></div>
+</div>
+</body>
+</html>

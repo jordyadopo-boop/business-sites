@@ -1,0 +1,1289 @@
+[
+ {
+  "id": "etape-01",
+  "series": "Ton site, étape par étape · 01/10",
+  "cover": {
+   "k": "Étape 01/10",
+   "t": "Avant de créer ton site, je t'*écoute*",
+   "p": "L'écoute"
+  },
+  "beats": [
+   {
+    "say": "Avant de créer ton site, je t'écoute.",
+    "card": {
+     "big": true,
+     "k": "Étape 01/10 · L'écoute",
+     "t": "Avant de créer ton site, je t'*écoute*"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Ton activité, tes clients, tes objectifs : c'est la base de ton site.",
+    "card": {
+     "n": "01",
+     "k": "Étape 01/10",
+     "t": "On échange",
+     "p": "Ton activité, tes clients, tes objectifs."
+    },
+    "brain": {
+     "step": 1,
+     "zoom": 0.9
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "etape-02",
+  "series": "Ton site, étape par étape · 02/10",
+  "cover": {
+   "k": "Étape 02/10",
+   "t": "Un bon site commence par une *stratégie*",
+   "p": "La stratégie"
+  },
+  "beats": [
+   {
+    "say": "Un bon site commence par une stratégie.",
+    "card": {
+     "big": true,
+     "k": "Étape 02/10 · La stratégie",
+     "t": "Un bon site commence par une *stratégie*"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Quelles pages, quels messages, quel parcours pour transformer un visiteur en client.",
+    "card": {
+     "n": "02",
+     "k": "Étape 02/10",
+     "t": "La stratégie",
+     "p": "Pages, messages, parcours du visiteur."
+    },
+    "brain": {
+     "step": 2,
+     "zoom": 0.9
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "etape-03",
+  "series": "Ton site, étape par étape · 03/10",
+  "cover": {
+   "k": "Étape 03/10",
+   "t": "Les bons mots font *vendre*",
+   "p": "Les contenus"
+  },
+  "beats": [
+   {
+    "say": "Les bons mots font vendre.",
+    "card": {
+     "big": true,
+     "k": "Étape 03/10 · Les contenus",
+     "t": "Les bons mots font *vendre*"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "J'écris des textes clairs qui donnent envie de te contacter.",
+    "card": {
+     "n": "03",
+     "k": "Étape 03/10",
+     "t": "Tes contenus",
+     "p": "Des textes clairs qui donnent envie de te contacter."
+    },
+    "brain": {
+     "step": 3,
+     "zoom": 0.9
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "etape-04",
+  "series": "Ton site, étape par étape · 04/10",
+  "cover": {
+   "k": "Étape 04/10",
+   "t": "Ton site ne fait pas qu'exister. Il *agit*",
+   "p": "Les fonctionnalités"
+  },
+  "beats": [
+   {
+    "say": "Ton site ne se contente pas d'exister. Il agit.",
+    "card": {
+     "big": true,
+     "k": "Étape 04/10 · Les fonctionnalités",
+     "t": "Ton site ne fait pas qu'exister. Il *agit*"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Devis, commandes, formulaires, WhatsApp : il travaille pour toi.",
+    "card": {
+     "n": "04",
+     "k": "Étape 04/10",
+     "t": "Les fonctionnalités",
+     "p": "Devis, commandes, formulaires, WhatsApp."
+    },
+    "brain": {
+     "step": 4,
+     "zoom": 0.9
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "etape-05",
+  "series": "Ton site, étape par étape · 05/10",
+  "cover": {
+   "k": "Étape 05/10",
+   "t": "Un visiteur perdu, c'est un *client perdu*",
+   "p": "La navigation"
+  },
+  "beats": [
+   {
+    "say": "Un visiteur perdu, c'est un client perdu.",
+    "card": {
+     "big": true,
+     "k": "Étape 05/10 · La navigation",
+     "t": "Un visiteur perdu, c'est un *client perdu*"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Tes visiteurs trouvent tout de suite, sur mobile comme sur ordinateur.",
+    "card": {
+     "n": "05",
+     "k": "Étape 05/10",
+     "t": "La navigation",
+     "p": "Tout se trouve tout de suite, sur mobile comme sur ordinateur."
+    },
+    "brain": {
+     "step": 5,
+     "zoom": 0.9
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "etape-06",
+  "series": "Ton site, étape par étape · 06/10",
+  "cover": {
+   "k": "Étape 06/10",
+   "t": "On juge un site en *quelques secondes*",
+   "p": "Le design"
+  },
+  "beats": [
+   {
+    "say": "On juge un site en quelques secondes.",
+    "card": {
+     "big": true,
+     "k": "Étape 06/10 · Le design",
+     "t": "On juge un site en *quelques secondes*"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Un design soigné inspire confiance au premier regard.",
+    "card": {
+     "n": "06",
+     "k": "Étape 06/10",
+     "t": "Le design",
+     "p": "Il inspire confiance au premier regard."
+    },
+    "brain": {
+     "step": 6,
+     "zoom": 0.9
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "etape-07",
+  "series": "Ton site, étape par étape · 07/10",
+  "cover": {
+   "k": "Étape 07/10",
+   "t": "Trop lent ? Le visiteur est *déjà parti*",
+   "p": "La vitesse"
+  },
+  "beats": [
+   {
+    "say": "Trop lent ? Le visiteur est déjà parti.",
+    "card": {
+     "big": true,
+     "k": "Étape 07/10 · La vitesse",
+     "t": "Trop lent ? Le visiteur est *déjà parti*"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Ton site s'ouvre vite et reste fluide, même en 3G.",
+    "card": {
+     "n": "07",
+     "k": "Étape 07/10",
+     "t": "La vitesse",
+     "p": "Rapide et fluide, même en 3G."
+    },
+    "brain": {
+     "step": 7,
+     "zoom": 0.9
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "etape-08",
+  "series": "Ton site, étape par étape · 08/10",
+  "cover": {
+   "k": "Étape 08/10",
+   "t": "Ton site ne *dort jamais*",
+   "p": "L'hébergement"
+  },
+  "beats": [
+   {
+    "say": "Ton site ne dort jamais.",
+    "card": {
+     "big": true,
+     "k": "Étape 08/10 · L'hébergement",
+     "t": "Ton site ne *dort jamais*"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Hébergé et sécurisé, il reste en ligne 24 heures sur 24.",
+    "card": {
+     "n": "08",
+     "k": "Étape 08/10",
+     "t": "Hébergement & sécurité",
+     "p": "En ligne et protégé, 24 h/24."
+    },
+    "brain": {
+     "step": 8,
+     "zoom": 0.9
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "etape-09",
+  "series": "Ton site, étape par étape · 09/10",
+  "cover": {
+   "k": "Étape 09/10",
+   "t": "Contacts, commandes, élèves : *où sont-ils rangés* ?",
+   "p": "Les données"
+  },
+  "beats": [
+   {
+    "say": "Contacts, commandes, élèves : où sont-ils rangés ?",
+    "card": {
+     "big": true,
+     "k": "Étape 09/10 · Les données",
+     "t": "Contacts, commandes, élèves : *où sont-ils rangés* ?"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Dans une base de données : tout est enregistré et retrouvé en un instant.",
+    "card": {
+     "n": "09",
+     "k": "Étape 09/10",
+     "t": "La base de données",
+     "p": "Tout est enregistré et retrouvé en un instant."
+    },
+    "brain": {
+     "step": 9,
+     "zoom": 0.9
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "etape-10",
+  "series": "Ton site, étape par étape · 10/10",
+  "cover": {
+   "k": "Étape 10/10",
+   "t": "Ton site ne travaille pas *seul*",
+   "p": "Les connexions"
+  },
+  "beats": [
+   {
+    "say": "Ton site ne travaille pas seul.",
+    "card": {
+     "big": true,
+     "k": "Étape 10/10 · Les connexions",
+     "t": "Ton site ne travaille pas *seul*"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Je le relie à Google, WhatsApp, tes réseaux et tes outils.",
+    "card": {
+     "n": "10",
+     "k": "Étape 10/10",
+     "t": "Les connexions",
+     "p": "Google, WhatsApp, tes réseaux, tes outils."
+    },
+    "brain": {
+     "step": 10,
+     "zoom": 0.9
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "realisation-leglaceur",
+  "series": "Réalisation · 1/4",
+  "cover": {
+   "k": "Réalisation",
+   "t": "Le Glaceur",
+   "p": "Entreprise · Abidjan"
+  },
+  "beats": [
+   {
+    "say": "Ce site, c'est moi qui l'ai fait.",
+    "card": {
+     "big": true,
+     "k": "Réalisation 1/4",
+     "t": "Ce site, c'est *moi* qui l'ai fait",
+     "p": "Le Glaceur"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7
+    }
+   },
+   {
+    "say": "Le Glaceur vend de la glace alimentaire à Abidjan : glaçons, glace pilée, carboglace.",
+    "sub": "Le Glaceur vend de la glace alimentaire à Abidjan : glaçons, glace pilée, carboglace.",
+    "project": {
+     "img": "img/leglaceur.jpg",
+     "url": "www.leglaceur.ci",
+     "name": "Le Glaceur",
+     "cat": "Entreprise · Abidjan",
+     "tags": [
+      "Site vitrine",
+      "Devis en ligne",
+      "SEO local"
+     ],
+     "scroll": "leglaceur"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Avec un devis gratuit en ligne et la livraison 24 heures sur 24.",
+    "project": {
+     "img": "img/leglaceur.jpg",
+     "url": "www.leglaceur.ci",
+     "name": "Le Glaceur",
+     "cat": "Entreprise · Abidjan",
+     "tags": [
+      "Site vitrine",
+      "Devis en ligne",
+      "SEO local"
+     ],
+     "scroll": "leglaceur"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Le prochain, c'est le tien ? Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "realisation-amddesign",
+  "series": "Réalisation · 2/4",
+  "cover": {
+   "k": "Réalisation",
+   "t": "AMD Design",
+   "p": "Plans & rendus 3D"
+  },
+  "beats": [
+   {
+    "say": "Ce site, c'est moi qui l'ai fait.",
+    "card": {
+     "big": true,
+     "k": "Réalisation 2/4",
+     "t": "Ce site, c'est *moi* qui l'ai fait",
+     "p": "AMD Design"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7
+    }
+   },
+   {
+    "say": "AMD Design conçoit des plans et des rendus 3D, comme un cabinet d'architecture.",
+    "sub": "AMD Design conçoit des plans et des rendus 3D, comme un cabinet d'architecture.",
+    "project": {
+     "img": "img/amddesign.jpg",
+     "url": "jordyadopo-boop.github.io/amddesign-archi3d",
+     "name": "AMD Design",
+     "cat": "Plans & rendus 3D · Architecture",
+     "tags": [
+      "Vitrine premium",
+      "Galerie 3D",
+      "Mobile"
+     ],
+     "scroll": "amddesign"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Étude, suivi de chantier, permis de construire : de l'idée à la réalité.",
+    "project": {
+     "img": "img/amddesign.jpg",
+     "url": "jordyadopo-boop.github.io/amddesign-archi3d",
+     "name": "AMD Design",
+     "cat": "Plans & rendus 3D · Architecture",
+     "tags": [
+      "Vitrine premium",
+      "Galerie 3D",
+      "Mobile"
+     ],
+     "scroll": "amddesign"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Le prochain, c'est le tien ? Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "realisation-odysseegames",
+  "series": "Réalisation · 3/4",
+  "cover": {
+   "k": "Réalisation",
+   "t": "Odyssée Games",
+   "p": "Jeux · Divertissement"
+  },
+  "beats": [
+   {
+    "say": "Ce site, c'est moi qui l'ai fait.",
+    "card": {
+     "big": true,
+     "k": "Réalisation 3/4",
+     "t": "Ce site, c'est *moi* qui l'ai fait",
+     "p": "Odyssée Games"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7
+    }
+   },
+   {
+    "say": "Odyssée Games, une plateforme de jeux en ligne.",
+    "sub": "Odyssée Games, une plateforme de jeux en ligne.",
+    "project": {
+     "img": "img/odysseegames.jpg",
+     "url": "www.odysseegames.com",
+     "name": "Odyssée Games",
+     "cat": "Jeux · Divertissement",
+     "tags": [
+      "Application web",
+      "Jeux",
+      "Interactif"
+     ],
+     "scroll": "odysseegames"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Interactive et animée : on joue directement dans le navigateur.",
+    "project": {
+     "img": "img/odysseegames.jpg",
+     "url": "www.odysseegames.com",
+     "name": "Odyssée Games",
+     "cat": "Jeux · Divertissement",
+     "tags": [
+      "Application web",
+      "Jeux",
+      "Interactif"
+     ],
+     "scroll": "odysseegames"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Le prochain, c'est le tien ? Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "realisation-liy10learning",
+  "series": "Réalisation · 4/4",
+  "cover": {
+   "k": "Réalisation",
+   "t": "LIY10.LEARNING",
+   "p": "Éducation · E-learning"
+  },
+  "beats": [
+   {
+    "say": "Ce site, c'est moi qui l'ai fait.",
+    "card": {
+     "big": true,
+     "k": "Réalisation 4/4",
+     "t": "Ce site, c'est *moi* qui l'ai fait",
+     "p": "LIY10.LEARNING"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7
+    }
+   },
+   {
+    "say": "L.I.Y. dix Learning, pour apprendre Excel, Word, Power BI et plus.",
+    "sub": "LIY10 Learning, pour apprendre Excel, Word, Power BI et plus.",
+    "project": {
+     "img": "img/liy10learning.jpg",
+     "url": "www.liy10learning.com",
+     "name": "LIY10.LEARNING",
+     "cat": "Éducation · E-learning",
+     "tags": [
+      "Plateforme e-learning",
+      "Exercices",
+      "Mobile"
+     ],
+     "scroll": "liy10learning"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Cinq minutes par jour sur son téléphone, avec des exercices sur des cas réels.",
+    "project": {
+     "img": "img/liy10learning.jpg",
+     "url": "www.liy10learning.com",
+     "name": "LIY10.LEARNING",
+     "cat": "Éducation · E-learning",
+     "tags": [
+      "Plateforme e-learning",
+      "Exercices",
+      "Mobile"
+     ],
+     "scroll": "liy10learning"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Le prochain, c'est le tien ? Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "mes-realisations",
+  "series": "Mes réalisations",
+  "cover": {
+   "k": "Portfolio",
+   "t": "Mes *réalisations*",
+   "p": "4 sites qui tournent déjà"
+  },
+  "beats": [
+   {
+    "say": "Quatre sites, quatre activités différentes.",
+    "card": {
+     "big": true,
+     "k": "Portfolio",
+     "t": "Mes *réalisations*",
+     "p": "4 sites qui tournent déjà"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7
+    }
+   },
+   {
+    "say": "Le Glaceur : la vente de glace à Abidjan, avec devis en ligne.",
+    "sub": "Le Glaceur : la vente de glace à Abidjan, avec devis en ligne.",
+    "project": {
+     "img": "img/leglaceur.jpg",
+     "url": "www.leglaceur.ci",
+     "name": "Le Glaceur",
+     "cat": "Entreprise · Abidjan",
+     "tags": [
+      "Site vitrine",
+      "Devis en ligne",
+      "SEO local"
+     ],
+     "scroll": "leglaceur"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "AMD Design : des plans et des rendus 3D, comme un cabinet d'architecture.",
+    "sub": "AMD Design : des plans et des rendus 3D, comme un cabinet d'architecture.",
+    "project": {
+     "img": "img/amddesign.jpg",
+     "url": "jordyadopo-boop.github.io/amddesign-archi3d",
+     "name": "AMD Design",
+     "cat": "Plans & rendus 3D · Architecture",
+     "tags": [
+      "Vitrine premium",
+      "Galerie 3D",
+      "Mobile"
+     ],
+     "scroll": "amddesign"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Odyssée Games : des jeux en ligne, dans le navigateur.",
+    "sub": "Odyssée Games : des jeux en ligne, dans le navigateur.",
+    "project": {
+     "img": "img/odysseegames.jpg",
+     "url": "www.odysseegames.com",
+     "name": "Odyssée Games",
+     "cat": "Jeux · Divertissement",
+     "tags": [
+      "Application web",
+      "Jeux",
+      "Interactif"
+     ],
+     "scroll": "odysseegames"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "L.I.Y. dix Learning : apprendre la bureautique sur son téléphone.",
+    "sub": "LIY10 Learning : apprendre la bureautique sur son téléphone.",
+    "project": {
+     "img": "img/liy10learning.jpg",
+     "url": "www.liy10learning.com",
+     "name": "LIY10.LEARNING",
+     "cat": "Éducation · E-learning",
+     "tags": [
+      "Plateforme e-learning",
+      "Exercices",
+      "Mobile"
+     ],
+     "scroll": "liy10learning"
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.7,
+     "dim": 0.6
+    }
+   },
+   {
+    "say": "Ton activité est la prochaine ? Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "realisations-4-ecrans",
+  "page": "grid.html",
+  "series": "Portfolio",
+  "cover": {
+   "k": "Portfolio",
+   "t": "Mes *réalisations*",
+   "p": "4 sites qui tournent déjà"
+  },
+  "beats": [
+   {
+    "focus": null,
+    "brain": {
+     "step": 12,
+     "zoom": 0.8
+    },
+    "say": "Voici mes réalisations.",
+    "hold": 5
+   },
+   {
+    "focus": 0,
+    "brain": {
+     "step": 12,
+     "zoom": 0.8
+    },
+    "hold": 6.5
+   },
+   {
+    "focus": 1,
+    "brain": {
+     "step": 12,
+     "zoom": 0.8
+    },
+    "hold": 6.5
+   },
+   {
+    "focus": 2,
+    "brain": {
+     "step": 12,
+     "zoom": 0.8
+    },
+    "hold": 6.5
+   },
+   {
+    "focus": 3,
+    "brain": {
+     "step": 12,
+     "zoom": 0.8
+    },
+    "hold": 6.5
+   },
+   {
+    "focus": null,
+    "brain": {
+     "step": 12,
+     "zoom": 0.8
+    },
+    "hold": 4
+   },
+   {
+    "focus": null,
+    "brain": {
+     "step": 12,
+     "zoom": 0.8
+    },
+    "say": "Tu as besoin d'un site internet ? Contacte-moi.",
+    "cta": true
+   }
+  ]
+ },
+ {
+  "id": "comment-ca-marche",
+  "series": "Comment ça marche",
+  "cover": {
+   "k": "Méthode",
+   "t": "Ton site en *4 étapes*",
+   "p": "Comment ça marche"
+  },
+  "beats": [
+   {
+    "say": "Comment je crée ton site, en quatre étapes.",
+    "card": {
+     "big": true,
+     "k": "Méthode",
+     "t": "Ton site en *4 étapes*",
+     "p": "Comment ça marche"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Un : on échange sur ton activité et tes objectifs.",
+    "card": {
+     "n": "01",
+     "k": "Étape 1",
+     "t": "On échange",
+     "p": "Ton activité, tes clients, tes objectifs."
+    },
+    "brain": {
+     "step": 1,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Deux : je prépare le plan du site et les textes.",
+    "card": {
+     "n": "02",
+     "k": "Étape 2",
+     "t": "Le plan & les textes",
+     "p": "Les pages, les messages, le parcours du visiteur."
+    },
+    "brain": {
+     "step": 2,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Trois : je construis le design et les fonctionnalités.",
+    "card": {
+     "n": "03",
+     "k": "Étape 3",
+     "t": "Design & fonctionnalités",
+     "p": "Devis, commandes, formulaires, WhatsApp."
+    },
+    "brain": {
+     "step": 4,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Quatre : je le mets en ligne, relié à Google et à WhatsApp.",
+    "card": {
+     "n": "04",
+     "k": "Étape 4",
+     "t": "En ligne",
+     "p": "Hébergé, sécurisé, relié à Google et WhatsApp."
+    },
+    "brain": {
+     "step": 10,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "On commence quand tu veux. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "astuce-clients-google",
+  "series": "Astuce web",
+  "cover": {
+   "k": "Astuce",
+   "t": "Pourquoi tes clients ne te *trouvent pas*",
+   "p": "3 raisons"
+  },
+  "beats": [
+   {
+    "say": "Trois raisons pour lesquelles tes clients ne te trouvent pas.",
+    "card": {
+     "big": true,
+     "k": "Astuce",
+     "t": "Pourquoi tes clients ne te *trouvent pas*",
+     "p": "3 raisons"
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Un : tu n'as pas de site. Sur Google, ton activité est invisible.",
+    "card": {
+     "n": "01",
+     "k": "Raison 1",
+     "t": "Pas de site",
+     "p": "Sur Google, ton activité est invisible."
+    },
+    "brain": {
+     "step": 10,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Deux : ton site est illisible sur téléphone, alors les visiteurs repartent.",
+    "card": {
+     "n": "02",
+     "k": "Raison 2",
+     "t": "Illisible sur mobile",
+     "p": "Les visiteurs repartent aussitôt."
+    },
+    "brain": {
+     "step": 5,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Trois : on ne peut pas te contacter en un clic. Il manque le bouton WhatsApp.",
+    "card": {
+     "n": "03",
+     "k": "Raison 3",
+     "t": "Pas de contact en un clic",
+     "p": "Il manque le bouton WhatsApp."
+    },
+    "brain": {
+     "step": 4,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "astuce-facebook-ou-site",
+  "series": "Astuce web",
+  "cover": {
+   "k": "Astuce",
+   "t": "Page Facebook ou *site internet* ?",
+   "p": ""
+  },
+  "beats": [
+   {
+    "say": "Page Facebook ou site internet ?",
+    "card": {
+     "big": true,
+     "k": "Astuce",
+     "t": "Page Facebook ou *site internet* ?",
+     "p": ""
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Une page Facebook, c'est bien. Mais elle appartient à Facebook.",
+    "card": {
+     "k": "Facebook",
+     "t": "Chez Facebook",
+     "p": "Leurs règles, leur vitrine."
+    },
+    "brain": {
+     "step": 2,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Ton site, c'est chez toi : ton nom, tes règles, et on te trouve sur Google.",
+    "card": {
+     "k": "Ton site",
+     "t": "Chez *toi*",
+     "p": "Ton nom, tes règles, et on te trouve sur Google."
+    },
+    "brain": {
+     "step": 6,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Le mieux ? Les deux, reliés ensemble.",
+    "card": {
+     "k": "Le mieux",
+     "t": "Les *deux*, reliés",
+     "p": "Ta page renvoie vers ton site, ton site vers WhatsApp."
+    },
+    "brain": {
+     "step": 10,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "astuce-site-la-nuit",
+  "series": "Astuce web",
+  "cover": {
+   "k": "Astuce",
+   "t": "Ton site travaille *la nuit*",
+   "p": ""
+  },
+  "beats": [
+   {
+    "say": "Ton business dort la nuit. Ton site, non.",
+    "card": {
+     "big": true,
+     "k": "Astuce",
+     "t": "Ton business dort la nuit. Ton site, *non*.",
+     "p": ""
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Minuit : un client cherche ton service sur Google.",
+    "card": {
+     "k": "00 h 00",
+     "t": "Un client cherche",
+     "p": "Ton service, sur Google."
+    },
+    "brain": {
+     "step": 1,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Il trouve ton site, découvre ce que tu proposes, et demande un devis.",
+    "card": {
+     "k": "00 h 05",
+     "t": "Il trouve *ton site*",
+     "p": "Il découvre ton offre et demande un devis."
+    },
+    "brain": {
+     "step": 4,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Le matin, un message WhatsApp t'attend.",
+    "card": {
+     "k": "08 h 00",
+     "t": "Un message t'attend",
+     "p": "Sur WhatsApp, au réveil."
+    },
+    "brain": {
+     "step": 10,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Je fais ton site internet. Écris-moi sur WhatsApp.",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ },
+ {
+  "id": "pub",
+  "series": "Je fais ton site internet",
+  "cover": {
+   "k": "Où que tu sois",
+   "t": "Je fais ton *site* internet",
+   "p": "Vitrine · Commandes · Applications · Google"
+  },
+  "beats": [
+   {
+    "say": "Ton activité mérite un site qui travaille pour toi.",
+    "card": {
+     "big": true,
+     "k": "Jordy Adopo",
+     "t": "Ton activité mérite un site qui *travaille pour toi*",
+     "p": ""
+    },
+    "brain": {
+     "step": 0,
+     "zoom": 0.7
+    }
+   },
+   {
+    "say": "Site vitrine, commandes en ligne, applications web, référencement Google.",
+    "card": {
+     "k": "Services",
+     "t": "Vitrine · Commandes · Applications · *Google*",
+     "p": ""
+    },
+    "brain": {
+     "step": 4,
+     "zoom": 1
+    }
+   },
+   {
+    "say": "Je fais ton site internet, où que tu sois.",
+    "card": {
+     "big": true,
+     "k": "Où que tu sois",
+     "t": "Je fais ton *site* internet",
+     "p": ""
+    },
+    "brain": {
+     "step": 12,
+     "zoom": 0.8
+    }
+   },
+   {
+    "say": "Écris-moi sur WhatsApp : zéro sept, zéro neuf, quatre-vingt-quinze, dix, quatre-vingt-douze.",
+    "sub": "Écris-moi sur WhatsApp : 07 09 95 10 92",
+    "cta": true,
+    "brain": {
+     "step": 0,
+     "zoom": 0.75,
+     "dim": 0.55
+    }
+   }
+  ]
+ }
+]

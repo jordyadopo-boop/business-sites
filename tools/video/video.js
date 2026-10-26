@@ -1,8 +1,9 @@
 /**
  * Vidéo de présentation « Je fais ton site internet » (60 s, 30 i/s) : paysage 1920×1080, ou portrait 1080×1920 avec ?v.
  * Composition déterministe : window.__render(t) cale le cerveau 3D du site (brain.js en mode vidéo) et la typographie (GSAP) sur t.
- * Rendu image par image : tools/video/render.mjs, puis montage avec la voix off et la musique (voir README.md).
+ * Rendu image par image : tools/video/render.cjs, puis montage avec la voix off et la musique (voir README.md).
  */
+import { neuronField } from './neurons.js';
 const VERT = document.documentElement.classList.contains('vertical');
 const W = VERT ? 1080 : 1920;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -15,24 +16,24 @@ export const DUR = 60;
 const SLOT = 3, T0 = 14.15;                 // zone i (1..10) centrée sur T0 + 3i ; neurones (11) à T0 + 33
 const Ti = (i) => T0 + SLOT * i;
 const CUTS = [7.9, 11.8, ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => Ti(i) - 1.35), 45.6, 50.6, 55.2];
-const ZONES = [
-  ['Lobe temporal', 'Écouter', 'On échange', 'Votre activité, vos clients, vos objectifs : je commence par vous écouter.'],
-  ['Lobe frontal', 'Planifier', 'La stratégie', 'Le plan du site : pages, messages, parcours du visiteur.'],
-  ['Aire de Broca', 'Le langage', 'Vos contenus', 'Des textes clairs qui donnent envie de vous contacter.'],
-  ['Cortex moteur', 'Le mouvement', 'Les fonctionnalités', 'Devis, commandes, formulaires, WhatsApp : votre site agit.'],
-  ['Lobe pariétal', "S'orienter", 'La navigation', 'Vos visiteurs trouvent tout, sur mobile comme sur ordinateur.'],
-  ['Lobe occipital', 'La vision', 'Le design', 'Un design qui inspire confiance au premier regard.'],
-  ['Cervelet', 'La coordination', 'La fluidité', 'Un site rapide et fluide, même en 3G.'],
-  ['Tronc cérébral', 'Les fonctions vitales', 'Hébergement & sécurité', 'En ligne et protégé, 24 h/24.'],
-  ['Hippocampe', 'La mémoire', 'La base de données', 'Contacts, commandes, élèves : tout est bien rangé.'],
-  ['Corps calleux', 'Relier', 'Les connexions', 'Relié à Google, WhatsApp et vos réseaux.'],
+const ZONES = [   // [étape, intention, titre, texte] : on parle du métier, le cerveau reste l'image de la marque
+  ['Écoute', 'Comprendre votre activité', 'On échange', 'Votre activité, vos clients, vos objectifs : je commence par vous écouter.'],
+  ['Stratégie', 'Penser le parcours', 'La stratégie', 'Le plan du site : pages, messages, parcours du visiteur.'],
+  ['Contenus', 'Trouver les bons mots', 'Vos contenus', 'Des textes clairs qui donnent envie de vous contacter.'],
+  ['Fonctionnalités', 'Faire agir le site', 'Les fonctionnalités', 'Devis, commandes, formulaires, WhatsApp : votre site agit.'],
+  ['Navigation', 'Guider le visiteur', 'La navigation', 'Vos visiteurs trouvent tout, sur mobile comme sur ordinateur.'],
+  ['Design', 'Inspirer confiance', 'Le design', 'Un design qui inspire confiance au premier regard.'],
+  ['Performance', 'Aller vite', 'La fluidité', 'Un site rapide et fluide, même en 3G.'],
+  ['Hébergement', 'Rester en ligne', 'Hébergement & sécurité', 'En ligne et protégé, 24 h/24.'],
+  ['Données', 'Tout ranger', 'La base de données', 'Contacts, commandes, élèves : tout est bien rangé.'],
+  ['Connexions', 'Tout relier', 'Les connexions', 'Relié à Google, WhatsApp et vos réseaux.'],
 ];
 // Voix off : [début, texte] ; les durées viennent de voice.json (généré par voice.py)
 export const VOICE = [
   [0.7, 'Je fais ton site internet.'],
   [3.3, 'Sites vitrines, commandes en ligne, applications web, référencement Google.'],
   [8.4, 'Votre activité mérite un site qui travaille pour vous.'],
-  [12.2, "Un site, c'est comme un cerveau : chaque zone a son rôle."],
+  [12.2, 'Voici comment je construis le vôtre, étape par étape.'],
   [Ti(1) - 1.1, "D'abord, je vous écoute."],
   [Ti(2) - 1.1, 'Je planifie la stratégie.'],
   [Ti(3) - 1.1, "J'écris vos contenus."],
@@ -43,7 +44,7 @@ export const VOICE = [
   [Ti(8) - 1.1, 'En ligne et protégé, jour et nuit.'],
   [Ti(9) - 1.1, 'Vos données, bien rangées.'],
   [Ti(10) - 1.1, 'Relié à Google, WhatsApp et vos réseaux.'],
-  [46.2, 'Et chaque connexion vous amène de nouveaux clients.'],
+  [46.2, 'Visible sur Google, votre site vous amène de nouveaux clients.'],
   [51.2, 'Découvrez mes réalisations sur mon site.'],
   [55.8, 'Vous avez un projet ? Écrivez-moi sur WhatsApp.'],
 ];
@@ -53,10 +54,22 @@ window.__VOICE = VOICE; window.__DUR = DUR;
 const stepAt = (t) => t < T0 ? 0 : t <= Ti(11) ? (t - T0) / SLOT : t < 50.6 ? 11 : Math.min(12, 11 + (t - 50.6) / 3);
 // rotation lente du cerveau pendant l'introduction, qui se résorbe avant la première zone
 const yawAt = (t) => t < 14 ? lerp(-0.7, 0.45, t / 14) : 0.45 * (1 - smooth((t - 14) / 3));
+// zoom de la caméra (1 = cadrage du site) : plongée sur le cerveau juste après le logo, puis cerveau gros plan toute la vidéo
+const zoomAt = (t) => {
+  const Z = VERT ? [0.72, 0.9, 0.7] : [0.5, 0.72, 0.55];    // introduction, zones, site + fin
+  if (t < 2.4) return 1.8;
+  if (t < 4.6) return lerp(1.8, Z[0], smooth((t - 2.4) / 2.2));
+  if (t < 13.6) return Z[0];
+  if (t < 15.4) return lerp(Z[0], Z[1], smooth((t - 13.6) / 1.8));
+  if (t < 50.6) return Z[1];
+  return lerp(Z[1], Z[2], smooth((t - 50.6) / 2));
+};
+
 
 async function boot() {
   while (!window.__brain || !window.__brain.ready()) await new Promise((r) => setTimeout(r, 100));
   const B = window.__brain;
+  const field = neuronField($('#neurons'), W, VERT ? 1920 : 1080, VERT);
   const durs = await fetch('./voice.json').then((r) => r.ok ? r.json() : null).catch(() => null);
 
   // ---------- Typographie (GSAP, en pause : pilotée par __render) ----------
@@ -130,14 +143,18 @@ async function boot() {
     .to('#black', { opacity: 1, duration: .8, ease: 'power2.in' }, 59.2)
     .set({}, {}, DUR);
 
-  const labels = [[0, ''], [3, 'Cerveau · vue d\'ensemble'], ...ZONES.map((z, i) => [Ti(i + 1) - 1.35, z[0]]), [45.6, 'Neurones'], [50.6, 'Le site'], [55.2, 'Contact']];
+  const labels = [[0, ''], [3, 'Présentation'], ...ZONES.map((z, i) => [Ti(i + 1) - 1.35, z[0]]), [45.6, 'Visibilité'], [50.6, 'Le site'], [55.2, 'Contact']];
   const SUBS = VOICE.map(([a, txt], i) => [a, a + (durs ? durs[i] : 2.5) + .25, txt]);
   const LOGO = '<je.fais.ton.site/>';
   const zone = $('#zone'), typed = $('#typed');
   let lastZone = -1;
 
   window.__render = (t) => {
-    B.user.yaw = yawAt(t);
+    // le cerveau ne s'arrête jamais : balancement, légère orbite verticale et zoom qui respire, en plus du parcours
+    B.user.yaw = yawAt(t) + 0.22 * Math.sin(t * 0.55) + 0.08 * Math.sin(t * 1.3 + 1);
+    B.user.pitch = 0.1 * Math.sin(t * 0.4 + 0.5);
+    B.user.zoom = zoomAt(t) * (1 + 0.05 * Math.sin(t * 0.7));
+    field(t);
     B.render(t, stepAt(t));
     // logo tapé au clavier, « .site » en rouge
     const n = Math.round(clamp((t - .4) / 1.3) * LOGO.length), s = LOGO.slice(0, n);

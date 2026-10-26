@@ -5,18 +5,19 @@ body { font-family: 'Space Grotesk', sans-serif; color: var(--paper); -webkit-fo
 .red { color: var(--red); }
 .stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #000; }
 .world, .world canvas { position: absolute; inset: 0; display: block; }
+.neurons { position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: screen; opacity: .7; pointer-events: none; }
 .grade { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 95% at 50% 50%, transparent 55%, rgba(0, 0, 0, .65)); }
 .grain { position: absolute; inset: 0; pointer-events: none; opacity: .05; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 .black, .dim { position: absolute; inset: 0; background: #000; pointer-events: none; }
 .dim { opacity: 0; }
-.subs { position: absolute; left: 50%; bottom: 30px; transform: translateX(-50%); max-width: 1200px; padding: 6px 16px; border-radius: 4px;
+.subs { position: absolute; z-index: 2; left: 50%; bottom: 30px; transform: translateX(-50%); max-width: 1200px; padding: 6px 16px; border-radius: 4px;
   background: rgba(0, 0, 0, .55); font-size: 28px; line-height: 1.3; font-weight: 500; text-align: center; }
 .subs:empty { display: none; }
 .wipe { position: absolute; top: 0; bottom: 0; left: 0; width: 6px; background: var(--red); box-shadow: 0 0 60px 20px rgba(255, 59, 78, .45); opacity: 0; }
 
 /* 1. Logo */
-.logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; white-space: nowrap; }
+.logo { position: absolute; z-index: 2; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; white-space: nowrap; }
 .logo__code { font: 700 92px var(--mono); letter-spacing: -.01em; }
 .logo__code .dot { color: var(--red); }
 .caret { display: inline-block; width: .55em; height: .95em; margin-left: 6px; vertical-align: -.12em; background: var(--red); }
@@ -54,8 +55,8 @@ body { font-family: 'Space Grotesk', sans-serif; color: var(--paper); -webkit-fo
 .zone__p { margin-top: 14px; font-size: 28px; line-height: 1.4; color: #d6d6d6; }
 
 /* 6. Neurones */
-.neuro { position: absolute; left: 0; right: 0; bottom: 170px; text-align: center; text-shadow: 0 8px 40px #000; }
-.neuro__a { font: 600 34px var(--mono); letter-spacing: .24em; text-transform: uppercase; color: #dfe8ff; }
+.neuro { position: absolute; left: 0; right: 0; bottom: 170px; text-align: center; text-shadow: 0 8px 40px #000, 0 0 18px #000, 0 0 6px #000; }
+.neuro__a { display: inline-block; padding: 6px 18px; background: rgba(0, 0, 0, .55); font: 600 34px var(--mono); letter-spacing: .24em; text-transform: uppercase; color: #dfe8ff; }
 .neuro__b { margin-top: 10px; font-size: 100px; font-weight: 700; }
 
 /* 7. Le site */
@@ -100,12 +101,13 @@ body { font-family: 'Space Grotesk', sans-serif; color: var(--paper); -webkit-fo
 .vertical .zone { left: 54px; right: 150px; width: auto; bottom: 560px; padding: 34px 38px 40px; }
 .vertical .zone__t { font-size: 52px; } .vertical .zone__p { font-size: 27px; }
 .vertical .neuro { bottom: 640px; padding: 0 80px; } .vertical .neuro__a { font-size: 26px; letter-spacing: .14em; } .vertical .neuro__b { font-size: 84px; }
-.vertical .browser { zoom: .66; top: 40%; }
-.vertical .end { padding: 0 60px 320px; }
-.vertical .end__q { font-size: 34px; } .vertical .end__t { font-size: 76px; } .vertical .end__code { font-size: 36px; }
+.vertical .site { right: 130px; }
+.vertical .browser { zoom: .6; top: 40%; }
+.vertical .end { padding: 0 150px 320px 50px; }
+.vertical .end__q { font-size: 34px; } .vertical .end__t { font-size: 70px; } .vertical .end__code { font-size: 36px; }
 .vertical .end__wa { font-size: 32px; display: flex; flex-direction: column; gap: 6px; } .vertical .end__wa b { margin: 0; }
 .vertical .end__url { font-size: 22px; letter-spacing: .04em; }
 .vertical .subs { bottom: 400px; max-width: 860px; font-size: 30px; margin-left: -40px; }
 .vertical .chrome__label, .vertical .chrome__tc { display: none; }
-.vertical .chrome__brand { left: 40px; top: 90px; font-size: 16px; }
-.vertical .chrome__url { right: 40px; top: 90px; font-size: 16px; }
+.vertical .chrome__brand { left: 40px; top: 150px; font-size: 16px; }
+.vertical .chrome__url { left: 40px; right: auto; top: 182px; font-size: 16px; color: rgba(242, 242, 242, .6); }

@@ -1,7 +1,7 @@
 /**
  * TikTok « Ton business est invisible sur Google » (32 s, 30 i/s, 1080×1920).
  * Composition déterministe : window.__render(t) cale le cerveau 3D (brain.js en mode vidéo, en fond) et l'animation (GSAP) sur t.
- * Rendu : NODE_PATH=$(npm root -g) PAGE=tools/video/google/index.html VERT=1 node tools/video/render.cjs <dossier> 30 0 32
+ * Rendu : NODE_PATH=$(npm root -g) PAGE=google/index.html VERT=1 node tools/video/render.cjs <dossier> 30 0 32
  */
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const smooth = (t) => { t = clamp(t); return t * t * (3 - 2 * t); };
