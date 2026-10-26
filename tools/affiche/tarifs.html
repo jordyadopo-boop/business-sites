@@ -26,7 +26,13 @@ h1 { position: relative; margin-top: 26px; font-size: 46px; line-height: 1; font
 .vs div { padding: 8px 14px; } .vs div:first-child { color: #aaa; background: rgba(255,255,255,.04); } 
 .vs div:last-child { background: var(--red); color: #1a0004; font-weight: 700; }
 
-.offers { position: relative; margin-top: 22px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.offers { position: relative; margin-top: 22px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.offers .card { padding: 16px 12px 12px; } .offers .card h2 { font-size: 11.5px; letter-spacing: .14em; } .offers .card .for { font-size: 11.5px; min-height: 30px; }
+.offers .price { font-size: 31px; } .offers .price small { font-size: 13px; } .price em { display: block; font: 700 11px var(--mono); font-style: normal; color: var(--red-2); letter-spacing: .1em; margin-bottom: 2px; }
+.offers .delay { font-size: 10.5px; padding: 3px 7px; } .offers .card ul { font-size: 12px; gap: 4px; } .offers .card li { padding-left: 16px; }
+.offers .badge { font-size: 10px; padding: 4px 8px; }
+.custom { position: relative; margin-top: 12px; padding: 9px 14px; border-radius: 14px; border: 1px dashed #3a3a3a; background: rgba(18,18,18,.9); font-size: 14px; text-align: center; }
+.custom span { color: var(--red-2); font-weight: 700; }
 .card { position: relative; border-radius: 18px; padding: 18px 16px 14px; background: rgba(18,18,18,.92); border: 1px solid #2c2c2c; display: flex; flex-direction: column; }
 .card.star { border: 2px solid var(--red); background: linear-gradient(180deg, rgba(255,59,78,.16), rgba(18,18,18,.95) 45%); transform: translateY(-8px); box-shadow: 0 20px 50px -20px rgba(255,59,78,.6); }
 .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--red); color: #1a0004; font: 700 11px var(--mono); letter-spacing: .1em; padding: 5px 10px; border-radius: 999px; }
@@ -73,8 +79,8 @@ h3 { position: relative; margin-top: 16px; font: 700 14px var(--mono); letter-sp
 .story .page { width: 1080px; height: 1920px; padding: 120px 60px 0; }
 .story .brain { width: 860px; right: -250px; top: -90px; }
 .story .top { font-size: 24px; } .story .top span { font-size: 16px; }
-.story h1 { font-size: 62px; max-width: 700px; margin-top: 28px; }
-.story .lead { font-size: 23px; max-width: 720px; }
+.story h1 { font-size: 56px; max-width: 680px; margin-top: 24px; }
+.story .lead { font-size: 21px; max-width: 720px; }
 .story .vs { font-size: 19px; margin-top: 18px; } .story .vs div { padding: 10px 16px; }
 .story .offers { grid-template-columns: 1fr; gap: 12px; margin-top: 24px; }
 .story .card { display: grid; grid-template-columns: 300px 1fr; column-gap: 24px; padding: 12px 24px; }
@@ -82,11 +88,13 @@ h3 { position: relative; margin-top: 16px; font: 700 14px var(--mono); letter-sp
 .story .card ul { grid-column: 2; grid-row: 1 / span 5; margin-top: 0; font-size: 19px; gap: 4px; align-self: center; }
 .story .card h2 { font-size: 17px; } .story .card .for { font-size: 17px; min-height: 0; } .story .price { font-size: 50px; } .story .price small { font-size: 20px; }
 .story .delay { font-size: 15px; } .story .badge { font-size: 14px; left: auto; right: 22px; transform: none; }
-.story .more { margin-top: 12px; } .story .more div { font-size: 17px; padding: 10px 16px; } .story .more b { font-size: 19px; }
+.story .custom { font-size: 18px; padding: 10px 16px; }
+.story .offers .card { padding: 10px 24px; } .story .offers .card h2 { font-size: 17px; } .story .offers .card .for { font-size: 16px; min-height: 0; } .story .offers .price { font-size: 46px; } .story .offers .price small { font-size: 20px; }
+.story .offers .delay { font-size: 14px; } .story .offers .card ul { font-size: 18px; gap: 3px; } .story .offers .badge { font-size: 14px; } .story .price em { font-size: 14px; }
 .story h3 { font-size: 18px; margin-top: 18px; }
-.story .why { gap: 10px 24px; } .story .why i { width: 40px; height: 40px; font-size: 20px; } .story .why b { font-size: 19px; } .story .why p { font-size: 15.5px; }
+.story .why { gap: 6px 24px; } .story .why i { width: 40px; height: 40px; font-size: 20px; } .story .why b { font-size: 19px; } .story .why p { font-size: 15.5px; }
 .story .extras { font-size: 15px; }
-.story .foot { left: 60px; right: 60px; bottom: 215px; padding: 14px 20px; }
+.story .foot { left: 60px; right: 60px; bottom: 200px; padding: 12px 20px; }
 .story .qr { width: 128px; height: 128px; } .story .foot .t p:first-child { font-size: 28px; } .story .wa { font-size: 32px; padding: 9px 20px; } .story .foot .s { font-size: 15px; }
 </style>
 </head>
@@ -117,11 +125,13 @@ h3 { position: relative; margin-top: 16px; font: 700 14px var(--mono); letter-sp
       <p class="price">250 000<small>F</small></p><span class="delay">Livré en 10 à 14 jours</span>
       <ul><li>Tout le pack Vitrine</li><li>Menu ou catalogue en ligne</li><li>Commandes et devis sur WhatsApp</li><li>Espace pour tout modifier toi-même</li></ul>
     </div>
+    <div class="card shopc">
+      <h2>BOUTIQUE</h2><p class="for">Pour vendre en ligne, jour et nuit</p>
+      <p class="price"><em>dès</em>450 000<small>F</small></p><span class="delay">Livrée en 3 à 4 semaines</span>
+      <ul><li>Paiement Wave et Orange Money</li><li>Panier et commandes en ligne</li><li>Gestion des produits et du stock</li><li>Suivi des ventes</li></ul>
+    </div>
   </div>
-  <div class="more">
-    <div><b>Boutique en ligne</b>Paiement Wave et Orange Money · dès <span>450 000 F</span></div>
-    <div><b>Site sur mesure, 3D</b>Projet unique, effets avancés · <span>sur devis</span></div>
-  </div>
+  <p class="custom">Site sur mesure, 3D ou application web · <span>sur devis</span></p>
 
   <h3>POURQUOI CES PRIX ?</h3>
   <div class="why">
