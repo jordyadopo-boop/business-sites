@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="fr" class="vertical">
+<head>
+<meta charset="utf-8">
+<title>TikTok · Tarifs Je fais ton site</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<script>window.__VIDEO = true;</script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module" src="../../../brain.js"></script>
+<style>
+:root { --red: #ff3b4e; --red-2: #ff8a8a; --wa: #25d366; --mono: 'JetBrains Mono', monospace; }
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+body { font-family: 'Space Grotesk', sans-serif; color: #f2f2f2; -webkit-font-smoothing: antialiased; }
+.red { color: var(--red); }
+.stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+#stage, #stage canvas { position: absolute; inset: 0; }
+.veil { position: absolute; inset: 0; background: radial-gradient(90% 60% at 50% 45%, rgba(0,0,0,.3), rgba(0,0,0,.85)); }
+.black { position: absolute; inset: 0; background: #000; }
+.flash { position: absolute; inset: 0; background: var(--red); opacity: 0; mix-blend-mode: screen; }
+/* zone sûre TikTok : haut 160 px, bas 420 px, droite 140 px */
+.abs { position: absolute; left: 70px; right: 150px; text-align: center; }
+.logo { top: 190px; font: 700 40px var(--mono); }
+
+/* A · accroche */
+.hook { top: 560px; font-size: 108px; line-height: 1; font-weight: 700; letter-spacing: -.02em; text-shadow: 0 10px 50px #000; }
+.hook .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 10px; } .hook .w > span { display: inline-block; }
+
+/* B · prix en agence */
+.agency { top: 520px; }
+.agency p:first-child { font: 700 40px var(--mono); letter-spacing: .2em; color: #aaa; }
+.agency .range { margin-top: 26px; font-size: 96px; font-weight: 700; line-height: 1.05; }
+.agency .range small { display: block; font-size: 44px; color: #bbb; font-weight: 500; margin: 10px 0; }
+.agency .ask { margin-top: 50px; display: inline-block; font-size: 64px; font-weight: 700; color: #fff; background: var(--red); padding: 12px 30px; border-radius: 18px; transform: rotate(-4deg); }
+
+/* C · les offres */
+.me { top: 250px; font: 700 40px var(--mono); letter-spacing: .14em; color: var(--red-2); }
+.cards { position: absolute; left: 70px; right: 150px; top: 340px; display: flex; flex-direction: column; gap: 26px; }
+.card { position: relative; border-radius: 30px; padding: 30px 36px; background: rgba(16,16,16,.92); border: 2px solid #2c2c2c; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.card.star { border-color: var(--red); background: linear-gradient(90deg, rgba(255,59,78,.2), rgba(16,16,16,.95) 60%); box-shadow: 0 20px 60px -20px rgba(255,59,78,.7); }
+.card h2 { font: 700 30px var(--mono); letter-spacing: .14em; color: var(--red-2); }
+.card p { margin-top: 6px; font-size: 26px; color: #bbb; }
+.card .pr { text-align: right; font-size: 76px; font-weight: 700; line-height: 1; letter-spacing: -.02em; white-space: nowrap; }
+.card .pr small { font-size: 30px; color: #bbb; }
+.card .d { display: inline-block; margin-top: 12px; font: 700 22px var(--mono); padding: 6px 12px; border-radius: 10px; background: rgba(37,211,102,.14); color: var(--wa); }
+.card .badge { position: absolute; top: -18px; right: 30px; background: var(--red); color: #1a0004; font: 700 20px var(--mono); padding: 6px 14px; border-radius: 999px; }
+.shop { font-size: 30px; color: #ddd; padding: 18px; border-radius: 22px; border: 2px dashed #3a3a3a; background: rgba(16,16,16,.85); text-align: center; }
+.shop b { color: var(--red-2); }
+
+/* D · offre de lancement */
+.promo { position: absolute; left: 50%; top: 520px; width: 560px; height: 560px; margin-left: -320px; border-radius: 50%; background: var(--red); color: #fff;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-shadow: 0 0 0 18px rgba(255,59,78,.25), 0 40px 120px rgba(255,59,78,.55); }
+.promo b { font-size: 190px; line-height: .9; letter-spacing: -.04em; }
+.promo span { font: 700 34px var(--mono); letter-spacing: .1em; margin-top: 18px; }
+.promo small { font-size: 40px; margin-top: 8px; }
+
+/* E · confiance */
+.trust { position: absolute; left: 70px; right: 150px; top: 520px; display: flex; flex-direction: column; gap: 30px; }
+.trust div { display: flex; gap: 26px; align-items: center; padding: 30px 34px; border-radius: 30px; background: rgba(10,30,18,.85); border: 2px solid rgba(37,211,102,.45); }
+.trust i { font-style: normal; font-size: 80px; } .trust b { display: block; font-size: 52px; } .trust p { font-size: 32px; color: #cfcfcf; margin-top: 6px; }
+
+/* F · contact */
+.cta { top: 300px; }
+.cta__t { font-size: 84px; font-weight: 700; line-height: 1.05; } .cta__t .wa { color: var(--wa); }
+.wabtn { margin: 60px auto 0; width: 820px; height: 140px; border-radius: 70px; background: var(--wa); color: #fff; display: flex; align-items: center; gap: 24px; padding: 0 36px; box-shadow: 0 20px 60px rgba(37,211,102,.4); }
+.wabtn .ic { width: 92px; height: 92px; border-radius: 50%; background: #fff; color: var(--wa); display: grid; place-items: center; font-size: 56px; flex: none; }
+.wabtn .num { font: 700 46px var(--mono); white-space: nowrap; }
+.wabtn .cur { display: inline-block; width: 5px; height: 50px; background: #fff; vertical-align: -6px; margin-left: 4px; }
+.qr { margin: 50px auto 0; width: 260px; height: 260px; background: #fff; border-radius: 24px; padding: 16px; }
+.qr svg { width: 100%; height: 100%; display: block; }
+.cta__s { margin-top: 20px; font-size: 30px; color: #ccc; }
+.brand { bottom: 470px; font: 700 50px var(--mono); }
+.brand small { display: block; margin-top: 10px; font: 500 26px 'Space Grotesk'; color: #bbb; letter-spacing: .12em; }
+
+.subs { position: absolute; left: 70px; right: 150px; bottom: 430px; text-align: center; font-size: 46px; font-weight: 700; line-height: 1.15; text-shadow: 0 4px 0 #000, 0 0 24px #000; }
+.subs .on { color: var(--red); }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="stage"></div>
+  <div class="veil" id="veil"></div>
+  <p class="abs logo" id="logo">&lt;je.fais.ton<span class="red">.site</span>/&gt;</p>
+
+  <h1 class="abs hook" id="hook">Ton site pro, <span class="red">sans payer</span> le prix d'une agence.</h1>
+
+  <div class="abs agency" id="agency"><p>EN AGENCE</p><p class="range"><span id="a1">0</span> F<small>à</small><span id="a2">0</span> F</p><p class="ask">Trop cher ?</p></div>
+
+  <p class="abs me" id="me">CHEZ MOI</p>
+  <div class="cards" id="cards">
+    <div class="card" id="k1"><div><h2>PAGE PRO</h2><p>1 page, WhatsApp, Google Maps</p><span class="d">Livré en 3 jours</span></div><p class="pr">75 000<small> F</small></p></div>
+    <div class="card star" id="k2"><span class="badge">LE PLUS CHOISI</span><div><h2>VITRINE</h2><p>Jusqu'à 5 pages</p><span class="d">Livré en 7 jours</span></div><p class="pr">150 000<small> F</small></p></div>
+    <div class="card" id="k3"><div><h2>BUSINESS</h2><p>Commandes et devis</p><span class="d">10 à 14 jours</span></div><p class="pr">250 000<small> F</small></p></div>
+    <p class="shop" id="k4">Boutique en ligne Wave / Orange Money : dès <b>450 000 F</b></p>
+  </div>
+
+  <div class="promo" id="promo"><b>−20 %</b><span>OFFRE DE LANCEMENT</span><small>5 premiers clients</small></div>
+
+  <div class="trust" id="trust">
+    <div id="t1"><i>💳</i><p><b>Paie en 2 fois</b>50 % à la commande, 50 % à la livraison</p></div>
+    <div id="t2"><i>🛡️</i><p><b>Satisfait ou on corrige</b>Tu valides ton site avant de payer le solde</p></div>
+  </div>
+
+  <div class="abs cta" id="cta">
+    <p class="cta__t">Contacte-moi<br>sur <span class="wa">WhatsApp</span></p>
+    <div class="wabtn" id="wabtn"><span class="ic">✆</span><span class="num"><span id="num"></span><i class="cur"></i></span></div>
+    <div class="qr" id="qr"></div>
+    <p class="cta__s">Scanne pour m'écrire directement</p>
+  </div>
+  <p class="abs brand" id="brand">&lt;je.fais.ton<span class="red">.site</span>/&gt;<small>Jordy Adopo</small></p>
+
+  <p class="subs" id="subs"></p>
+  <div class="flash" id="flash"></div>
+  <div class="black" id="black"></div>
+</div>
+<script type="module" src="./video.js"></script>
+</body>
+</html>
