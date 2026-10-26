@@ -59,15 +59,25 @@ h3 { position: relative; margin-top: 16px; font: 700 14px var(--mono); letter-sp
 .extras { position: relative; margin-top: 10px; font-size: 12px; color: #9a9a9a; }
 .extras b { color: #ddd; font-weight: 500; }
 
+/* Pastille offre de lancement, encarts de confiance */
+.promo { position: absolute; z-index: 3; right: 44px; top: 92px; width: 150px; height: 150px; border-radius: 50%; background: var(--red); color: #fff; transform: rotate(-12deg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-shadow: 0 0 0 6px rgba(255,59,78,.25), 0 20px 50px rgba(255,59,78,.45); }
+.promo b { font-size: 44px; line-height: 1; letter-spacing: -.03em; } .promo span { font: 700 10.5px var(--mono); letter-spacing: .08em; margin-top: 6px; } .promo small { font-size: 12px; margin-top: 2px; opacity: .95; }
+.trust { position: relative; margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.trust div { display: flex; gap: 12px; align-items: center; padding: 10px 14px; border-radius: 14px; background: rgba(37,211,102,.08); border: 1px solid rgba(37,211,102,.35); }
+.trust i { font-style: normal; font-size: 24px; } .trust b { display: block; font-size: 16px; color: #fff; } .trust p { font-size: 13px; color: #c9c9c9; }
+.story .promo { right: 60px; top: 200px; width: 210px; height: 210px; } .story .promo b { font-size: 62px; } .story .promo span { font-size: 14px; } .story .promo small { font-size: 16px; }
+.story .trust div { padding: 12px 18px; } .story .trust b { font-size: 20px; } .story .trust p { font-size: 16px; } .story .trust i { font-size: 30px; }
+
 /* ---------- Portrait 1080×1920 (bas réservé à l'interface TikTok : contact remonté) ---------- */
 .story .page { width: 1080px; height: 1920px; padding: 120px 60px 0; }
 .story .brain { width: 860px; right: -250px; top: -90px; }
 .story .top { font-size: 24px; } .story .top span { font-size: 16px; }
-.story h1 { font-size: 68px; max-width: 860px; margin-top: 34px; }
-.story .lead { font-size: 23px; max-width: 800px; }
+.story h1 { font-size: 62px; max-width: 700px; margin-top: 28px; }
+.story .lead { font-size: 23px; max-width: 720px; }
 .story .vs { font-size: 19px; margin-top: 18px; } .story .vs div { padding: 10px 16px; }
 .story .offers { grid-template-columns: 1fr; gap: 12px; margin-top: 24px; }
-.story .card { display: grid; grid-template-columns: 300px 1fr; column-gap: 24px; padding: 16px 24px; }
+.story .card { display: grid; grid-template-columns: 300px 1fr; column-gap: 24px; padding: 12px 24px; }
 .story .card.star { transform: none; }
 .story .card ul { grid-column: 2; grid-row: 1 / span 5; margin-top: 0; font-size: 19px; gap: 4px; align-self: center; }
 .story .card h2 { font-size: 17px; } .story .card .for { font-size: 17px; min-height: 0; } .story .price { font-size: 50px; } .story .price small { font-size: 20px; }
@@ -76,39 +86,40 @@ h3 { position: relative; margin-top: 16px; font: 700 14px var(--mono); letter-sp
 .story h3 { font-size: 18px; margin-top: 18px; }
 .story .why { gap: 10px 24px; } .story .why i { width: 40px; height: 40px; font-size: 20px; } .story .why b { font-size: 19px; } .story .why p { font-size: 15.5px; }
 .story .extras { font-size: 15px; }
-.story .foot { left: 60px; right: 60px; bottom: 250px; padding: 16px 20px; }
+.story .foot { left: 60px; right: 60px; bottom: 215px; padding: 14px 20px; }
 .story .qr { width: 128px; height: 128px; } .story .foot .t p:first-child { font-size: 28px; } .story .wa { font-size: 32px; padding: 9px 20px; } .story .foot .s { font-size: 15px; }
 </style>
 </head>
 <body>
 <div class="page">
   <img class="brain" src="./cerveau.jpg" alt="">
+  <div class="promo"><b>−20 %</b><span>OFFRE DE LANCEMENT</span><small>5 premiers clients</small></div>
   <div class="top"><p>&lt;je.fais.ton<span class="red" style="font:inherit;letter-spacing:0;color:var(--red);text-transform:none">.site</span>/&gt;</p><span>Tarifs 2026</span></div>
 
   <h1>Ton site pro, <span class="red">sans payer</span> le prix d'une agence.</h1>
   <p class="lead">Des sites rapides, beaux sur téléphone, visibles sur Google, avec un bouton WhatsApp pour que tes clients te contactent en 1 clic.</p>
-  <div class="vs"><div>Vitrine en agence : souvent 250 000 à 1 500 000 F</div><div>Ici : dès 90 000 F</div></div>
+  <div class="vs"><div>Vitrine en agence : souvent 250 000 à 1 500 000 F</div><div>Ici : dès 75 000 F</div></div>
 
   <div class="offers">
     <div class="card">
       <h2>PAGE PRO</h2><p class="for">Pour démarrer et être enfin visible</p>
-      <p class="price">90 000<small>F</small></p><span class="delay">Livré en 3 jours</span>
+      <p class="price">75 000<small>F</small></p><span class="delay">Livré en 3 jours</span>
       <ul><li>1 page complète : services, photos, prix</li><li>Carte Google Maps intégrée</li><li>Bouton WhatsApp en 1 clic</li><li>Parfait sur téléphone</li></ul>
     </div>
     <div class="card star">
       <span class="badge">LE PLUS CHOISI</span>
       <h2>VITRINE</h2><p class="for">Pour présenter toute ton activité</p>
-      <p class="price">200 000<small>F</small></p><span class="delay">Livré en 7 jours</span>
+      <p class="price">150 000<small>F</small></p><span class="delay">Livré en 7 jours</span>
       <ul><li>Jusqu'à 5 pages</li><li>Galerie photos et formulaire de contact</li><li>Référencement Google de base</li><li>Fiche Google Maps créée</li></ul>
     </div>
     <div class="card">
       <h2>BUSINESS</h2><p class="for">Pour vendre et recevoir des commandes</p>
-      <p class="price">350 000<small>F</small></p><span class="delay">Livré en 10 à 14 jours</span>
+      <p class="price">250 000<small>F</small></p><span class="delay">Livré en 10 à 14 jours</span>
       <ul><li>Tout le pack Vitrine</li><li>Menu ou catalogue en ligne</li><li>Commandes et devis sur WhatsApp</li><li>Espace pour tout modifier toi-même</li></ul>
     </div>
   </div>
   <div class="more">
-    <div><b>Boutique en ligne</b>Paiement Wave et Orange Money · dès <span>600 000 F</span></div>
+    <div><b>Boutique en ligne</b>Paiement Wave et Orange Money · dès <span>450 000 F</span></div>
     <div><b>Site sur mesure, 3D</b>Projet unique, effets avancés · <span>sur devis</span></div>
   </div>
 
@@ -119,7 +130,11 @@ h3 { position: relative; margin-top: 16px; font: 700 14px var(--mono); letter-sp
     <div><i>🎁</i><p><b>Maquette gratuite</b>Tu vois à quoi ressemblera ton site avant de t'engager.</p></div>
     <div><i>📱</i><p><b>Pensé pour le téléphone</b>Des sites légers qui s'ouvrent vite, même avec une petite connexion.</p></div>
   </div>
-  <p class="extras"><b>En option :</b> nom de domaine + hébergement dès 25 000 F/an · suivi et mises à jour 15 000 F/mois · <b>Paiement :</b> 50 % à la commande, 50 % à la livraison.</p>
+  <p class="extras"><b>En option :</b> nom de domaine + hébergement dès 25 000 F/an · suivi et mises à jour 15 000 F/mois.</p>
+  <div class="trust">
+    <div><i>💳</i><p><b>Paie en 2 fois</b>50 % à la commande, 50 % à la livraison.</p></div>
+    <div><i>🛡️</i><p><b>Satisfait ou on corrige</b>Tu valides ton site avant de payer le solde.</p></div>
+  </div>
 
   <div class="foot">
     <div class="qr" id="qr"></div>
