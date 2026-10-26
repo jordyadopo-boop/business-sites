@@ -1,4 +1,4 @@
-"""Musique originale du TikTok « Ton business est invisible sur Google » (32 s) : pulsation afro-pop à 104 BPM,
+"""Musique originale du TikTok « Ton business est invisible sur Google » (34 s) : pulsation afro-pop à 104 BPM,
 basse, accords, souffles aux changements de scène et impacts. Synthèse additive en numpy (même approche que music.py d'AMD Design).
 Usage : python3 music.py sortie.wav
 """
@@ -6,7 +6,7 @@ import sys
 import wave
 import numpy as np
 
-SR, DUR = 48000, 32.0
+SR, DUR = 48000, 34.0
 N = int(SR * DUR)
 t = np.arange(N) / SR
 rng = np.random.default_rng(11)

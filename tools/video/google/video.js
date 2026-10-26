@@ -7,14 +7,14 @@ const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const smooth = (t) => { t = clamp(t); return t * t * (3 - 2 * t); };
 const $ = (s) => document.querySelector(s);
 
-export const DUR = 32;
+export const DUR = 34;
 // Voix off : [début, texte] ; les durées viennent de voice.json (sinon estimées)
 export const VOICE = [
   [0.3, 'Si un client cherche ton business sur Google et ne trouve rien… il va chez ton concurrent.'],
   [4.5, "Restaurant, salon, boutique, pressing… Beaucoup n'ont qu'une page Facebook ou un statut WhatsApp. Ça ne suffit plus."],
   [12.2, "Un site comme ça, c'est tes services, tes photos, tes prix, ta localisation, et un bouton pour te contacter directement sur WhatsApp."],
   [20.0, 'Je crée ton site professionnel, adapté au téléphone, livré en trois jours.'],
-  [24.6, 'Écris SITE en commentaire, ou écris-moi sur WhatsApp. Je te montre gratuitement à quoi ressemblerait le tien.'],
+  [24.5, 'Contacte-moi sur WhatsApp, au 07 09 95 10 92. Je te montre gratuitement à quoi ressemblerait le tien.'],
 ];
 window.__VOICE = VOICE; window.__DUR = DUR;
 
@@ -72,12 +72,11 @@ async function boot() {
   tl.set('#cta', { opacity: 0 }, 0)
     .fromTo('#cta', { opacity: 0 }, { opacity: 1, duration: .3, immediateRender: false }, 24.4)
     .from('.cta__t', { opacity: 0, y: 50, duration: .6 }, 24.4)
-    .from('.comment', { opacity: 0, scale: .8, duration: .5, ease: 'back.out(2)' }, 24.9)
-    .from('#cs', { opacity: 0, y: 30, duration: .5 }, 26.6)
-    .from('#cg', { opacity: 0, y: 30, duration: .5 }, 28.4)
-    .from('#arrow', { opacity: 0, duration: .4 }, 26.0)
-    .from('#brand', { opacity: 0, y: 30, duration: .6 }, 30.0)
-    .to('#black', { opacity: 1, duration: .6, ease: 'power2.in' }, 31.4)
+    .from('#wabtn', { opacity: 0, scale: .8, duration: .5, ease: 'back.out(2)' }, 25.0)
+    .to('#wabtn', { scale: 1.04, duration: .35, yoyo: true, repeat: 5, ease: 'sine.inOut' }, 29.0)
+    .from('#cg', { opacity: 0, y: 30, duration: .5 }, 30.4)
+    .from('#brand', { opacity: 0, y: 30, duration: .6 }, 31.6)
+    .to('#black', { opacity: 1, duration: .6, ease: 'power2.in' }, 33.3)
     .set({}, {}, DUR);
 
   // sous-titres mot à mot, 4 mots par carton
@@ -86,7 +85,7 @@ async function boot() {
     const w = txt.split(/\s+/), d = durs[i], per = d / w.length;
     for (let k = 0; k < w.length; k += 4) cards.push({ a: a + k * per, b: a + Math.min(w.length, k + 4) * per, words: w.slice(k, k + 4), a0: a + k * per, per });
   });
-  const Q = 'restaurant Abidjan', CMT = 'SITE';
+  const Q = 'restaurant Abidjan', CMT = '+225 07 09 95 10 92';
 
   window.__render = (t) => {
     // cerveau en fond : lent, un peu plus présent pendant l'offre
@@ -94,9 +93,8 @@ async function boot() {
     B.render(t, 0);
     $('#veil').style.opacity = t > 19.8 && t < 24.4 ? .55 : .8;
     $('#q').textContent = Q.slice(0, Math.round(clamp((t - .5) / 1.3) * Q.length));
-    $('#cmt').textContent = CMT.slice(0, Math.round(clamp((t - 25.2) / .8) * CMT.length));
+    $('#cmt').textContent = CMT.slice(0, Math.round(clamp((t - 26.0) / 2.6) * CMT.length));  // le numéro s'écrit pendant qu'il est dit
     $('#days').textContent = Math.max(1, Math.min(3, Math.ceil((t - 22.4) / .25)));
-    $('#arrow').style.transform = `translateY(${Math.abs(Math.sin(t * 5)) * 26}px)`;
     tl.seek(t, false);
     const c = cards.find((c) => t >= c.a && t < c.b + .15);
     $('#subs').innerHTML = c ? c.words.map((w, i) => `<span class="${t >= c.a0 + i * c.per ? 'on' : ''}">${w.replace(/[<>&]/g, '')}</span>`).join(' ') : '';
