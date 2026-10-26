@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Cerveau seul</title>
+<style>html,body{margin:0;width:1400px;height:1400px;background:#000;overflow:hidden}#stage,#stage canvas{position:absolute;inset:0}</style>
+<script>window.__VIDEO = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module" src="../../brain.js"></script>
+<script type="module">
+// image fixe du cerveau pour l'affiche : on laisse le réseau s'animer un moment puis on fige
+while (!window.__brain || !window.__brain.ready()) await new Promise(r => setTimeout(r, 100));
+window.__brain.user.yaw = 0.95; window.__brain.user.zoom = 0.62;
+for (let t = 0; t < 4; t += 1 / 30) window.__brain.render(t, 0);
+window.__ready = true;
+</script>
+</head><body><div id="stage"></div></body></html>

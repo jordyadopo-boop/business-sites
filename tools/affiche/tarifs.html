@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Tarifs · Je fais ton site internet</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<style>
+/* Affiche des tarifs : A4 (210×297 mm, PDF et image) par défaut ; ?f=story pour le portrait 1080×1920 (TikTok, statut WhatsApp) */
+:root { --red: #ff3b4e; --red-2: #ff8a8a; --wa: #25d366; --mono: 'JetBrains Mono', monospace; }
+* { box-sizing: border-box; margin: 0; }
+@page { size: 210mm 297mm; margin: 0; }
+html, body { background: #000; }
+body { font-family: 'Space Grotesk', sans-serif; color: #f2f2f2; -webkit-font-smoothing: antialiased; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.red { color: var(--red); }
+.page { position: relative; width: 794px; height: 1123px; overflow: hidden; padding: 38px 40px 30px;
+  background: radial-gradient(120% 70% at 85% 8%, rgba(255,59,78,.22), transparent 55%), radial-gradient(90% 60% at 0% 100%, rgba(255,59,78,.12), transparent 60%), #050505; }
+.brain { position: absolute; right: -150px; top: -120px; width: 620px; opacity: .55; mix-blend-mode: screen; pointer-events: none;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 40%, transparent 70%); mask-image: radial-gradient(circle at 50% 50%, #000 40%, transparent 70%); }
+
+.top { position: relative; display: flex; justify-content: space-between; align-items: center; font: 700 17px var(--mono); }
+.top span { font: 500 12px var(--mono); letter-spacing: .2em; color: #aaa; text-transform: uppercase; }
+h1 { position: relative; margin-top: 26px; font-size: 46px; line-height: 1; font-weight: 700; letter-spacing: -.02em; max-width: 600px; }
+.lead { position: relative; margin-top: 10px; font-size: 16.5px; color: #cfcfcf; max-width: 560px; line-height: 1.4; }
+.vs { position: relative; margin-top: 14px; display: inline-flex; gap: 0; border: 1px solid rgba(255,59,78,.45); border-radius: 12px; overflow: hidden; font-size: 14px; }
+.vs div { padding: 8px 14px; } .vs div:first-child { color: #aaa; background: rgba(255,255,255,.04); } 
+.vs div:last-child { background: var(--red); color: #1a0004; font-weight: 700; }
+
+.offers { position: relative; margin-top: 22px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.card { position: relative; border-radius: 18px; padding: 18px 16px 14px; background: rgba(18,18,18,.92); border: 1px solid #2c2c2c; display: flex; flex-direction: column; }
+.card.star { border: 2px solid var(--red); background: linear-gradient(180deg, rgba(255,59,78,.16), rgba(18,18,18,.95) 45%); transform: translateY(-8px); box-shadow: 0 20px 50px -20px rgba(255,59,78,.6); }
+.badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--red); color: #1a0004; font: 700 11px var(--mono); letter-spacing: .1em; padding: 5px 10px; border-radius: 999px; }
+.card h2 { font: 700 13px var(--mono); letter-spacing: .18em; color: var(--red-2); }
+.card .for { margin-top: 3px; font-size: 12.5px; color: #aaa; min-height: 32px; }
+.price { margin-top: 6px; font-size: 38px; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
+.price small { font-size: 16px; font-weight: 500; color: #bbb; margin-left: 2px; }
+.delay { margin-top: 8px; display: inline-block; align-self: flex-start; font: 700 12px var(--mono); padding: 4px 9px; border-radius: 8px; background: rgba(37,211,102,.14); color: var(--wa); }
+.card ul { margin-top: 10px; padding: 0; list-style: none; font-size: 13px; line-height: 1.3; display: grid; gap: 5px; }
+.card li { padding-left: 20px; position: relative; color: #e6e6e6; }
+.card li::before { content: '✓'; position: absolute; left: 0; color: var(--red); font-weight: 700; }
+
+.more { position: relative; margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.more div { border-radius: 14px; padding: 9px 14px; background: rgba(18,18,18,.9); border: 1px dashed #3a3a3a; font-size: 14px; }
+.more b { display: block; font-size: 15px; } .more span { color: var(--red-2); font-weight: 700; white-space: nowrap; }
+
+h3 { position: relative; margin-top: 16px; font: 700 14px var(--mono); letter-spacing: .2em; color: var(--red-2); }
+.why { position: relative; margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 22px; }
+.why div { display: flex; gap: 12px; align-items: flex-start; }
+.why i { flex: none; width: 34px; height: 34px; border-radius: 10px; background: rgba(255,59,78,.14); border: 1px solid rgba(255,59,78,.4); display: grid; place-items: center; font-style: normal; font-size: 17px; }
+.why b { display: block; font-size: 15px; } .why p { font-size: 12.5px; color: #b8b8b8; line-height: 1.35; margin-top: 2px; }
+
+.foot { position: absolute; left: 40px; right: 40px; bottom: 26px; display: flex; gap: 18px; align-items: center; padding: 12px 16px; border-radius: 20px; background: #0f0f10; border: 1px solid #2a2a2a; }
+.qr { flex: none; width: 96px; height: 96px; background: #fff; border-radius: 12px; padding: 7px; }
+.qr img, .qr svg { width: 100%; height: 100%; display: block; }
+.foot .t { flex: 1; }
+.foot .t p:first-child { font-size: 22px; font-weight: 700; }
+.wa { margin-top: 6px; display: inline-flex; align-items: center; gap: 10px; background: var(--wa); color: #062b14; font: 700 24px var(--mono); padding: 8px 16px; border-radius: 999px; }
+.foot .s { margin-top: 8px; font-size: 12px; color: #aaa; }
+.extras { position: relative; margin-top: 10px; font-size: 12px; color: #9a9a9a; }
+.extras b { color: #ddd; font-weight: 500; }
+
+/* ---------- Portrait 1080×1920 (bas réservé à l'interface TikTok : contact remonté) ---------- */
+.story .page { width: 1080px; height: 1920px; padding: 120px 60px 0; }
+.story .brain { width: 860px; right: -250px; top: -90px; }
+.story .top { font-size: 24px; } .story .top span { font-size: 16px; }
+.story h1 { font-size: 68px; max-width: 860px; margin-top: 34px; }
+.story .lead { font-size: 23px; max-width: 800px; }
+.story .vs { font-size: 19px; margin-top: 18px; } .story .vs div { padding: 10px 16px; }
+.story .offers { grid-template-columns: 1fr; gap: 12px; margin-top: 24px; }
+.story .card { display: grid; grid-template-columns: 300px 1fr; column-gap: 24px; padding: 16px 24px; }
+.story .card.star { transform: none; }
+.story .card ul { grid-column: 2; grid-row: 1 / span 5; margin-top: 0; font-size: 19px; gap: 4px; align-self: center; }
+.story .card h2 { font-size: 17px; } .story .card .for { font-size: 17px; min-height: 0; } .story .price { font-size: 50px; } .story .price small { font-size: 20px; }
+.story .delay { font-size: 15px; } .story .badge { font-size: 14px; left: auto; right: 22px; transform: none; }
+.story .more { margin-top: 12px; } .story .more div { font-size: 17px; padding: 10px 16px; } .story .more b { font-size: 19px; }
+.story h3 { font-size: 18px; margin-top: 18px; }
+.story .why { gap: 10px 24px; } .story .why i { width: 40px; height: 40px; font-size: 20px; } .story .why b { font-size: 19px; } .story .why p { font-size: 15.5px; }
+.story .extras { font-size: 15px; }
+.story .foot { left: 60px; right: 60px; bottom: 250px; padding: 16px 20px; }
+.story .qr { width: 128px; height: 128px; } .story .foot .t p:first-child { font-size: 28px; } .story .wa { font-size: 32px; padding: 9px 20px; } .story .foot .s { font-size: 15px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <img class="brain" src="./cerveau.jpg" alt="">
+  <div class="top"><p>&lt;je.fais.ton<span class="red" style="font:inherit;letter-spacing:0;color:var(--red);text-transform:none">.site</span>/&gt;</p><span>Tarifs 2026</span></div>
+
+  <h1>Ton site pro, <span class="red">sans payer</span> le prix d'une agence.</h1>
+  <p class="lead">Des sites rapides, beaux sur téléphone, visibles sur Google, avec un bouton WhatsApp pour que tes clients te contactent en 1 clic.</p>
+  <div class="vs"><div>Vitrine en agence : souvent 250 000 à 1 500 000 F</div><div>Ici : dès 90 000 F</div></div>
+
+  <div class="offers">
+    <div class="card">
+      <h2>PAGE PRO</h2><p class="for">Pour démarrer et être enfin visible</p>
+      <p class="price">90 000<small>F</small></p><span class="delay">Livré en 3 jours</span>
+      <ul><li>1 page complète : services, photos, prix</li><li>Carte Google Maps intégrée</li><li>Bouton WhatsApp en 1 clic</li><li>Parfait sur téléphone</li></ul>
+    </div>
+    <div class="card star">
+      <span class="badge">LE PLUS CHOISI</span>
+      <h2>VITRINE</h2><p class="for">Pour présenter toute ton activité</p>
+      <p class="price">200 000<small>F</small></p><span class="delay">Livré en 7 jours</span>
+      <ul><li>Jusqu'à 5 pages</li><li>Galerie photos et formulaire de contact</li><li>Référencement Google de base</li><li>Fiche Google Maps créée</li></ul>
+    </div>
+    <div class="card">
+      <h2>BUSINESS</h2><p class="for">Pour vendre et recevoir des commandes</p>
+      <p class="price">350 000<small>F</small></p><span class="delay">Livré en 10 à 14 jours</span>
+      <ul><li>Tout le pack Vitrine</li><li>Menu ou catalogue en ligne</li><li>Commandes et devis sur WhatsApp</li><li>Espace pour tout modifier toi-même</li></ul>
+    </div>
+  </div>
+  <div class="more">
+    <div><b>Boutique en ligne</b>Paiement Wave et Orange Money · dès <span>600 000 F</span></div>
+    <div><b>Site sur mesure, 3D</b>Projet unique, effets avancés · <span>sur devis</span></div>
+  </div>
+
+  <h3>POURQUOI CES PRIX ?</h3>
+  <div class="why">
+    <div><i>👤</i><p><b>Un seul interlocuteur</b>Tu parles directement à celui qui crée ton site : pas d'intermédiaire, pas de frais d'agence.</p></div>
+    <div><i>⚡</i><p><b>Une méthode rodée</b>Maquette, validation, mise en ligne : chaque étape est cadrée, donc rapide.</p></div>
+    <div><i>🎁</i><p><b>Maquette gratuite</b>Tu vois à quoi ressemblera ton site avant de t'engager.</p></div>
+    <div><i>📱</i><p><b>Pensé pour le téléphone</b>Des sites légers qui s'ouvrent vite, même avec une petite connexion.</p></div>
+  </div>
+  <p class="extras"><b>En option :</b> nom de domaine + hébergement dès 25 000 F/an · suivi et mises à jour 15 000 F/mois · <b>Paiement :</b> 50 % à la commande, 50 % à la livraison.</p>
+
+  <div class="foot">
+    <div class="qr" id="qr"></div>
+    <div class="t">
+      <p>Ta maquette gratuite en 1 message</p>
+      <p class="wa">✆ +225 07 09 95 10 92</p>
+      <p class="s">Scanne le code ou écris « SITE » sur WhatsApp · jordyadopo-boop.github.io/business-sites</p>
+    </div>
+  </div>
+</div>
+<script>
+if (new URLSearchParams(location.search).get('f') === 'story') document.documentElement.classList.add('story');
+// QR code : ouvre WhatsApp avec un message déjà écrit
+const q = qrcode(0, 'M'); q.addData('https://wa.me/2250709951092?text=Bonjour%20Jordy%2C%20je%20veux%20ma%20maquette%20gratuite%20de%20site.'); q.make();
+document.getElementById('qr').innerHTML = q.createSvgTag({ margin: 0, scalable: true });
+document.fonts.ready.then(() => { window.__ready = true; });
+</script>
+</body>
+</html>
