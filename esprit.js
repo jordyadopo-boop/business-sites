@@ -10,44 +10,54 @@ const stage = document.getElementById('stage');
 const hudT = document.getElementById('hudT'), hudB = document.getElementById('hudB');
 const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Fond vidéo : si #stage porte data-fond (lien TikTok ou fichier vidéo), la vidéo remplace les tableaux ;
-// la traînée d'encre rouge reste par-dessus.
-const fond = (stage.dataset.fond || '').trim();
-let video = fond && mountVideo(fond);
-function mountVideo(url) {
-  let el;
-  const id = (url.match(/tiktok\.com\/.*\/video\/(\d+)/) || [])[1];
+// Fond vidéo : le lien de fond.json (réglé depuis admin.html), sinon celui de data-fond sur #stage.
+// Lien TikTok (court ou complet) ou fichier vidéo : la vidéo remplace les tableaux ; la traînée d'encre rouge reste par-dessus.
+// fond.json avec "url": "" = fond animé.
+let video = null;
+(async () => {
+  let url = (stage.dataset.fond || '').trim();
+  try { const r = await fetch('fond.json', { cache: 'no-cache' }); if (r.ok) url = ((await r.json()).url || '').trim(); } catch {}
+  if (url) video = await mountVideo(url);
+})();
+async function mountVideo(url) {
+  let el, id = (url.match(/tiktok\.com\/.*\/video\/(\d+)/) || [])[1], who = (url.match(/tiktok\.com\/(@[\w.]+)/) || [])[1]; if (who === '@_') who = '';
+  if (!id && /tiktok\.com/.test(url)) {
+    // lien court (vt.tiktok.com/…) : TikTok donne le numéro de la vidéo via oEmbed
+    try { const o = await (await fetch('https://www.tiktok.com/oembed?url=' + encodeURIComponent(url))).json(); id = o.embed_product_id; if (o.author_unique_id) who = '@' + o.author_unique_id; } catch {}
+  }
   if (id) {
     // lecteur officiel TikTok : sans son, en boucle, sans boutons
     el = document.createElement('iframe');
     el.src = `https://www.tiktok.com/player/v1/${id}?autoplay=1&loop=1&muted=1&controls=0&progress_bar=0&play_button=0&volume_control=0&fullscreen_button=0&timestamp=0&music_info=0&description=0&rel=0&native_context_menu=0&closed_caption=0`;
     el.allow = 'autoplay; encrypted-media'; el.title = 'Vidéo de fond'; el.tabIndex = -1;
-    // lecteur bloqué (bloqueur de pub, navigateur intégré, réseau) : retour au fond animé
-    // (le lecteur TikTok envoie des messages à la page quand il est prêt ; sans message en 10 s, il est bloqué)
     // Le lecteur ignore parfois muted=1 : on lui demande nous-mêmes de couper le son puis de lire
     // (sinon le navigateur bloque la lecture automatique et la vidéo reste figée)
     const say = type => el.contentWindow?.postMessage({ 'x-tiktok-player': true, type, value: null }, '*');
     const start = () => { say('mute'); say('play'); };
-    let ok = false; addEventListener('message', e => {
+    let ok = false, ready = false, tick = 0, lastT = -1;
+    addEventListener('message', e => {
       if (!/tiktok\.com$/.test(new URL(e.origin).hostname)) return;
       if (!ok && !video) showVideo(el);  // le lecteur a fini par répondre : on remet la vidéo
       ok = true; let d = e.data; try { if (typeof d === 'string') d = JSON.parse(d); } catch {}
-      if (d?.type === 'onPlayerReady') start();
+      if (d?.type === 'onPlayerReady') { ready = true; start(); }
+      if (d?.type === 'onCurrentTime') { const t = d.value?.currentTime ?? d.value; if (t !== lastT) { lastT = t; tick = performance.now(); } }
       if (d?.type === 'onStateChange' && (d.value === 0 || d.value === 2)) start();  // en pause ou finie : on relance
     });
-    // au cas où : on relance aussi au premier geste du visiteur
-    ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(t => addEventListener(t, start, { once: true, passive: true }));
+    // garde-fou : si l'image n'avance plus depuis 3 s, on relance (et à chaque geste du visiteur)
+    setInterval(() => { if (ready && performance.now() - tick > 3000) start(); }, 2500);
+    ['pointerdown', 'keydown', 'touchstart'].forEach(t => addEventListener(t, start, { passive: true }));
+    // lecteur bloqué (bloqueur de pub, navigateur intégré, réseau) : fond animé en attendant
     setTimeout(() => { if (!ok) dropVideo(); }, 15000);
   } else if (/\.(mp4|webm|mov)(\?|$)/i.test(url)) {
     el = document.createElement('video');
     Object.assign(el, { src: url, autoplay: true, muted: true, loop: true, playsInline: true });
-  } else { console.warn('data-fond : lien non reconnu (il faut le lien complet tiktok.com/@…/video/… ou un .mp4)', url); return null; }
+  } else { console.warn('Fond : lien non reconnu (lien TikTok ou fichier .mp4/.webm)', url); return null; }
   el.className = 'fond'; stage.prepend(el);
+  main.x.setTransform(1, 0, 0, 1, 0, 0); main.x.clearRect(0, 0, main.c.width, main.c.height);
   // crédit de l'auteur de la vidéo
-  const who = (url.match(/tiktok\.com\/(@[\w.]+)/) || [])[1];
-  if (who) {
+  if (/tiktok\.com/.test(url)) {
     const a = document.createElement('a'); a.className = 'credit-fond'; a.href = url; a.target = '_blank'; a.rel = 'noopener';
-    a.textContent = `Fond : vidéo de ${who} sur TikTok ↗`; document.body.append(a);
+    a.textContent = who ? `Fond : vidéo de ${who} sur TikTok ↗` : 'Fond : vidéo TikTok ↗'; document.body.append(a);
   }
   document.querySelector('.hud')?.remove(); document.body.classList.add('fond-video');
   return el;
@@ -506,6 +516,6 @@ size();
 let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(size, 150); });
 // pré-dessine le tableau suivant pendant les temps morts
 const warm = () => { const [i] = where(); [i, i + 1].filter(j => j < SCENES.length && !cache.has(j)).forEach(j => layers(j)); };
-if (!video) (window.requestIdleCallback || setTimeout)(warm);
+(window.requestIdleCallback || setTimeout)(warm);
 addEventListener('scroll', () => { if (!video) (window.requestIdleCallback || setTimeout)(warm); }, { passive: true });
 requestAnimationFrame(frame);

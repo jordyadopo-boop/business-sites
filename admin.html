@@ -38,8 +38,8 @@ a{color:var(--acc)}
 </head>
 <body>
 <div class="wrap">
-  <h1>Admin · Mes réalisations</h1>
-  <p class="mute">Ajoutez, modifiez ou retirez les sites affichés dans le portfolio, puis cliquez sur « Publier ».</p>
+  <h1>Admin · Mon site</h1>
+  <p class="mute">Changez le fond du site, et ajoutez, modifiez ou retirez les sites affichés dans le portfolio.</p>
 
   <!-- 1. Code d'accès -->
   <div class="card" id="gate">
@@ -58,7 +58,16 @@ a{color:var(--acc)}
       <div class="bar"><button id="saveToken" class="ghost">Enregistrer la clé</button><button id="forget" class="ghost small">Oublier la clé</button></div>
     </div>
 
-    <!-- 3. Liste -->
+    <!-- 3. Fond du site -->
+    <div class="card">
+      <h2>Fond du site</h2>
+      <p class="mute">Collez le lien d'une vidéo TikTok (lien court <code>vt.tiktok.com/…</code> ou complet) ou d'un fichier vidéo .mp4, puis « Mettre en fond ». La vidéo passe sans son, en boucle. Laissez vide pour le fond animé.</p>
+      <input id="fondUrl" type="url" placeholder="https://vt.tiktok.com/…">
+      <div class="bar"><button id="fondSave">Mettre en fond</button><button id="fondClear" class="ghost">Revenir au fond animé</button></div>
+      <div id="fondMsg" class="mute"></div>
+    </div>
+
+    <!-- 4. Liste -->
     <div class="card">
       <h2>Sites du portfolio</h2>
       <div id="list"></div>
@@ -94,7 +103,7 @@ a{color:var(--acc)}
 <script>
 const REPO = 'jordyadopo-boop/business-sites', BRANCH = 'main', API = `https://api.github.com/repos/${REPO}/contents/`;
 // Empreinte SHA-256 du code : le code n'apparaît pas en clair. La vraie protection est la clé GitHub, sans laquelle rien ne peut être publié.
-const CODE = 'b296a83c9245f82e12120ce11643011079609a9ecf54885bc0481031b9c3e078';
+const CODE = '07c3f8108a9b55a665a846b65939d55f57f9d6148a99cb72d747be4764392e15';
 const $ = id => document.getElementById(id);
 const store = { get: k => { try { return localStorage.getItem(k) } catch { return null } }, set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v) } catch {} } };
 const say = (t, cls = '') => { $('msg').textContent = t; $('msg').className = cls; };
@@ -203,6 +212,36 @@ $('publish').onclick = async () => {
   } catch (e) { say('Échec de la publication : ' + e.message, 'err'); }
   $('publish').disabled = false;
 };
+
+// --- fond du site : fond.json { url } lu par esprit.js
+const fondSay = (t, cls = 'mute') => { $('fondMsg').textContent = t; $('fondMsg').className = cls; };
+async function loadFond() {
+  try { const r = await fetch('fond.json', { cache: 'no-cache' }); const u = r.ok ? (await r.json()).url : ''; $('fondUrl').value = u || ''; fondSay(u ? 'Fond actuel : cette vidéo.' : 'Fond actuel : fond animé.'); } catch {}
+}
+async function saveFond(url) {
+  if (!token()) { fondSay('Enregistrez d\'abord votre clé GitHub.', 'err'); $('tokenCard').scrollIntoView({ behavior: 'smooth' }); return; }
+  let who = '';
+  if (url && /tiktok\.com/.test(url)) {
+    // vérifie le lien et le remplace par l'adresse complète de la vidéo
+    fondSay('Vérification du lien TikTok…');
+    try {
+      const o = await (await fetch('https://www.tiktok.com/oembed?url=' + encodeURIComponent(url))).json();
+      if (!o.embed_product_id) throw 0;
+      // adresse complète de la vidéo (le compte n'est pas toujours fourni par TikTok)
+      const at = o.author_unique_id || (url.match(/tiktok\.com\/(@[\w.]+)/) || [])[1]?.slice(1) || '_';
+      url = `https://www.tiktok.com/@${at}/video/${o.embed_product_id}`; if (o.author_unique_id) who = ' (@' + o.author_unique_id + ')';
+    } catch { fondSay('Lien TikTok introuvable ou vidéo privée. Vérifiez le lien.', 'err'); return; }
+  } else if (url && !/^https:\/\/.+\.(mp4|webm|mov)(\?|$)/i.test(url)) { fondSay('Lien non reconnu : il faut un lien TikTok ou un fichier .mp4.', 'err'); return; }
+  $('fondSave').disabled = $('fondClear').disabled = true;
+  try {
+    await put('fond.json', b64(new TextEncoder().encode(JSON.stringify({ url }, null, 2) + '\n')), url ? 'Admin : nouveau fond vidéo' : 'Admin : retour au fond animé');
+    $('fondUrl').value = url; fondSay((url ? 'Fond publié' + who : 'Fond animé rétabli') + ' ✓ Le site sera à jour dans 1 à 2 minutes.', 'ok');
+  } catch (e) { fondSay('Échec : ' + e.message, 'err'); }
+  $('fondSave').disabled = $('fondClear').disabled = false;
+}
+$('fondSave').onclick = () => saveFond($('fondUrl').value.trim());
+$('fondClear').onclick = () => saveFond('');
+loadFond();
 
 if (!$('app').classList.contains('hidden')) load();
 </script>
