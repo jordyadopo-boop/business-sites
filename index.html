@@ -143,8 +143,7 @@ footer code{font-family:var(--mono);color:var(--acc)}
 <script type="module" src="esprit.js"></script>
 </head>
 <body>
-<!-- Fond : colle ici le lien complet d'une vidéo TikTok (https://www.tiktok.com/@compte/video/123…) ou d'un fichier .mp4.
-     Laisse vide (data-fond="") pour revenir au fond animé « L'Éveil ». -->
+<!-- Fond : se règle depuis admin.html (fichier fond.json). data-fond ne sert que si fond.json est absent. -->
 <div id="stage" aria-hidden="true" data-fond="https://www.tiktok.com/@bekaiiiae/video/7622657582942932246"></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="goo"><feGaussianBlur stdDeviation="7"/><feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -10"/></filter><filter id="ink"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="40"/><feComponentTransfer><feFuncA type="linear" slope="5" intercept="-1.6"/></feComponentTransfer></filter></svg>
 <div class="veil"></div>
