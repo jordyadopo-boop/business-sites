@@ -30,6 +30,9 @@ a{color:inherit;text-decoration:none}
 #stage canvas{display:block}
 #stage .fond{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:0;pointer-events:none;object-fit:cover;width:100%;height:100%}
 #stage iframe.fond{width:max(100vw,56.25vh);height:max(100vh,177.78vw)}
+/* fond vidéo : voile plus léger pour bien voir la vidéo, le texte garde une ombre portée */
+.fond-video .veil{background:linear-gradient(90deg,rgba(0,0,0,.5),rgba(0,0,0,.2) 60%,rgba(0,0,0,.1))}
+.fond-video main h1,.fond-video main h2,.fond-video main p{text-shadow:0 2px 12px rgba(0,0,0,.9)}
 .credit-fond{position:fixed;left:20px;bottom:20px;z-index:3;font-family:var(--mono);font-size:.72rem;color:var(--mute);background:rgba(5,5,5,.75);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
 .credit-fond:hover{color:var(--acc)}
 .veil{position:fixed;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.45) 50%,rgba(0,0,0,.2) 75%,rgba(0,0,0,.3))}
@@ -130,6 +133,7 @@ footer code{font-family:var(--mono);color:var(--acc)}
   .step::before{position:static;display:block;margin-bottom:8px}
   /* mobile : fond plus sombre sous le texte */
   .veil{background:rgba(0,0,0,.62)}
+  .fond-video .veil{background:rgba(0,0,0,.38)}
   .hud{right:96px}
   .hud small{display:none}
 }
