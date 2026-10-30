@@ -117,7 +117,7 @@ async function enter() {
   try { sessionStorage.setItem('admin', '1') } catch {}
   $('gate').classList.add('hidden'); $('app').classList.remove('hidden'); load();
 }
-$('enter').onclick = enter; $('code').onkeydown = e => e.key === 'Enter' && enter();
+$('enter').onclick = enter; $('code').onkeydown = e => { if (e.key === 'Enter') enter(); };  // (renvoyer false bloquerait la frappe)
 try { if (sessionStorage.getItem('admin')) { $('gate').classList.add('hidden'); $('app').classList.remove('hidden'); } } catch {}
 
 // --- clé GitHub
