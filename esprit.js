@@ -24,8 +24,20 @@ function mountVideo(url) {
     el.allow = 'autoplay; encrypted-media'; el.title = 'Vidéo de fond'; el.tabIndex = -1;
     // lecteur bloqué (bloqueur de pub, navigateur intégré, réseau) : retour au fond animé
     // (le lecteur TikTok envoie des messages à la page quand il est prêt ; sans message en 10 s, il est bloqué)
-    let ok = false; addEventListener('message', e => { if (/tiktok\.com$/.test(new URL(e.origin).hostname)) ok = true; });
-    setTimeout(() => { if (!ok) dropVideo(); }, 10000);
+    // Le lecteur ignore parfois muted=1 : on lui demande nous-mêmes de couper le son puis de lire
+    // (sinon le navigateur bloque la lecture automatique et la vidéo reste figée)
+    const say = type => el.contentWindow?.postMessage({ 'x-tiktok-player': true, type, value: null }, '*');
+    const start = () => { say('mute'); say('play'); };
+    let ok = false; addEventListener('message', e => {
+      if (!/tiktok\.com$/.test(new URL(e.origin).hostname)) return;
+      if (!ok && !video) showVideo(el);  // le lecteur a fini par répondre : on remet la vidéo
+      ok = true; let d = e.data; try { if (typeof d === 'string') d = JSON.parse(d); } catch {}
+      if (d?.type === 'onPlayerReady') start();
+      if (d?.type === 'onStateChange' && (d.value === 0 || d.value === 2)) start();  // en pause ou finie : on relance
+    });
+    // au cas où : on relance aussi au premier geste du visiteur
+    ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(t => addEventListener(t, start, { once: true, passive: true }));
+    setTimeout(() => { if (!ok) dropVideo(); }, 15000);
   } else if (/\.(mp4|webm|mov)(\?|$)/i.test(url)) {
     el = document.createElement('video');
     Object.assign(el, { src: url, autoplay: true, muted: true, loop: true, playsInline: true });
@@ -40,10 +52,15 @@ function mountVideo(url) {
   document.querySelector('.hud')?.remove(); document.body.classList.add('fond-video');
   return el;
 }
+// lecteur muet trop longtemps : fond animé en attendant (la vidéo reste chargée en dessous)
 function dropVideo() {
-  video?.remove(); video = null;
-  document.querySelector('.credit-fond')?.remove(); document.body.classList.remove('fond-video');
+  if (!video) return; video.style.visibility = 'hidden'; video = null;
+  document.body.classList.remove('fond-video');
   (window.requestIdleCallback || setTimeout)(warm);
+}
+function showVideo(el) {
+  el.style.visibility = ''; video = el; document.body.classList.add('fond-video');
+  main.x.setTransform(1, 0, 0, 1, 0, 0); main.x.clearRect(0, 0, main.c.width, main.c.height);
 }
 
 const main = mk(), trail = mk(), frameA = mk(), frameB = mk(), tmp = mk();
