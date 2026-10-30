@@ -103,7 +103,7 @@ a{color:var(--acc)}
 <script>
 const REPO = 'jordyadopo-boop/business-sites', BRANCH = 'main', API = `https://api.github.com/repos/${REPO}/contents/`;
 // Empreinte SHA-256 du code : le code n'apparaît pas en clair. La vraie protection est la clé GitHub, sans laquelle rien ne peut être publié.
-const CODE = 'b296a83c9245f82e12120ce11643011079609a9ecf54885bc0481031b9c3e078';
+const CODE = '07c3f8108a9b55a665a846b65939d55f57f9d6148a99cb72d747be4764392e15';
 const $ = id => document.getElementById(id);
 const store = { get: k => { try { return localStorage.getItem(k) } catch { return null } }, set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v) } catch {} } };
 const say = (t, cls = '') => { $('msg').textContent = t; $('msg').className = cls; };
