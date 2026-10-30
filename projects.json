@@ -58,5 +58,20 @@
     "link": "Visiter liy10learning.com",
     "status": "live",
     "image": "img/liy10learning.jpg"
+  },
+  {
+    "name": "Je fais ton site",
+    "cat": "Informatique",
+    "desc": "Je conçois des sites dynamiques et révolutionnaires qui décrit en images et en 3d ton activité.",
+    "url": "https://jordyadopo-boop.github.io/business-sites/",
+    "link": "Visite JorDev",
+    "status": "live",
+    "icon": "",
+    "tags": [
+      "Site vitrine",
+      "Boutique en ligne",
+      "autre..."
+    ],
+    "image": "img/je-fais-ton-site.jpg"
   }
 ]
