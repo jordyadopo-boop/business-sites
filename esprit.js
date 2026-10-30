@@ -10,6 +10,33 @@ const stage = document.getElementById('stage');
 const hudT = document.getElementById('hudT'), hudB = document.getElementById('hudB');
 const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Fond vidéo : si #stage porte data-fond (lien TikTok ou fichier vidéo), la vidéo remplace les tableaux ;
+// la traînée d'encre rouge reste par-dessus.
+const fond = (stage.dataset.fond || '').trim();
+const video = fond && mountVideo(fond);
+function mountVideo(url) {
+  let el;
+  const id = (url.match(/tiktok\.com\/.*\/video\/(\d+)/) || [])[1];
+  if (id) {
+    // lecteur officiel TikTok : sans son, en boucle, sans boutons
+    el = document.createElement('iframe');
+    el.src = `https://www.tiktok.com/player/v1/${id}?autoplay=1&loop=1&muted=1&controls=0&progress_bar=0&play_button=0&volume_control=0&fullscreen_button=0&timestamp=0&music_info=0&description=0&rel=0&native_context_menu=0&closed_caption=0`;
+    el.allow = 'autoplay; encrypted-media'; el.title = 'Vidéo de fond'; el.tabIndex = -1;
+  } else if (/\.(mp4|webm|mov)(\?|$)/i.test(url)) {
+    el = document.createElement('video');
+    Object.assign(el, { src: url, autoplay: true, muted: true, loop: true, playsInline: true });
+  } else { console.warn('data-fond : lien non reconnu (il faut le lien complet tiktok.com/@…/video/… ou un .mp4)', url); return null; }
+  el.className = 'fond'; stage.prepend(el);
+  // crédit de l'auteur de la vidéo
+  const who = (url.match(/tiktok\.com\/(@[\w.]+)/) || [])[1];
+  if (who) {
+    const a = document.createElement('a'); a.className = 'credit-fond'; a.href = url; a.target = '_blank'; a.rel = 'noopener';
+    a.textContent = `Fond : vidéo de ${who} sur TikTok ↗`; document.body.append(a);
+  }
+  document.querySelector('.hud')?.remove();
+  return el;
+}
+
 const main = mk(), trail = mk(), frameA = mk(), frameB = mk(), tmp = mk();
 const mask = document.createElement('canvas'), mx = mask.getContext('2d');
 stage.append(main.c, trail.c);
@@ -437,10 +464,11 @@ function frame(now) {
   mx.globalCompositeOperation = 'source-over';
   if (st.hold > 0) paint(st.x < 0 ? W / 2 : st.x, st.y < 0 ? H / 2 : st.y, ease(st.hold) * Math.hypot(W, H) * 1.1, .35);
 
+  inkTrail();
+  if (video) { requestAnimationFrame(frame); return; }
   const [i, t] = where(), k = calm ? (t > .8 ? 1 : 0) : ease(clamp((t - .55) / .45));
   if (k > 0 && i < SCENES.length - 1) { compose(frameA, i, t, 1); compose(frameB, i + 1, 0, 1); melt(k); }
   else compose(main, i, t, 1);
-  inkTrail();
 
   const cur = SCENES[k > .5 ? i + 1 : i];
   if (hudT && cur.name !== lastName) { lastName = cur.name; hudT.textContent = cur.name.toUpperCase(); }
@@ -452,5 +480,5 @@ size();
 let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(size, 150); });
 // pré-dessine le tableau suivant pendant les temps morts
 const warm = () => { const [i] = where(); [i, i + 1].filter(j => j < SCENES.length && !cache.has(j)).forEach(j => layers(j)); };
-(window.requestIdleCallback || setTimeout)(warm); addEventListener('scroll', () => (window.requestIdleCallback || setTimeout)(warm), { passive: true });
+if (!video) (window.requestIdleCallback || setTimeout)(warm), addEventListener('scroll', () => (window.requestIdleCallback || setTimeout)(warm), { passive: true });
 requestAnimationFrame(frame);

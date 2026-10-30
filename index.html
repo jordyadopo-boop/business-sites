@@ -28,6 +28,10 @@ body{background:var(--bg);color:var(--txt);font-family:var(--sans);line-height:1
 a{color:inherit;text-decoration:none}
 #stage{position:fixed;inset:0;z-index:0;pointer-events:none}
 #stage canvas{display:block}
+#stage .fond{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:0;pointer-events:none;object-fit:cover;width:100%;height:100%}
+#stage iframe.fond{width:max(100vw,56.25vh);height:max(100vh,177.78vw)}
+.credit-fond{position:fixed;left:20px;bottom:20px;z-index:3;font-family:var(--mono);font-size:.72rem;color:var(--mute);background:rgba(5,5,5,.75);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+.credit-fond:hover{color:var(--acc)}
 .veil{position:fixed;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.45) 50%,rgba(0,0,0,.2) 75%,rgba(0,0,0,.3))}
 .hero h1,.hero .lead,.hero .tag,.hero .formula{text-shadow:0 2px 14px rgba(0,0,0,.85)}
 .hud small{display:block;color:var(--mute);font-size:.65rem;margin-top:4px}
@@ -134,7 +138,9 @@ footer code{font-family:var(--mono);color:var(--acc)}
 <script type="module" src="esprit.js"></script>
 </head>
 <body>
-<div id="stage" aria-hidden="true"></div>
+<!-- Fond : colle ici le lien complet d'une vidéo TikTok (https://www.tiktok.com/@compte/video/123…) ou d'un fichier .mp4.
+     Laisse vide (data-fond="") pour revenir au fond animé « L'Éveil ». -->
+<div id="stage" aria-hidden="true" data-fond="https://www.tiktok.com/@bekaiiiae/video/7622657582942932246"></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="goo"><feGaussianBlur stdDeviation="7"/><feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -10"/></filter><filter id="ink"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="40"/><feComponentTransfer><feFuncA type="linear" slope="5" intercept="-1.6"/></feComponentTransfer></filter></svg>
 <div class="veil"></div>
 <div class="hud" aria-hidden="true"><span id="hudT">I · LA LUNE</span><i><b id="hudB"></b></i><small>maintiens le clic : éveille l'esprit</small></div>
